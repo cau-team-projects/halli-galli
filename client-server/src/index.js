@@ -49,9 +49,12 @@ setInterval(() => {
 }, 1000);
 
 // https://socket.io/docs/client-connection-lifecycle/
-const client = ioc(`${config.WS_CENTRAL_ADDR}:${config.WS_CENTRAL_PORT}`, {reconnection: true})
+const client = ioc(`${config.WS_CENTRAL_ADDR}:${config.WS_CENTRAL_PORT}`, {
+  reconnection: true,
+  transports: ['websocket']
+});
 function handleError(client, err) {
-  client.on(err, () => console.log(err))
+  client.on(err, (msg) => console.log(err, msg))
 }
 handleError(client, 'error')
 handleError(client, 'connect_error')
