@@ -6,66 +6,50 @@ const serialport = require('serialport');
 const serialParser = new serialport.parsers.Readline('\r\n');
 const config = require('./config');
 
-const sp = new serialport(config.SERIAL_PORT_PATH, {
-  baudRate: config.SERIAL_PORT_BAUD_RATE,
-});
-
-sp.on('open', () => {
-  console.log('serial open');
-})
-
-serialParser.on('data', (data) => console.log(data));
-
-sp.pipe(serialParser);
-
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/static/index.html');
 });
 
 let user = null;
-
 io.on('connection', (socket) => {
-  console.log('a user connected');
-
-  socket.on("disconnect", () => {
-    console.info(`a user disconnected [id=${socket.id}]`);
-  });
-
   if (io.engine.gamesCount > 1) {
     socket.emit('err', { message: 'Only one user can connect' })
     socket.disconnect()
   }
 
   user = socket;
+  console.log('a user connected');
+
+  // https://socket.io/docs/client-connection-lifecycle/
+  const game = ioc(`http://localhost:4000`);
+  game.on('connect', () => console.log('connected to game server'));
+  game.on('connect_error', () => console.log('failed to connect to game server'));
+  game.on('disconnect', () => console.log('disconnected from game server'));
+
+  const sp = new serialport(config.SERIAL_PORT_PATH, {
+    baudRate: config.SERIAL_PORT_BAUD_RATE,
+  });
+  sp.on('open', () => {})
+  serialParser.on('data', (data) => {
+    console.log('button clicked');
+    game.emit('button', 0);
+  });
+  sp.pipe(serialParser);
+
+  socket.on("disconnect", () => {
+    console.info(`a user disconnected [id=${socket.id}]`);
+    sp.close((err) => {
+      if (err)
+        console.log(`serial error: ${err}`);
+    });
+  });
 });
 
 http.listen(config.WS_PORT, () => {
-  console.log('listening...');
+  console.log('listening');
 });
 
 setInterval(() => {
   if (user)
     user.emit('test', Math.random());
-  console.log(game.connected)
-
 }, 1000);
-
-
-// https://socket.io/docs/game-connection-lifecycle/
-const game = ioc(`http://localhost:4000`, {
-  reconnection: true,
-});
-function handleError(game, err) {
-  game.on(err, (msg) => console.log(err, msg))
-}
-handleError(game, 'error')
-handleError(game, 'connect_error')
-handleError(game, 'connect_timeout')
-handleError(game, 'reconnect_error')
-handleError(game, 'reconnect_failed')
-handleError(game, 'reconnecting')
-handleError(game, 'reconnect_attempt')
-
-
-game.on('connect', () => console.log('connected'))
-game.on('disconnect', () => console.log('disconnected'))
