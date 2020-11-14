@@ -13,6 +13,8 @@ const sp = new serialport(SERIAL_PORT_PATH, {
   baudRate: SERIAL_PORT_BAUD_RATE,
 });
 
+let user = null;
+
 sp.on('open', () => {
   console.log('open');
 })
@@ -27,11 +29,25 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
   console.log('a user connected');
+
   socket.on("disconnect", () => {
     console.info(`a user disconnected [id=${socket.id}]`);
   });
+
+  if (io.engine.clientsCount > 1) {
+    socket.emit('err', { message: 'Only one user can connect' })
+    socket.disconnect()
+  }
+
+  user = socket;
 });
 
 http.listen(3000, () => {
   console.log('listening...');
 });
+
+setInterval(() => {
+  if (user)
+    user.emit('test', Math.random());
+}, 1000);
+
