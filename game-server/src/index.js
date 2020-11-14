@@ -4,7 +4,8 @@ const app = express();
 const server = http.createServer(app);
 const io = require('socket.io')(server);
 
-const rooms = ['room1'];
+const rooms = ['home', 'waiting', 'gaming'];
+const users = {}
 
 io.on('connection', (socket) => { 
 
@@ -13,6 +14,8 @@ io.on('connection', (socket) => {
   const room = rooms[0];
   socket.join(room);
   console.log(`user ${socket.id} joins room ${room}`);
+  users[socket.id] = { room };
+  console.log(users)
   io.to(room).emit('join', socket.id);
 
   socket.on('button', (button) => {
@@ -23,6 +26,7 @@ io.on('connection', (socket) => {
     console.log(`user ${socket.id} disconnected`);
     const room = rooms[0];
     socket.leave(room);
+    delete users[socket.id];
     console.log(`user ${socket.id} leaves room ${room}`);
     io.to(room).emit('leave', socket.id);
   });
