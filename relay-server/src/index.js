@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
     console.info(`a user disconnected [id=${socket.id}]`);
   });
 
-  if (io.engine.clientsCount > 1) {
+  if (io.engine.gamesCount > 1) {
     socket.emit('err', { message: 'Only one user can connect' })
     socket.disconnect()
   }
@@ -46,26 +46,26 @@ http.listen(config.WS_PORT, () => {
 setInterval(() => {
   if (user)
     user.emit('test', Math.random());
-  console.log(client.connected)
+  console.log(game.connected)
 
 }, 1000);
 
 
-// https://socket.io/docs/client-connection-lifecycle/
-const client = ioc(`http://localhost:4000`, {
+// https://socket.io/docs/game-connection-lifecycle/
+const game = ioc(`http://localhost:4000`, {
   reconnection: true,
 });
-function handleError(client, err) {
-  client.on(err, (msg) => console.log(err, msg))
+function handleError(game, err) {
+  game.on(err, (msg) => console.log(err, msg))
 }
-handleError(client, 'error')
-handleError(client, 'connect_error')
-handleError(client, 'connect_timeout')
-handleError(client, 'reconnect_error')
-handleError(client, 'reconnect_failed')
-handleError(client, 'reconnecting')
-handleError(client, 'reconnect_attempt')
+handleError(game, 'error')
+handleError(game, 'connect_error')
+handleError(game, 'connect_timeout')
+handleError(game, 'reconnect_error')
+handleError(game, 'reconnect_failed')
+handleError(game, 'reconnecting')
+handleError(game, 'reconnect_attempt')
 
 
-client.on('connect', () => console.log('connected'))
-client.on('disconnect', () => console.log('disconnected'))
+game.on('connect', () => console.log('connected'))
+game.on('disconnect', () => console.log('disconnected'))
