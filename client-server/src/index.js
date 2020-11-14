@@ -49,7 +49,7 @@ setInterval(() => {
 }, 1000);
 
 // https://socket.io/docs/client-connection-lifecycle/
-const client = ioc(`${config.WS_CENTRAL_ADDRESS}:${config.WS_CENTRAL_PORT}`, {reconnection: false})
+const client = ioc(`${config.WS_CENTRAL_ADDR}:${config.WS_CENTRAL_PORT}`, {reconnection: true})
 function handleError(client, err) {
   client.on(err, () => console.log(err))
 }
