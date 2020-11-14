@@ -11,7 +11,7 @@ const sp = new serialport(config.SERIAL_PORT_PATH, {
 });
 
 sp.on('open', () => {
-  console.log('open');
+  console.log('serial open');
 })
 
 serialParser.on('data', (data) => console.log(data));
@@ -46,12 +46,14 @@ http.listen(config.WS_PORT, () => {
 setInterval(() => {
   if (user)
     user.emit('test', Math.random());
+  console.log(client.connected)
+
 }, 1000);
 
+
 // https://socket.io/docs/client-connection-lifecycle/
-const client = ioc(`${config.WS_CENTRAL_ADDR}:${config.WS_CENTRAL_PORT}`, {
+const client = ioc(`http://localhost:4000`, {
   reconnection: true,
-  transports: ['websocket']
 });
 function handleError(client, err) {
   client.on(err, (msg) => console.log(err, msg))
@@ -59,4 +61,11 @@ function handleError(client, err) {
 handleError(client, 'error')
 handleError(client, 'connect_error')
 handleError(client, 'connect_timeout')
+handleError(client, 'reconnect_error')
+handleError(client, 'reconnect_failed')
+handleError(client, 'reconnecting')
+handleError(client, 'reconnect_attempt')
+
+
 client.on('connect', () => console.log('connected'))
+client.on('disconnect', () => console.log('disconnected'))
