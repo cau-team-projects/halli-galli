@@ -1,19 +1,14 @@
 const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-
+const ioc = require('socket.io-client');
 const serialport = require('serialport');
-
-const SERIAL_PORT_PATH = '/dev/ttyACM0';
-const SERIAL_PORT_BAUD_RATE = 9600;
-
 const serialParser = new serialport.parsers.Readline('\r\n');
+const config = require('./config');
 
-const sp = new serialport(SERIAL_PORT_PATH, {
-  baudRate: SERIAL_PORT_BAUD_RATE,
+const sp = new serialport(config.SERIAL_PORT_PATH, {
+  baudRate: config.SERIAL_PORT_BAUD_RATE,
 });
-
-let user = null;
 
 sp.on('open', () => {
   console.log('open');
@@ -24,8 +19,10 @@ serialParser.on('data', (data) => console.log(data));
 sp.pipe(serialParser);
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/static/index.html');
 });
+
+let user = null;
 
 io.on('connection', (socket) => {
   console.log('a user connected');
@@ -42,7 +39,7 @@ io.on('connection', (socket) => {
   user = socket;
 });
 
-http.listen(3000, () => {
+http.listen(config.WS_PORT, () => {
   console.log('listening...');
 });
 
@@ -50,4 +47,3 @@ setInterval(() => {
   if (user)
     user.emit('test', Math.random());
 }, 1000);
-
