@@ -1,10 +1,13 @@
-const app = require('express')();
+const express = require('express');
+const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const ioc = require('socket.io-client');
 const serialport = require('serialport');
 const serialParser = new serialport.parsers.Readline('\r\n');
 const config = require('./config');
+
+app.use('/static', express.static(__dirname + '/static'));
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/static/index.html');

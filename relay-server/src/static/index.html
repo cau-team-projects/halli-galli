@@ -1,8 +1,14 @@
 <html>
-<head></head>
-<body>
-  <h1 id="message"></h1>
+<head>
   <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <main style="width: 88vmin; margin: 0 auto">
+    <img src="/static/halli-galli.svg" style="display: block; width: 66vmin; margin: 0 auto"/>
+    <h1 style="text-align: center"> Press Any key to start </h1>
+    <h1 style="text-align: center" id="message"></h1>
+  </main>
+
   <script>
     const socket = io();
     socket.on('test', (data) => {
@@ -10,5 +16,6 @@
       document.getElementById('message').innerText = data; 
     });
   </script>
+
 </body>
 </html>
