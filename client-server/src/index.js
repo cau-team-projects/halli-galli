@@ -47,3 +47,13 @@ setInterval(() => {
   if (user)
     user.emit('test', Math.random());
 }, 1000);
+
+// https://socket.io/docs/client-connection-lifecycle/
+const client = ioc(`${config.WS_CENTRAL_ADDRESS}:${config.WS_CENTRAL_PORT}`, {reconnection: false})
+function handleError(client, err) {
+  client.on(err, () => console.log(err))
+}
+handleError(client, 'error')
+handleError(client, 'connect_error')
+handleError(client, 'connect_timeout')
+client.on('connect', () => console.log('connected'))
