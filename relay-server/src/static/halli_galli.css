@@ -1,40 +1,118 @@
+* { margin:0; padding:0; }
 
-html { width:100%; height:100%; background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%); }
-body{ overflow:hidden;  }
-#card_all { display: flex; justify-content: center; align-items: center; }
-#card_all div { width:18%; display:inline-block; }
-#card_all img {  box-shadow: 4px 4px 4px rgba(0,0,0,0.1); border-radius:15px; border:1px solid #dedede; float:left; width:40%; margin:0 2%; }
+html {
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
+}
 
-.card_1 { transform: rotate(40deg); margin-right:520px; position:absolute; top:300px;  }
-.card_2 { transform: rotate(-50deg); margin-left:440px; position:absolute; top:225px; }
-.card_3 { transform: rotate(-50deg); margin-right:480px; position:absolute; top:745px; }
-.card_4 { transform: rotate(40deg); margin-left:500px; position:absolute; top:745px; }
+body {
+    overflow: hidden;
+}
 
 
-.bell { width:200px; margin:0 auto;  }
-.bell img { width:200px; margin-left:-25px; position:absolute; top:530px;  }
+.flip-card-front div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8%;
+    border:0px !important;
+}
+
+.flip-card-front > .card_1 {
+    margin-top: -12%;
+    border:1px solid #000;
+}
+
+.flip-card-front > .card_2 {
+    margin-top: 12%;
+}
+
+.flip-card-front > .card_3 {
+    margin-left: -12%;
+}
+
+.flip-card-front > .card_4 {
+    margin-left: 12%;
+}
+
+.bell {  position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8%; }
+
+
+img.card {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05);
+    border-radius: 15px;
+    border: 1px solid #dedede;
+    width: 100%;
+}
+
+
+#user div {
+     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.01);
+    border-radius: 15px;
+    border: 1px solid #dedede;
+    width:8%;
+    max-width:100%;
+    text-align:center;
+    background:#fff;
+
+}
+
+#user p {
+    display: inline-block;
+    margin: 20px;
+}
+
+#user > .user1 {   position: fixed; top:1.5%; left:46%; z-index:99999;   }
+
+#user > .user2 { position: fixed; bottom:1.5%; left:46%; z-index:99999; }
+
+#user > .user3 { position: fixed; left:1%; bottom:50%; z-index:99999; }
+
+#user > .user4 {   position: fixed; right:1%; bottom:50%; z-index:99999; }
+
+#user p.nick_name { font-weight:bold; }
+
 
 
 
 .random_card:hover {
-  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
-  transform: translate3d(0, 0, 0);
-  animation-iteration-count: infinite;  
-  perspective: 1000px;
+    animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+    transform: translate3d(0, 0, 0);
+    animation-iteration-count: infinite;
+    perspective: 1000px;
 }
 
 
 @keyframes shake {
-  10%, 90% {
-    transform: translate3d(-1px, 0, 0); 
-  }
-  20%, 80% {
-    transform: translate3d(2px, 0, 0);
-  }
-  30%, 50%, 70% {
-    transform: translate3d(-4px, 0, 0);
-  }
-  40%, 60% {
-    transform: translate3d(4px, 0, 0);
-  }
+
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+#game_button {
+    display: none;
 }
