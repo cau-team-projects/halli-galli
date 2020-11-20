@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
   game.on('connect_error', () => console.log('failed to connect to game server'));
 });
 
-http.listen(config.WS_PORT, () => {
+http.listen(config.WS_RELAY_PORT, () => {
   console.log('listening');
 });
 

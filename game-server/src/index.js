@@ -3,10 +3,14 @@ const http = require('http');
 const app = express();
 const server = http.createServer(app);
 const io = require('socket.io')(server);
+const config = require('./config');
+const State = require('./State');
+const Fsm = require('./Fsm');
 
 const HOME_ROOM = 'home';
 const WAITING_ROOM = 'waiting';
 const GAMING_ROOM = 'gaming';
+
 const users = {}
 
 function switchRoom(socket, newRoom) {
@@ -26,7 +30,25 @@ function switchRoom(socket, newRoom) {
 io.on('connection', (socket) => { 
 
   console.log(`user ${socket.id} connected`);
-  users[socket.id] = {};
+  const user = {socket: socket};
+  user.fsm = new Fsm({
+    states: {
+      HOME: new State((event, ...args) => {
+        console.log(`I am home and button ${args[0]} is clicked`);
+        // user, event, args, io
+      }),
+      WAITING: new State(() => {
+      }),
+      READY: new State(() => {
+      }),
+      MY_TURN: new State(() => {
+      }),
+      NOT_MY_TURN: new State(() => {
+      })
+    },
+    initialStateName: 'HOME'
+  });
+  users[socket.id] = user;
 
   switchRoom(socket, HOME_ROOM)
 
@@ -34,8 +56,7 @@ io.on('connection', (socket) => {
 
   socket.on('button', (button) => {
     console.log(`button ${button} clicked`);
-    const user = users[socket.id];
-    if (user.room == HOME_ROOM) { /* DO SOMETHING */ }
+    user.fsm.emit('button', button);
   });
 
   socket.on('disconnect', () => {
@@ -49,6 +70,6 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(4000, () => {
+server.listen(config.WS_GAME_PORT, () => {
   console.log('listening');
 });
