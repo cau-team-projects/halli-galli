@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <title>Halli Galli_wating_room</title>
+    <link rel="stylesheet" href="wating.css">
+
+</head>
+
+<body>
+    <section>
+
+        <div id="wating_wrap">
+            <div class="title_logo">
+                <img src="image/title.svg" alt="title_logo">
+            </div>
+
+            <div class="refresh">
+                <img src="image/loading.svg" alt="refresh_img">
+            </div>
+
+            <div class="user_list">
+                <ul class="people_list">
+                    {{#each people}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+
+
+    </section>
+
+
+
+
+</body>
+
+</html>
