@@ -5,6 +5,11 @@ const server = http.createServer(app);
 const io = require('socket.io')(server);
 const config = require('./config');
 const State = require('./State');
+const HomeState = require('./HomeState');
+//const WaitingState = require('./WaitingState');
+//const ReadyState = require('./ReadyState');
+//const MyTurnState = require('./MyTurnState');
+//const NotMyTurnState = require('./NotMyTurnState');
 const Fsm = require('./Fsm');
 
 const HOME_ROOM = 'home';
@@ -13,49 +18,41 @@ const GAMING_ROOM = 'gaming';
 
 const users = {}
 
-function switchRoom(socket, newRoom) {
-  const user = users[socket.id];
+function switchRoom(user, newRoom) {
   const oldRoom = user.room;
   if (oldRoom) {
-    socket.leave(oldRoom)
-    io.to(oldRoom).emit('leave', socket.id);
+    user.socket.leave(oldRoom)
+    user.io.to(oldRoom).emit('leave', socket.id);
     console.log(`user ${socket.id} leaves room ${oldRoom}`);
   }
   user.room = newRoom;
-  socket.join(newRoom);
-  io.to(newRoom).emit('join', socket.id);
-  console.log(`user ${socket.id} joins room ${newRoom}`);
+  user.socket.join(newRoom);
+  io.to(newRoom).emit('join', user.socket.id);
+  console.log(`user ${user.socket.id} joins room ${newRoom}`);
 }
 
 io.on('connection', (socket) => { 
 
   console.log(`user ${socket.id} connected`);
-  const user = {socket: socket};
+  const user = {socket, io};
   user.fsm = new Fsm({
+    user,
     states: {
-      HOME: new State((event, ...args) => {
-        console.log(`I am home and button ${args[0]} is clicked`);
-        // user, event, args, io
-      }),
-      WAITING: new State(() => {
-      }),
-      READY: new State(() => {
-      }),
-      MY_TURN: new State(() => {
-      }),
-      NOT_MY_TURN: new State(() => {
-      })
+      HOME: new HomeState(),
+      //WAITING: new WaitingState(),
+      //READY: new ReadyState(),
+      //MY_TURN: new MyTurnState(),
+      //NOT_MY_TURN: new NotMyTurnState()
     },
     initialStateName: 'HOME'
   });
   users[socket.id] = user;
 
-  switchRoom(socket, HOME_ROOM)
+  switchRoom(user, HOME_ROOM)
 
   console.log(users)
 
   socket.on('button', (button) => {
-    console.log(`button ${button} clicked`);
     user.fsm.emit('button', button);
   });
 

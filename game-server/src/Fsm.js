@@ -1,17 +1,21 @@
 const State = require('./State');
 
 class Fsm {
-  constructor({states, initialStateName}) {
+  constructor({user, states, initialStateName}) {
+    this.user = user;
     this.states = states;
-    for (const state of Object.values(this.states))
+    for (const state of Object.values(this.states)) {
+      state.user = this.user;
       state.fsm = this;
+    }
     this.state = this.states[initialStateName];
   }
   moveTo(stateName) {
     this.state = states[stateName];
   }
   emit(event, ...args) {
-    this.state.handleEvent(event, ...args);
+    if (this.state.handlers[event])
+      this.state.handlers[event](...args);
   }
 }
 
