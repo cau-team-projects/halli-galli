@@ -1,4 +1,5 @@
 const State = require('./State');
+const switchRoom = require('./switchRoom');
 class HomeState extends State {
   constructor() {
     super();

@@ -11,25 +11,13 @@ const HomeState = require('./HomeState');
 //const MyTurnState = require('./MyTurnState');
 //const NotMyTurnState = require('./NotMyTurnState');
 const Fsm = require('./Fsm');
+const switchRoom = require('./switchRoom');
 
 const HOME_ROOM = 'home';
 const WAITING_ROOM = 'waiting';
 const GAMING_ROOM = 'gaming';
 
 const users = {}
-
-function switchRoom(user, newRoom) {
-  const oldRoom = user.room;
-  if (oldRoom) {
-    user.socket.leave(oldRoom)
-    user.io.to(oldRoom).emit('leave', socket.id);
-    console.log(`user ${socket.id} leaves room ${oldRoom}`);
-  }
-  user.room = newRoom;
-  user.socket.join(newRoom);
-  io.to(newRoom).emit('join', user.socket.id);
-  console.log(`user ${user.socket.id} joins room ${newRoom}`);
-}
 
 io.on('connection', (socket) => { 
 
