@@ -35,6 +35,7 @@ io.on('connection', (socket) => {
       console.log(`button ${button} clicked`);
       game.emit('button', button);
     });
+    sp.on('error', () => {})
     sp.pipe(serialParser);
     socket.on("disconnect", () => {
       console.info(`user ${socket.id} disconnected`);
