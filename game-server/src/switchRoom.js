@@ -2,7 +2,7 @@ function switchRoom(user, newRoom) {
   const oldRoom = user.room;
   if (oldRoom) {
     user.socket.leave(oldRoom)
-    user.io.to(oldRoom).emit('leave', socket.id);
+    user.io.to(oldRoom).emit('leave', user.socket.id);
     console.log(`user ${socket.id} leaves room ${oldRoom}`);
   }
   user.room = newRoom;
