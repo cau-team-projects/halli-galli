@@ -11,10 +11,10 @@ class Fsm {
     this.state = this.states[initialStateName];
   }
   moveTo(stateName) {
-    this.state = states[stateName];
+    this.state = this.states[stateName];
   }
   emit(event, ...args) {
-    if (this.state.handlers[event])
+    if (this.state && this.state.handlers[event])
       this.state.handlers[event](...args);
   }
 }

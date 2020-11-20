@@ -11,7 +11,7 @@ bool btnXFlag = false;
 void btnAInterrupt() {
   if(!btnAFlag) {
     btnAFlag = true;
-    Serial.write("0");
+    Serial.write("A\n");
   }
   else btnAFlag = false;
 }
@@ -19,7 +19,7 @@ void btnAInterrupt() {
 void btnBInterrupt() {
   if(!btnBFlag) {
     btnBFlag = true;
-    Serial.write("1");
+    Serial.write("B\n");
   }
   else btnBFlag = false;
 }
@@ -27,7 +27,7 @@ void btnBInterrupt() {
 void btnXInterrupt() {
   if(!btnXFlag) {
     btnXFlag = true;
-    Serial.write("2");
+    Serial.write("X\n");
   }
   else btnXFlag = false;
 }

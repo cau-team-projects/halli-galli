@@ -1,17 +1,16 @@
 const State = require('./State');
 const switchRoom = require('./switchRoom');
-class HomeState extends State {
+class ReadyState extends State {
   constructor() {
     super();
-    this.on('button', (btn) => {
-      console.log(`button ${btn} clicked`);
-      if (btn == 'A' || btn == 'B') {
+    this.on('button', (btn)) => {
+      if (btn == 'X') {
         switchRoom(this.user, "WAITING_ROOM");
         this.user.socket.emit("STATE_CHANGED", "WAITING");
         this.moveTo("WAITING");
-      }
-    })
+      } else {}
+    }
   }
 }
 
-module.exports = HomeState;
+module.exports = ReadyState;
