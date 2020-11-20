@@ -6,10 +6,10 @@ const io = require('socket.io')(server);
 const config = require('./config');
 const State = require('./State');
 const HomeState = require('./HomeState');
-//const WaitingState = require('./WaitingState');
-//const ReadyState = require('./ReadyState');
-//const MyTurnState = require('./MyTurnState');
-//const NotMyTurnState = require('./NotMyTurnState');
+const WaitingState = require('./WaitingState');
+const ReadyState = require('./ReadyState');
+const MyTurnState = require('./MyTurnState');
+const NotMyTurnState = require('./NotMyTurnState');
 const Fsm = require('./Fsm');
 const switchRoom = require('./switchRoom');
 
@@ -27,10 +27,10 @@ io.on('connection', (socket) => {
     user,
     states: {
       HOME: new HomeState(),
-      //WAITING: new WaitingState(),
-      //READY: new ReadyState(),
-      //MY_TURN: new MyTurnState(),
-      //NOT_MY_TURN: new NotMyTurnState()
+      WAITING: new WaitingState(),
+      READY: new ReadyState(),
+      MY_TURN: new MyTurnState(),
+      NOT_MY_TURN: new NotMyTurnState()
     },
     initialStateName: 'HOME'
   });

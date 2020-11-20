@@ -3,7 +3,7 @@ const switchRoom = require('./switchRoom');
 class MyTurnState extends State {
   constructor() {
     super();
-    this.on('button', (btn)) => {
+    this.on('button', (btn) => {
       if (btn == 'A') {
         flip();
         this.user.socket.emit("STATE_CHANGED", "NOT_MY_TURN");
@@ -11,16 +11,16 @@ class MyTurnState extends State {
       } else if (btn == 'B') {
         ring();
       } else if (btn == 'X') {
-        this.on('button', (btn)) => {
+        this.on('button', (btn) => {
           this.user.socket.emit("EXIT_DIALOG");
           if (btn == 'A') {
             switchRoom(this.user, "HOME_ROOM");
             this.user.socket.emit("STATE_CHANGED", "HOME");
             this.moveTo("HOME");
           } else {}
-        }
+        });
       }
-    }
+    });
   }
 }
 
