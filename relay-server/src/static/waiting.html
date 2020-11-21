@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="eng">
 
 <head>
     <meta charset="utf-8">
-    <title>Halli Galli_wating_room</title>
+    <title>Halli Galli_waiting_room</title>
     <link rel="stylesheet" href="waiting.css">
+    <script src="jquery-3.5.1.min.js"></script>
+    <script src="handlebars-v4.7.6.js"></script>
+
 
 </head>
 
@@ -12,6 +15,7 @@
     <section>
 
         <div id="wating_wrap">
+           
             <div class="title_logo">
                 <img src="image/title.svg" alt="title_logo">
             </div>
@@ -20,23 +24,21 @@
                 <img src="image/loading.svg" alt="refresh_img">
             </div>
 
-            <div class="user_list">
-                <ul class="people_list">
-                    {{#each people}}
-                        <li>{{this}}</li>
-                    {{/each}}
-                </ul>
+            <div class="wait_user">
+                <script id="wait_user" type="text/x-handlebars-template">
+                    <ul>
+                    {{#items}}
+                    <li><span>{{number}}P</span> {{name}}</li>
+                    {{/items}}
+                    </ul>
+                </script>
+                <script src="script.js"></script>
             </div>
+
         </div>
 
 
     </section>
-
-    <menu class="halli_controls" id="controls">
-        <button id="button_ready">Ready</button>
-    </menu>
-
-
 </body>
 
 </html>

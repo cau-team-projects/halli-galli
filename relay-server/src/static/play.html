@@ -1,84 +1,58 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="eng">
 
 <head>
     <meta charset="utf-8">
     <title>Halli Galli</title>
     <link rel="stylesheet" href="play.css">
+    <script src="jquery-3.5.1.min.js"></script>
+    <script src="handlebars-v4.7.6.js"></script>
             
 </head>
 
 <body>
     <section>
+        
+        
+        <div class="game_user">
+            <script id="game_user" type="text/x-handlebars-template">
+                   
+                    <div class="user_card">
+                        {{#items}}
+                        <img src="{{card}}"/>
+                        {{/items}}
+                    </div>
+                             
+                    <div class="user_score">
+                        <ul>
+                            <h2>score</h2>
+                            {{#items}}
+                            <li>
+                                <span class="number">{{number}}P</span>
+                                <span class="score">{{score}}</span>
+                            </li>
+                            {{/items}}
+                        </ul>
+                    </div>
+        
+            </script>
+            <script src="script.js"></script>
+          </div>
 
-        <div id="card_bell">
-            <div class="flip-card-front">
-                <div class="card_1">
-               
-                    <img src="image/strawberry_1.svg" alt="card_1" class="card" onerror="this.src='image/random_card.png'">
-               
-                </div>
-                <div class="card_2">
-                    <img src="image/lemon_1.svg" alt="card_2" class="card" onerror="this.src='image/random_card.png'">
-                </div>
-                <div class="card_3">
-                    <img src="image/pineapple_1.svg" alt="card_3" class="card" onerror="this.src='image/random_card.png'">
-                </div>
-                <div class="card_4">
-                    <img src="image/pear_1.svg" alt="card_4" class="card" onerror="this.src='image/random_card.png'">
-                </div>
-            </div>
-            <!---
-            <div class="flip-card-back">
-            back card
-            </div>
-            -->
+      
+           
 
             <div class="bell">
                 <img src="image/bell.svg" alt="bell">
             </div>
-        </div>
 
-        <div id="user">
-            <div class="user1">
-                <p class="nick_name">user1</p>
-                -
-                <p class="score">1 point</p>
-            </div>
-            <div class="user2">
-                <p class="nick_name">user2</p>
-                -
-                <p class="score">1 point</p>
-            </div>
-            <div class="user3">
-                <p class="nick_name">user3</p>
-                -
-                <p class="score">1 point</p>
-            </div>
-            <div class="user4">
-                <p class="nick_name">user4</p>
-                -
-                <p class="score">1 point</p>
-            </div>
-        </div>
-        
-
-        <div id="game_button">
-            <button class="card_flip" type="button">card flip</button>
-            <button class="bell_push" type="button">bell push</button>
-        </div>
-
+            
     </section>
 
     <img src="image/random_card.png" alt="random_card" class="random_card" style="display:none;">
 
 
-<!--
- <script>
-    $('img.card').click(function(){
-  $(this).toggleClass('flipped');
-});
-</script>
+
 
 
 
