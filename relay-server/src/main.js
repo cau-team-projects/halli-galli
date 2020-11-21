@@ -1,6 +1,3 @@
-import './static/halli_galli.css';
-import './static/waiting.css';
-//import {Game} from './game';
 import $ from 'jquery';
 import page from 'page';
 
