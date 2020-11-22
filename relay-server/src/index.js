@@ -46,7 +46,7 @@ io.on('connection', (socket) => {
   }
 
   // https://socket.io/docs/client-connection-lifecycle/
-  const game = ioc(`http://localhost:4000`, { forceNew: true });
+  const game = ioc(`${config.WS_GAME_ADDR}:${config.WS_GAME_PORT}`, { forceNew: true });
 
   user = {socket, io, game};
 
