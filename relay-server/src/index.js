@@ -15,23 +15,34 @@ app.get('/', (req, res) => {
 });
 
 function registerEvents(user) {
-  user.socket.on(constant.event.USER_DISCONNECTED, (id) => {
-    user.socket.emit(constant.event.USER_DISCONNECTED, id);
+
+  user.socket.on(constant.event.ROOM_CHANGED, (room) => {
+    user.socket.emit(constant.event.ROOM_CHANGED, room);
   });
 
-  user.socket.on(constant.event.STATE_CHANGED, (state) => {
-    user.socket.emit(constant.event.STATE_CHANGED, state);
+  user.socket.on(constant.event.USER_GAME_CONNECTED, (id) => {
+    user.socket.emit(constant.event.USER_CONNECTED, id);
   });
 
-  user.socket.on(constant.event.ROOM_JOINED, (id) => {
-    user.socket.emit(constant.event.ROOM_JOINED, id);
+  user.socket.on(constant.event.USER_GAME_DISCONNECTED, (id) => {
+    user.socket.emit(constant.event.USER_GAMEDISCONNECTED, id);
   });
 
-  user.socket.on(constant.event.ROOM_LEFT, (id) => {
-    user.socket.emit(constant.event.ROOM_LEFT, id);
+  user.socket.on(constant.event.USER_ROOM_JOINED, (id) => {
+    user.socket.emit(constant.event.USER_ROOM_JOINED, id);
   });
+
+  user.socket.on(constant.event.USER_ROOM_LEFT, (id) => {
+    user.socket.emit(constant.event.USER_ROOM_LEFT, id);
+  });
+
+  user.socket.on(constant.event.USER_READY_CHANGED, (isReady) => {
+    user.socket.emit(constant.event.USER_READY_CHANGED, isReady);
+  });
+
   user.socket.on("disconnect", () => {
     console.info(`user ${user.socket.id} disconnected`);
+    user.socket.emit(constant.event.RELAY_DISCONNECTED);
     if (user.sp)
       user.sp.close((err) => {});
   });
@@ -45,6 +56,8 @@ io.on('connection', (socket) => {
     socket.disconnect()
   }
 
+  user.socket.emit(constant.event.RELAY_CONNECTED);
+
   // https://socket.io/docs/client-connection-lifecycle/
   const game = ioc(`http://localhost:4000`, { forceNew: true });
 
@@ -52,6 +65,7 @@ io.on('connection', (socket) => {
 
   game.on('connect', () => {
     console.log('connected to game server')
+    user.socket.emit(constant.event.GAME_CONNECTED);
     const sp = new serialport(config.SERIAL_PORT_PATH, {
       baudRate: config.SERIAL_PORT_BAUD_RATE,
     });
@@ -66,6 +80,7 @@ io.on('connection', (socket) => {
 
     game.on('disconnect', () => {
       console.log('disconnected from game server')
+      user.socket.emit(constant.event.GAME_DISCONNECTED);
       sp.close((err) => {});
     });
   });
