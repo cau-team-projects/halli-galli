@@ -11,6 +11,11 @@ module.exports = class Room {
     return io.sockets.clients(this.name);
   }
   get users() {
-  	return Object.values(this.allUsers).filter(user => this.name === user.room.name);
+    const users = {};
+    Object
+      .values(this.allUsers)
+      .filter(user => this.name === user.room.name)
+      .forEach(user => {users[user.id] = user.socket.id});
+    return users;
   }
 }
