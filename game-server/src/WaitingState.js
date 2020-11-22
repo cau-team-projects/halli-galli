@@ -10,7 +10,7 @@ module.exports = class WaitingState extends State {
 
     this.on(constant.event.BUTTON_CLICKED, (button) => {
       if (button == 'A' || button == 'B') {
-        this.replace(new ReadyState());
+        
       } else if (button == 'X') {
         this.push(new ExitDialogState());
       }

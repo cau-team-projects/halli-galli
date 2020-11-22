@@ -2,6 +2,7 @@ const constant = require('./constant');
 const State = require('./State');
 const WaitingState = require('./WaitingState');
 const joinRoom = require('./joinRoom');
+const leaveRoom = require('./leaveRoom');
 
 module.exports = class HomeState extends State {
   constructor() {

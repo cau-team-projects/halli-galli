@@ -23,7 +23,7 @@ const rooms = {
 io.on('connection', (socket) => { 
 
   console.log(`user ${socket.id} connected`);
-  const user = new User(socket, io, rooms, new HomeState());
+  const user = new User({socket, io, rooms, state: new HomeState()});
   users[socket.id] = user;
 
   console.log(users)

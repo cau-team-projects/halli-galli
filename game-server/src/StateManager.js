@@ -34,7 +34,7 @@ module.exports = class StateManager {
 
     this.states.push(state);
 
-    if (oldState.onDisabled)
+    if (oldState && oldState.onDisabled)
       oldState.onDisabled();
     if (state.onEnabled)
       state.onEnabled();
@@ -44,8 +44,8 @@ module.exports = class StateManager {
     for (let i = 0; i < size; ++i) {
       const state = this.states.pop();
 
-      if (oldState.onDestroyed)
-        oldState.onDestroyed();
+      if (state.onDestroyed)
+        state.onDestroyed();
       if (state.onDisabled)
         state.onDisabled();
     }
