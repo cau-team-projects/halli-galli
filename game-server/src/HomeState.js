@@ -16,6 +16,7 @@ module.exports = class HomeState extends State {
 
     this.onEnabled(() => {
       joinRoom(this.user, constant.room.HOME);
+      this.user.socket.emit(constant.event.PAGE_CHANGED, constant.page.HOME);
     });
 
     this.onDisabled(() => {

@@ -19,6 +19,7 @@ module.exports = class WaitingState extends State {
 
     this.onEnabled(() => {
       joinRoom(this.user, 'GAME');
+      this.user.socket.emit(constant.event.PAGE_CHANGED, constant.page.WAITING);
     });
 
     this.onDisabled(() => {
