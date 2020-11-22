@@ -2,17 +2,27 @@ const constant = require('../constant');
 const joinRoom = require('../joinRoom');
 const leaveRoom = require('../leaveRoom');
 const State = require('../State');
-const ExitDialogState = require('./ExitDialogState');
 
 module.exports = class WaitingState extends State {
   constructor() {
     super(constant.state.WAITING);
 
+    this.ready = false;
+    this.exitDialog = false;
+
     this.on(constant.event.BUTTON_CLICKED, (button) => {
       if (button == 'A' || button == 'B') {
-        
+        if (this.exitDialog)
+          this.pop(1);
+        else
+          this.ready = true;
       } else if (button == 'X') {
-        this.push(new ExitDialogState());
+        if (this.exitDialog)
+          this.exitDialog = false;
+        else if (this.ready)
+          this.ready = false;
+        else
+          this.exitDialog = true;
       }
     });
 

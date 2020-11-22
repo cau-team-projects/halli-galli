@@ -17,7 +17,7 @@ const UserHomeState = require('./user/HomeState');
 const users = {};
 const rooms = {
   [constant.room.HOME]: new Room({name: constant.room.HOME, io, state: null, allUsers: users}),
-  'GAME': new Room({name: 'GAME', io, state: new RoomWaitingState()})
+  'GAME': new Room({name: 'GAME', io, state: new RoomWaitingState(), allUsers: users})
 };
 
 io.on('connection', (socket) => { 
