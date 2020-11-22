@@ -10,13 +10,13 @@ function main() {
   });
   page('/waiting', (ctx, next) => {
     $('main').empty();
-    $.get('/static/wait.html', (res) => {
+    $.get('/static/waiting.html', (res) => {
       $('main').html(res);
     });
   });
   page('/play', (ctx, next) => {
     $('main').empty();
-    $.get('/static/gaming.html', (res) => {
+    $.get('/static/play.html', (res) => {
       $('main').html(res);
     });
   });
