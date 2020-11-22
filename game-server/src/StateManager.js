@@ -19,7 +19,6 @@ module.exports = class StateManager {
     this.states[this.states.length - 1] = state;
     if(state.onEnabled)
       state.onEnabled();
-    this.user.socket.emit(constant.event.STATE_CHANGED, state.name);
   }
 
   push(newState) {
@@ -27,7 +26,6 @@ module.exports = class StateManager {
     this.states.push(state);
     if(state.onEnabled)
       state.onEnabled();
-    this.user.socket.emit(constant.event.STATE_CHANGED, state.name);
   }
 
   pop(size = 1) {
@@ -36,9 +34,6 @@ module.exports = class StateManager {
       if (state.onDisabled)
         state.onDisabled();
     }
-    const state = this.states[this.states.length - 1];
-    if (state)
-      this.user.socket.emit(constant.event.STATE_CHANGED, state.name);
   }
 
   emit(event, ...args) {

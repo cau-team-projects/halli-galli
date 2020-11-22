@@ -2,7 +2,8 @@ const constant = require('./constant');
 const State = require('./State');
 const ReadyState = require('./ReadyState');
 const ExitDialogState = require('./ExitDialogState');
-const switchRoom = require('./switchRoom');
+const joinRoom = require('./joinRoom');
+const leaveRoom = require('./leaveRoom');
 
 module.exports = class WaitingState extends State {
   constructor() {
