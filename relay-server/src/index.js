@@ -16,6 +16,10 @@ app.get('/', (req, res) => {
 
 function registerEvents(user) {
 
+  user.socket.on(constant.event.PAGE_CHANGED, (page) => {
+    user.socket.emit(constant.event.PAGE_CHANGED, page);
+  });
+
   user.socket.on(constant.event.ROOM_JOINED, (room) => {
     user.socket.emit(constant.event.ROOM_JOINED, room);
   });
