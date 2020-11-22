@@ -1,5 +1,5 @@
-const constant = require('./constant');
-const State = require('./State');
+const constant = require('../constant');
+const State = require('../State');
 const ExitDialogState = require('./ExitDialogState');
 
 module.exports = class GamingState extends State {

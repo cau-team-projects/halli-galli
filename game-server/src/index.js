@@ -9,14 +9,15 @@ const constant = require('./constant');
 const config = require('./config');
 const joinRoom = require('./joinRoom');
 const leaveRoom = require('./leaveRoom');
+const Room = require('./Room');
 const User = require('./User');
 const UserHomeState = require('./user/HomeState');
 
-const users = {}
+const users = {};
 const rooms = {
-  [constant.room.HOME]: new Room({name: constant.room.HOME, io, stateManager: null});
-  'GAME': new Room({name: 'GAME', io, stateManager: null});
-}
+  [constant.room.HOME]: new Room({name: constant.room.HOME, io, stateManager: null}),
+  'GAME': new Room({name: 'GAME', io, stateManager: null})
+};
 
 io.on('connection', (socket) => { 
 

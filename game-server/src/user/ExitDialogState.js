@@ -1,5 +1,5 @@
-const constant = require('./constant');
-const State = require('./State');
+const constant = require('../constant');
+const State = require('../State');
 
 module.exports = class ExitDialogState extends State {
   constructor() {

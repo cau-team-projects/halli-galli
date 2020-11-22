@@ -1,12 +1,3 @@
-///// User info
-var source = $("#wait_user,#play_user").html();
-var template = Handlebars.compile(source);
-var data = {
-items: []
-};
-var itemList = template(data);
-$('.wait_user,.play_user').append(itemList);
-
 const socket = io();
 var normalStart = false;
 var userNum = 0;
@@ -52,7 +43,6 @@ function main() {
     }
 }
 main();
-
 
 ///// Socket
 socket.on('test', (data) => {
