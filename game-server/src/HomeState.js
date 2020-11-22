@@ -17,5 +17,9 @@ module.exports = class HomeState extends State {
     this.onEnabled(() => {
       joinRoom(this.user, constant.room.HOME);
     });
+
+    this.onDisabled(() => {
+      leaveRoom(this.user, constant.room.HOME);
+    });
   }
 }

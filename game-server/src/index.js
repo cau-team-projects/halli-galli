@@ -1,19 +1,29 @@
-const constant = require('./constant');
+const { v4: uuid } = require('uuid');
 const express = require('express');
 const http = require('http');
 const app = express();
 const server = http.createServer(app);
 const io = require('socket.io')(server);
+
+const constant = require('./constant');
 const config = require('./config');
+const joinRoom = require('./joinRoom');
+const leaveRoom = require('./leaveRoom');
 const HomeState = require('./HomeState');
 const StateManager = require('./StateManager');
 
 const users = {}
+const rooms = {
+  [constant.room.HOME]: {
+  },
+  'GAME': {
+  }
+}
 
 io.on('connection', (socket) => { 
 
   console.log(`user ${socket.id} connected`);
-  const user = {socket, io};
+  const user = {socket, io, rooms};
   user.stateManager = new StateManager({
     user,
     state: new HomeState()
@@ -28,11 +38,7 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log(`user ${socket.id} disconnected`);
-    const user = users[socket.id];
-    const room = user.room;
-    socket.leave(room);
-    console.log(`user ${socket.id} leaves room ${room}`);
-    io.to(room).emit(constant.event.ROOM_LEFT, socket.id);
+    // destroy all states
     delete users[socket.id];
   });
 });

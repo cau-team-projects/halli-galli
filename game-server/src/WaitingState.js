@@ -18,7 +18,7 @@ module.exports = class WaitingState extends State {
     });
 
     this.onEnabled(() => {
-      joinRoom(this.user, constant.room.WAITING);
+      joinRoom(this.user, 'GAME');
     });
 
     this.onDisabled(() => {
