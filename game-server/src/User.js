@@ -10,4 +10,7 @@ module.exports = class User {
       state
     })
   }
+  get id() {
+    return this.socket.id;
+  }
 }
