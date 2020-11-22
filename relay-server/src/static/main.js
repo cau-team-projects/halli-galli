@@ -1,8 +1,22 @@
 import $ from 'jquery';
 import page from 'page';
 
+///// User info
+var source = $("#wait_user,#play_user").html();
+var template = Handlebars.compile(source);
+var data = {
+items: []
+};
+var itemList = template(data);
+$('.wait_user,.play_user').append(itemList);
+
+
+    ,
+    
+
 const socket = io();
 var normalStart = false;
+var userNum = 0;
 
 function main() {
     function init() {
@@ -54,7 +68,14 @@ socket.on('test', (data) => {
 });
 
 socket.on('ROOM_JOINED', function(room) {
-     // 
+    if (userNum == 0) {
+        items.push({
+            name: "STRAWBERRY",
+            number: "1",
+            score: 100,
+            card: "static/image/strawberry_1.svg"
+        });
+    }
     if (room == 'HOME') {
         page('/index');
     }
@@ -67,7 +88,6 @@ socket.on('ROOM_JOINED', function(room) {
 });
 
 socket.on('ROOM_LEFT', function(room) {
-    // left
     if (room == 'HOME') {
         page('/index');
     }
@@ -79,38 +99,35 @@ socket.on('ROOM_LEFT', function(room) {
     }
 });
 
+socket.on('USER_ROOM_JOINED', function(room) {
+    userNum++;
+    if (userNum == 1) {
+        items.push({
+            name: "LEMON",
+            number: "2",
+            score: 200,
+            card: "static/image/strawberry_2.svg"
+        });
+    }
+    else if (userNum == 2) {
+        items.push({
+            name: "PEAR",
+            number: "3",
+            score: 300,
+            card: "static/image/strawberry_3.svg"
+        });
+    }
+    else if (userNum == 3) {
+        items.push({
+            name: "PINEAPPLE",
+            number: "4",
+            score: 400,
+            card: "static/image/strawberry_4.svg"
+        });
+    }
+});
 
-///// User info
-var source = $("#wait_user,#play_user").html();
-var template = Handlebars.compile(source);
-var data = {
-items: [
-{
-name: "STRAWBERRY",
-number: "1",
-score: 100,
-card: "static/image/strawberry_1.svg"
-},
-{
-name: "LEMON",
-number: "2",
-score: 200,
-card: "static/image/strawberry_2.svg"
-},
-{
-name: "PEAR",
-number: "3",
-score: 300,
-card: "static/image/strawberry_3.svg"
-},
-{
-name: "PINEAPPLE",
-number: "4",
-score: 400,
-card: "static/image/strawberry_4.svg"
-}
-]
-};
-var itemList = template(data);
-$('.wait_user,.play_user').append(itemList);
+socket.on('USER_ROOM_LEFT', function(room) {
+    userNum--;
+});
 
