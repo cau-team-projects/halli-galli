@@ -1,6 +1,3 @@
-import $ from 'jquery';
-import page from 'page';
-
 ///// User info
 var source = $("#wait_user,#play_user").html();
 var template = Handlebars.compile(source);
