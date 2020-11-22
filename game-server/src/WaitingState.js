@@ -17,17 +17,11 @@ module.exports = class WaitingState extends State {
     });
 
     this.onEnabled(() => {
-      this.user.room = constant.room.WAITING;
-      this.user.socket.join(this.user.room);
-      this.user.io.to(this.user.room).emit(constant.event.ROOM_JOINED, this.user.socket.id);
-      console.log(`user ${this.user.socket.id} joins room ${this.user.room}`);
+      joinRoom(this.user, constant.room.WAITING);
     });
 
     this.onDisabled(() => {
-      this.user.room = constant.room.WAITING;
-      this.user.socket.leave(this.user.room);
-      this.user.io.to(this.user.room).emit(constant.event.ROOM_LEFT, this.user.socket.id);
-      console.log(`user ${this.user.socket.id} left room ${this.user.room}`);
+      leaveRoom(this.user);
     });
   }
 }
