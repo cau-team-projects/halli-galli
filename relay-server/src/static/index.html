@@ -1,7 +1,8 @@
 <html>
 <head>
   <script src="/socket.io/socket.io.js"></script>
-  
+  <script src="https://unpkg.com/page/page.js"></script>
+
   <style>
     html {
     width: 100%;
@@ -13,16 +14,43 @@
 <body>
   <main style="width: 88vmin; margin: 0 auto;  position: absolute;  top: 50%;   left: 50%;  transform: translate(-50%, -50%);">
     <img src="image/title.svg" style="display: block; width: 66vmin; margin: 0 auto"/>
-      <h1 style="text-align: center; margin:3em 0;"> <a style="text-decoration: none; color:#000;" href="play.html"> Press Any key to start </a> </h1>
+      <h1 style="text-align: center; margin:3em 0;"> <a style="text-decoration: none; color:#000;"> Press Any key to start </a> </h1>
     <h1 style="text-align: center" id="message"></h1>
   </main>
 
   <script>
     const socket = io();
+    var normalStart = false;
+
     socket.on('test', (data) => {
       console.log(data);
       document.getElementById('message').innerText = data; 
     });
+
+    socket.on('waiting', function() {
+        page('/index', (ctx, next) => {
+            $('body').empty();
+            $.get('./waiting.html', (res) => {
+                $('body').html(res);
+            });
+            normalStart = true;    
+        });
+    });
+
+    socket.on('ready', function() {
+
+    });
+
+    socket.on('play', function(data) {
+        page('/waiting', (ctx, next) => {
+            if(!normalStart) return;
+            $('body').empty();
+            $.get('./static/play.html', (res) => {
+                $('body').html(res);
+            });
+        });
+    });
+
   </script>
 
 </body>

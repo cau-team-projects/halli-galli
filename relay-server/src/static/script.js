@@ -1,4 +1,4 @@
-var source = $("#wait_user,#game_user").html();
+var source = $("#wait_user,#play_user").html();
 var template = Handlebars.compile(source);
 var data = {
 items: [
@@ -29,5 +29,5 @@ card: "image/strawberry_4.svg"
 ]
 };
 var itemList = template(data);
-$('.wait_user,.game_user').append(itemList);
+$('.wait_user,.play_user').append(itemList);
 
