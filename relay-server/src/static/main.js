@@ -16,12 +16,9 @@ function main() {
       
       socket.on('WAITING_ROOM_USERS', function(users) {
         console.log(`user ${users} waiting`);
-        items = Object.values(users);
+        $('.wait_user').html(template({items: Object.values(users)}));
       });
 
-      data = {items};
-      var itemList = template(data);
-      $('.wait_user').append(itemList);
     });
   });
   page('/play', (ctx, next) => {
