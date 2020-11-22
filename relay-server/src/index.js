@@ -1,3 +1,4 @@
+const constant = require('./constant');
 const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
@@ -13,6 +14,24 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/static/index.html');
 });
 
+function registerEvents(user) {
+  user.socket.on(constant.event.USER_DISCONNECTED, (id) => {
+    user.socket.emit(constant.event.USER_DISCONNECTED, id);
+  });
+
+  user.socket.on(constant.event.STATE_CHANGED, (state) => {
+    user.socket.emit(constant.event.STATE_CHANGED, state);
+  });
+
+  user.socket.on(constant.event.ROOM_JOINED, (id) => {
+    user.socket.emit(constant.event.ROOM_JOINED, id);
+  });
+
+  user.socket.on(constant.event.ROOM_LEFT, (id) => {
+    user.socket.emit(constant.event.ROOM_LEFT, id);
+  });
+}
+
 let user = null;
 io.on('connection', (socket) => {
   if (io.engine.gamesCount > 1) {
@@ -20,11 +39,9 @@ io.on('connection', (socket) => {
     socket.disconnect()
   }
 
-  user = socket;
-  console.log('a user connected');
-
   // https://socket.io/docs/client-connection-lifecycle/
   const game = ioc(`http://localhost:4000`, { forceNew: true });
+
   game.on('connect', () => {
     console.log('connected to game server')
     const sp = new serialport(config.SERIAL_PORT_PATH, {
@@ -37,16 +54,17 @@ io.on('connection', (socket) => {
     });
     sp.on('error', () => {})
     sp.pipe(serialParser);
-    socket.on("disconnect", () => {
-      console.info(`user ${socket.id} disconnected`);
-      sp.close((err) => {});
-    });
+
     game.on('disconnect', () => {
       console.log('disconnected from game server')
       sp.close((err) => {});
     });
   });
   game.on('connect_error', () => console.log('failed to connect to game server'));
+
+  user = {socket, io, game};
+  console.log('a user connected');
+  registerEvents(user);
 });
 
 http.listen(config.WS_RELAY_PORT, () => {
@@ -55,5 +73,5 @@ http.listen(config.WS_RELAY_PORT, () => {
 
 setInterval(() => {
   if (user)
-    user.emit('test', Math.random());
+    user.socket.emit('test', Math.random());
 }, 1000);
