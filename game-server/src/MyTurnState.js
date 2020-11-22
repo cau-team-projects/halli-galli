@@ -1,27 +1,19 @@
+const constant = require('./constant');
 const State = require('./State');
+const ExitDialogState = require('./ExitDialogState');
 const switchRoom = require('./switchRoom');
-class MyTurnState extends State {
+
+module.exports = class MyTurnState extends State {
   constructor() {
-    super();
-    this.on('button', (btn) => {
-      if (btn == 'A') {
-        flip();
-        this.user.socket.emit("STATE_CHANGED", "NOT_MY_TURN");
-        this.moveTo("NOT_MY_TURN");
-      } else if (btn == 'B') {
-        ring();
-      } else if (btn == 'X') {
-        this.on('button', (btn) => {
-          this.user.socket.emit("EXIT_DIALOG");
-          if (btn == 'A') {
-            switchRoom(this.user, "HOME_ROOM");
-            this.user.socket.emit("STATE_CHANGED", "HOME");
-            this.moveTo("HOME");
-          } else {}
-        });
+    super(constant.state.MY_TURN);
+    this.on(constant.event.BUTTON_CLICKED, (button) => {
+      if (button == 'A') {
+        // flip();
+      } else if (button == 'B') {
+        // ring();
+      } else if (button == 'X') {
+        this.push(new ExitDialogState());
       }
     });
   }
 }
-
-module.exports = MyTurnState;

@@ -1,21 +1,12 @@
+const constant = require('./constant');
 const express = require('express');
 const http = require('http');
 const app = express();
 const server = http.createServer(app);
 const io = require('socket.io')(server);
 const config = require('./config');
-const State = require('./State');
 const HomeState = require('./HomeState');
-const WaitingState = require('./WaitingState');
-const ReadyState = require('./ReadyState');
-const MyTurnState = require('./MyTurnState');
-const NotMyTurnState = require('./NotMyTurnState');
-const Fsm = require('./Fsm');
-const switchRoom = require('./switchRoom');
-
-const HOME_ROOM = 'home';
-const WAITING_ROOM = 'waiting';
-const GAMING_ROOM = 'gaming';
+const StateManager = require('./StateManager');
 
 const users = {}
 
@@ -23,25 +14,16 @@ io.on('connection', (socket) => {
 
   console.log(`user ${socket.id} connected`);
   const user = {socket, io};
-  user.fsm = new Fsm({
+  user.stateManager = new StateManager({
     user,
-    states: {
-      HOME: new HomeState(),
-      WAITING: new WaitingState(),
-      READY: new ReadyState(),
-      MY_TURN: new MyTurnState(),
-      NOT_MY_TURN: new NotMyTurnState()
-    },
-    initialStateName: 'HOME'
+    state: new HomeState()
   });
   users[socket.id] = user;
-
-  switchRoom(user, HOME_ROOM)
 
   console.log(users)
 
   socket.on('button', (button) => {
-    user.fsm.emit('button', button);
+    user.stateManager.emit(constant.event.BUTTON_CLICKED, button);
   });
 
   socket.on('disconnect', () => {
@@ -50,7 +32,7 @@ io.on('connection', (socket) => {
     const room = user.room;
     socket.leave(room);
     console.log(`user ${socket.id} leaves room ${room}`);
-    io.to(room).emit('leave', socket.id);
+    io.to(room).emit(constant.event.ROOM_LEFT, socket.id);
     delete users[socket.id];
   });
 });
