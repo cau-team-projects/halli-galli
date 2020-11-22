@@ -3,21 +3,21 @@ var userNum = 0;
 
 function main() {
   page('/index', (ctx, next) => {
-    $('body').empty();
+    $('main').empty();
     $.get('/static/home.html', (res) => {
-      $('body').html(res);
+      $('main').html(res);
     });
   });
   page('/waiting', (ctx, next) => {
-    $('body').empty();
+    $('main').empty();
     $.get('/static/wait.html', (res) => {
-      $('body').html(res);
+      $('main').html(res);
     });
   });
   page('/play', (ctx, next) => {
-    $('body').empty();
+    $('main').empty();
     $.get('/static/gaming.html', (res) => {
-      $('body').html(res);
+      $('main').html(res);
     });
   });
   page.exit('/play', (ctx, next) => {
