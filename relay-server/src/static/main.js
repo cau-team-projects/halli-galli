@@ -1,5 +1,4 @@
 const socket = io();
-var userNum = 0;
 
 function main() {
   page('/home', (ctx, next) => {
@@ -12,6 +11,9 @@ function main() {
     $('main').empty();
     $.get('/static/waiting.html', (res) => {
       $('main').html(res);
+      socket.on('WAITING_ROOM_USERS', function(users) {
+        console.log(`user ${users} waiting`);
+      });
     });
   });
   page('/play', (ctx, next) => {
@@ -24,6 +26,7 @@ function main() {
     next();
   });
   page.exit('/waiting', (ctx, next) => {
+    socket.off('WAITING_ROOM_USERS');
     next();
   });
 
@@ -58,35 +61,10 @@ socket.on('ROOM_LEFT', function(room) {
   console.log(`left room ${room}`);
 });
 
-socket.on('USER_ROOM_JOINED', function(room) {
-    userNum++;
-    if (userNum == 1) {
-        items.push({
-            name: "LEMON",
-            number: "2",
-            score: 200,
-            card: "static/image/strawberry_2.svg"
-        });
-    }
-    else if (userNum == 2) {
-        items.push({
-            name: "PEAR",
-            number: "3",
-            score: 300,
-            card: "static/image/strawberry_3.svg"
-        });
-    }
-    else if (userNum == 3) {
-        items.push({
-            name: "PINEAPPLE",
-            number: "4",
-            score: 400,
-            card: "static/image/strawberry_4.svg"
-        });
-    }
+socket.on('USER_ROOM_JOINED', function(user, room) {
+  console.log(`user joined room ${room}`);
 });
 
-socket.on('USER_ROOM_LEFT', function(room) {
-    userNum--;
+socket.on('USER_ROOM_LEFT', function(user, room) {
+  console.log(`user left room ${room}`);
 });
-
