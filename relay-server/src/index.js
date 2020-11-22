@@ -16,23 +16,28 @@ app.get('/', (req, res) => {
 
 function registerEvents(game, user) {
   game.on(constant.event.PAGE_CHANGED, (page) => {
+    console.log(constant.event.PAGE_CHANGED, page);
     user.socket.emit(constant.event.PAGE_CHANGED, page);
   });
 
   game.on(constant.event.ROOM_JOINED, (room) => {
+    console.log(constant.event.ROOM_JOINED, room);
     user.socket.emit(constant.event.ROOM_JOINED, room);
   });
 
   game.on(constant.event.ROOM_LEFT, (room) => {
+    console.log(constant.event.ROOM_LEFT, room);
     user.socket.emit(constant.event.ROOM_LEFT, room);
   });
 
-  game.on(constant.event.USER_ROOM_JOINED, (id) => {
-    user.socket.emit(constant.event.USER_ROOM_JOINED, id);
+  game.on(constant.event.USER_ROOM_JOINED, (userId, room) => {
+    console.log(constant.event.USER_ROOM_JOINED, userId, room);
+    user.socket.emit(constant.event.USER_ROOM_JOINED, userId, room);
   });
 
-  game.on(constant.event.USER_ROOM_LEFT, (id) => {
-    user.socket.emit(constant.event.USER_ROOM_LEFT, id);
+  game.on(constant.event.USER_ROOM_LEFT, (userId, room) => {
+    console.log(constant.event.USER_ROOM_LEFT, userId, room);
+    user.socket.emit(constant.event.USER_ROOM_LEFT, userId, room);
   });
 
   game.on(constant.event.WAITING_ROOM_USERS, (users) => {
@@ -40,7 +45,7 @@ function registerEvents(game, user) {
   });
 
   user.socket.on("disconnect", () => {
-    console.info(`user ${user.socket.id} disconnected`);
+    console.log(`user ${user.socket.id} disconnected`);
     user.socket.emit(constant.event.RELAY_DISCONNECTED);
     if (user.sp)
       user.sp.close((err) => {});
