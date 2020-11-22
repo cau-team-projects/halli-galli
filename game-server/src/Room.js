@@ -17,7 +17,7 @@ module.exports = class Room {
     const users = {};
     Object
       .values(this.allUsers)
-      .filter(user => user.room?.name === this.name)
+      .filter(user => user.room && user.room.name === this.name)
       .forEach(user => {users[user.id] = user});
     return users;
   }
