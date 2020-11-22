@@ -30,11 +30,17 @@ function registerEvents(user) {
   user.socket.on(constant.event.ROOM_LEFT, (id) => {
     user.socket.emit(constant.event.ROOM_LEFT, id);
   });
+  user.socket.on("disconnect", () => {
+    console.info(`user ${user.socket.id} disconnected`);
+    if (user.sp)
+      user.sp.close((err) => {});
+  });
 }
 
 let user = null;
 io.on('connection', (socket) => {
-  if (io.engine.gamesCount > 1) {
+  console.log(io.engine.clientsCount);
+  if (io.engine.clientsCount > 1) {
     socket.emit('err', { message: 'only one user can connect' })
     socket.disconnect()
   }
@@ -42,11 +48,14 @@ io.on('connection', (socket) => {
   // https://socket.io/docs/client-connection-lifecycle/
   const game = ioc(`http://localhost:4000`, { forceNew: true });
 
+  user = {socket, io, game};
+
   game.on('connect', () => {
     console.log('connected to game server')
     const sp = new serialport(config.SERIAL_PORT_PATH, {
       baudRate: config.SERIAL_PORT_BAUD_RATE,
     });
+    user.sp = sp;
     sp.on('open', () => {})
     serialParser.on('data', (button) => {
       console.log(`button ${button} clicked`);
@@ -62,7 +71,6 @@ io.on('connection', (socket) => {
   });
   game.on('connect_error', () => console.log('failed to connect to game server'));
 
-  user = {socket, io, game};
   console.log('a user connected');
   registerEvents(user);
 });
