@@ -10,13 +10,14 @@ const config = require('./config');
 const joinRoom = require('./joinRoom');
 const leaveRoom = require('./leaveRoom');
 const Room = require('./Room');
+const RoomWaitingState = require('./room/WaitingState');
 const User = require('./User');
 const UserHomeState = require('./user/HomeState');
 
 const users = {};
 const rooms = {
-  [constant.room.HOME]: new Room({name: constant.room.HOME, io, stateManager: null}),
-  'GAME': new Room({name: 'GAME', io, stateManager: null})
+  [constant.room.HOME]: new Room({name: constant.room.HOME, io, state: null}),
+  'GAME': new Room({name: 'GAME', io, state: new RoomWaitingState()})
 };
 
 io.on('connection', (socket) => { 

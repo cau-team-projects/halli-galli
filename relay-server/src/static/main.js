@@ -2,7 +2,7 @@ const socket = io();
 var userNum = 0;
 
 function main() {
-  page('/index', (ctx, next) => {
+  page('/home', (ctx, next) => {
     $('main').empty();
     $.get('/static/home.html', (res) => {
       $('main').html(res);
@@ -55,15 +55,7 @@ socket.on('ROOM_JOINED', function(room) {
 });
 
 socket.on('ROOM_LEFT', function(room) {
-    if (room == 'HOME') {
-        page('/index');
-    }
-    else if (room == 'WAITING') {
-        page('/waiting');
-    }
-    else if (room == 'GAMING') {
-        page('/play');
-    }
+  console.log(`left room ${room}`);
 });
 
 socket.on('USER_ROOM_JOINED', function(room) {

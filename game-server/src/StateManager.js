@@ -2,14 +2,17 @@ const constant = require('./constant');
 const State = require('./State');
 
 module.exports = class StateManager {
-  constructor({user, state}) {
+  constructor({user, room, state}) {
     this.user = user;
+    this.room = room;
     this.states = [];
-    this.push(state);
+    if (state)
+      this.push(state);
   }
 
   prepareState(state) {
     state.user = this.user;
+    state.room = this.room;
     state.stateManager = this;
     return state;
   }
