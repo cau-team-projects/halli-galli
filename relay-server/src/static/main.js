@@ -44,8 +44,8 @@ function main() {
         page('/index');
     }
 }
-    
 main();
+
 
 ///// Socket
 socket.on('test', (data) => {
@@ -53,26 +53,32 @@ socket.on('test', (data) => {
     document.getElementById('message').innerText = data; 
 });
 
-socket.on('ROOM_JOIN', function() {
-     // other user join
-});
-
-socket.on('ROOM_LEFT', function() {
-    // other user left
-});
-
-socket.on('ROOM_CHANGED', function(room) {
-    // my room changed
-    if (room == 'WAITING') {
+socket.on('ROOM_JOINED', function(room) {
+     // 
+    if (room == 'HOME') {
+        page('/index');
+    }
+    else if (room == 'WAITING') {
         page('/waiting');
     }
     else if (room == 'GAMING') {
         page('/play');
     }
-    else if (room == 'HOME') {
+});
+
+socket.on('ROOM_LEFT', function(room) {
+    // left
+    if (room == 'HOME') {
         page('/index');
     }
+    else if (room == 'WAITING') {
+        page('/waiting');
+    }
+    else if (room == 'GAMING') {
+        page('/play');
+    }
 });
+
 
 ///// User info
 var source = $("#wait_user,#play_user").html();
