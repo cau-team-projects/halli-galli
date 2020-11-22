@@ -1,45 +1,34 @@
 const socket = io();
-var normalStart = false;
 var userNum = 0;
 
 function main() {
-    function init() {
-        page('/index', (ctx, next) => {
-            $('body').empty();
-            $.get('./index.html', (res) => {
-                $('body').html(res);
-            });
-            normalStart = true;
-        });
-        
-        page('/waiting', (ctx, next) => {
-            if (!normalStart) return;
-            $('body').empty();
-            $.get('./waiting.html', (res) => {
-                $('body').html(res);
-            });
-        });
+  page('/home', (ctx, next) => {
+    $('body').empty();
+    $.get('/static/index.html', (res) => {
+      $('body').html(res);
+    });
+  });
+  page('/waiting', (ctx, next) => {
+    $('body').empty();
+    $.get('/static/waiting.html', (res) => {
+      $('body').html(res);
+    });
+  });
+  page('/gaming', (ctx, next) => {
+    $('body').empty();
+    $.get('/static/play.html', (res) => {
+      $('body').html(res);
+    });
+  });
+  page.exit('/play', (ctx, next) => {
+    next();
+  });
+  page.exit('/waiting', (ctx, next) => {
+    next();
+  });
 
-        page('/play', (ctx, next) => {
-            if (!normalStart) return;
-            $('body').empty();
-            $.get('./play.html', (res) => {
-                $('body').html(res);
-            });
-        });
-
-        page.exit('/play', (ctx, next) => {
-            next();
-        });
-
-        page.exit('/waiting', (ctx, next) => {
-            next();
-        });
-
-        page({hashbang: true});
-        page.stop();
-        page('/index');
-    }
+  page({hashbang: true});
+  page.stop();
 }
 main();
 

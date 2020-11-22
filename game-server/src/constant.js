@@ -30,8 +30,8 @@ module.exports = {
     GAMING: 'GAMING'
   },
   page: {
-    HOME: 'HOME',
-    WAITING: 'WAITING',
-    GAMING: 'GAMING',
+    HOME: '/home',
+    WAITING: '/waiting',
+    GAMING: '/gaming',
   }
 };

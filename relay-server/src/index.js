@@ -15,8 +15,6 @@ app.get('/', (req, res) => {
 });
 
 function registerEvents(game, user) {
-  console.log(`registerEvents(${user})`);
-
   game.on(constant.event.PAGE_CHANGED, (page) => {
     user.socket.emit(constant.event.PAGE_CHANGED, page);
   });
@@ -87,8 +85,6 @@ io.on('connection', (socket) => {
   });
   game.on('connect_error', () => console.log('failed to connect to game server'));
 
-  console.log('a user connected');
-  console.log(user);
   registerEvents(game, user);
 });
 
