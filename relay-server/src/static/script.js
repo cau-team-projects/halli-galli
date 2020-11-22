@@ -1,7 +1,8 @@
 var source = $("#wait_user,#game_user").html();
 var template = Handlebars.compile(source);
 var data = {
-items: [{
+items: [
+{
 name: "STRAWBERRY",
 number: "1",
 score: 100,
@@ -22,7 +23,7 @@ card: "image/strawberry_3.svg"
 {
 name: "PINEAPPLE",
 number: "4",
-score: 4003,
+score: 400,
 card: "image/strawberry_4.svg"
 }
 ]
