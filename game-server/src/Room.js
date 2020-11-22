@@ -15,7 +15,6 @@ module.exports = class Room {
 
   get users() {
     const users = {};
-    console.log('this.allUsers', this.allUsers);
     Object
       .values(this.allUsers)
       .filter(user => user.room.name === this.name)
