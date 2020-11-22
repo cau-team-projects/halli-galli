@@ -14,31 +14,30 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/static/index.html');
 });
 
-function registerEvents(user) {
+function registerEvents(game, user) {
+  console.log(`registerEvents(${user})`);
 
-  user.socket.on(constant.event.PAGE_CHANGED, (page) => {
+  game.on(constant.event.PAGE_CHANGED, (page) => {
     user.socket.emit(constant.event.PAGE_CHANGED, page);
   });
 
-  user.socket.on(constant.event.ROOM_JOINED, (room) => {
-    console.log('ROOM_JOINED', room);
+  game.on(constant.event.ROOM_JOINED, (room) => {
     user.socket.emit(constant.event.ROOM_JOINED, room);
   });
 
-  user.socket.on(constant.event.ROOM_LEFT, (room) => {
-    console.log('ROOM_LEFT', room);
+  game.on(constant.event.ROOM_LEFT, (room) => {
     user.socket.emit(constant.event.ROOM_LEFT, room);
   });
 
-  user.socket.on(constant.event.USER_ROOM_JOINED, (id) => {
+  game.on(constant.event.USER_ROOM_JOINED, (id) => {
     user.socket.emit(constant.event.USER_ROOM_JOINED, id);
   });
 
-  user.socket.on(constant.event.USER_ROOM_LEFT, (id) => {
+  game.on(constant.event.USER_ROOM_LEFT, (id) => {
     user.socket.emit(constant.event.USER_ROOM_LEFT, id);
   });
 
-  user.socket.on(constant.event.USER_READY_CHANGED, (isReady) => {
+  game.on(constant.event.USER_READY_CHANGED, (isReady) => {
     user.socket.emit(constant.event.USER_READY_CHANGED, isReady);
   });
 
@@ -89,7 +88,8 @@ io.on('connection', (socket) => {
   game.on('connect_error', () => console.log('failed to connect to game server'));
 
   console.log('a user connected');
-  registerEvents(user);
+  console.log(user);
+  registerEvents(game, user);
 });
 
 http.listen(config.WS_RELAY_PORT, () => {
