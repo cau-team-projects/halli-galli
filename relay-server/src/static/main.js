@@ -4,7 +4,6 @@ var userNum = 0;
 
 function main() {
     function init() {
-
         page('/index', (ctx, next) => {
             $('body').empty();
             $.get('./index.html', (res) => {
@@ -46,28 +45,24 @@ main();
 
 ///// Socket
 socket.on('test', (data) => {
-    console.log(data);
-    document.getElementById('message').innerText = data; 
+  $('#message').text(data); 
+});
+
+socket.on('GAME_CONNECTED', () => {
+  console.log('game connected');
+});
+
+socket.on('GAME_DISCONNECTED', () => {
+  console.log('game disconnected');
+});
+
+socket.on('PAGE_CHANGED', (pageName) => {
+  console.log('page changed');
+  page(pageName);
 });
 
 socket.on('ROOM_JOINED', function(room) {
-    if (userNum == 0) {
-        items.push({
-            name: "STRAWBERRY",
-            number: "1",
-            score: 100,
-            card: "static/image/strawberry_1.svg"
-        });
-    }
-    if (room == 'HOME') {
-        page('/index');
-    }
-    else if (room == 'WAITING') {
-        page('/waiting');
-    }
-    else if (room == 'GAMING') {
-        page('/play');
-    }
+  console.log(`joined room ${room}`);
 });
 
 socket.on('ROOM_LEFT', function(room) {

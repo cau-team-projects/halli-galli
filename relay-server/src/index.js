@@ -21,19 +21,13 @@ function registerEvents(user) {
   });
 
   user.socket.on(constant.event.ROOM_JOINED, (room) => {
+    console.log('ROOM_JOINED', room);
     user.socket.emit(constant.event.ROOM_JOINED, room);
   });
 
   user.socket.on(constant.event.ROOM_LEFT, (room) => {
+    console.log('ROOM_LEFT', room);
     user.socket.emit(constant.event.ROOM_LEFT, room);
-  });
-
-  user.socket.on(constant.event.USER_GAME_CONNECTED, (id) => {
-    user.socket.emit(constant.event.USER_CONNECTED, id);
-  });
-
-  user.socket.on(constant.event.USER_GAME_DISCONNECTED, (id) => {
-    user.socket.emit(constant.event.USER_GAMEDISCONNECTED, id);
   });
 
   user.socket.on(constant.event.USER_ROOM_JOINED, (id) => {
