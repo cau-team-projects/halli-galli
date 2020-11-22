@@ -1,7 +1,4 @@
 const socket = io();
-var data = {
-  items: []
-  };
 
 function main() {
   page('/home', (ctx, next) => {
@@ -19,12 +16,10 @@ function main() {
       
       socket.on('WAITING_ROOM_USERS', function(users) {
         console.log(`user ${users} waiting`);
-        if (items.length() <= users.length()) {
-          items = [];
-          items.push(users);
-        }
+        items = users;
       });
 
+      data = {items};
       var itemList = template(data);
       $('.wait_user').append(itemList);
     });
