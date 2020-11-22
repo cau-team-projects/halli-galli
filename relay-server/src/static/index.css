@@ -1,3 +1,5 @@
+///////////////* 공통 */////////////
+
 * {
     margin: 0;
     padding: 0;
@@ -12,6 +14,10 @@ html {
 body {
     overflow: hidden;
 }
+
+
+///////////////* waiting *///////////////
+
 
 #waiting_wrap {
     position: absolute;
@@ -88,3 +94,72 @@ body {
         transform: rotate(360deg);
     }
 }
+
+///////////////* play *///////////////
+
+
+.user_card img {
+    
+   position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8%;
+    box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 0.1);    border-radius: 15px;  
+
+}
+
+.user_card img:nth-child(1) { margin-top:-13%;}
+.user_card img:nth-child(2) { margin-top:13%;}
+.user_card img:nth-child(3) { margin-left:-13%;}
+.user_card img:nth-child(4) { margin-left:13%;}
+
+
+
+.user_score {
+    width: 10%;
+    position: fixed;
+    top: 4%;
+    left: 2%;
+
+}
+
+.user_score h2 {
+    text-transform: uppercase;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.user_score li {
+    margin: 10% 0;
+    box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    border-radius: 50px;
+    border: 1px solid #dedede;
+    list-style: none;
+    font-size: 1.5em;
+    padding: 5% 15%;
+
+}
+
+.user_score span.number {
+    border-right: 1px solid #dedede;
+    padding-right: 15%;
+    margin-right: 10%;
+
+}
+
+
+.bell {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8%;
+}
+
+
+
+
+
+
