@@ -16,7 +16,7 @@ function main() {
       
       socket.on('WAITING_ROOM_USERS', function(users) {
         console.log(`user ${users} waiting`);
-        items = users;
+        items = Object.values(users);
       });
 
       data = {items};
