@@ -6,7 +6,7 @@ const switchRoom = require('./switchRoom');
 
 module.exports = class WaitingState extends State {
   constructor() {
-    super(constant.state.WAITING_STATE);
+    super(constant.state.WAITING);
 
     this.on(constant.event.BUTTON_CLICKED, (button) => {
       if (button == 'A' || button == 'B') {

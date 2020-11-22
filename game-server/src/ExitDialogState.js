@@ -8,7 +8,7 @@ module.exports = class ExitDialogState extends State {
       if (button == 'A') {
         this.pop(2);
       } else {
-        this.pop(2);
+        this.pop(1);
       }
     });
   }
