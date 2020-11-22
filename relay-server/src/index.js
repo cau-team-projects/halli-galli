@@ -60,12 +60,12 @@ io.on('connection', (socket) => {
     socket.disconnect()
   }
 
-  user.socket.emit(constant.event.RELAY_CONNECTED);
-
   // https://socket.io/docs/client-connection-lifecycle/
   const game = ioc(`http://localhost:4000`, { forceNew: true });
 
   user = {socket, io, game};
+
+  user.socket.emit(constant.event.RELAY_CONNECTED);
 
   game.on('connect', () => {
     console.log('connected to game server')

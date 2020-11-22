@@ -1,6 +1,5 @@
 const constant = require('./constant');
 const State = require('./State');
-const ReadyState = require('./ReadyState');
 const ExitDialogState = require('./ExitDialogState');
 const joinRoom = require('./joinRoom');
 const leaveRoom = require('./leaveRoom');

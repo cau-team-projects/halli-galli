@@ -1,8 +1,13 @@
+const StateManager = require('./StateManager');
+
 module.exports = class User {
-  constructor({socket, io, rooms, stateManager}) {
+  constructor({socket, io, rooms, state}) {
     this.socket = socket;
     this.io = io;
     this.rooms = rooms;
-    this.stateManager = stateManager;
+    this.stateManager = new StateManager({
+      user: this,
+      state
+    })
   }
 }
