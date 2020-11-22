@@ -77,17 +77,7 @@ socket.on('ROOM_LEFT', function() {
 
 });
 
-socket.on('STATE_CHANGED', function(state) {
-    if (state == HOME) {
-        state_waiting = false;
-    }
-    else if (state == WAITING) {
-        state_waiting = true;
-    }
-    else if (state == READY) {
-        state_ready = true;
-    }
-    else if (state == MY_TURN || NOT_MY_TURN) {
-        state_play = true;
-    }
+socket.on('ROOM_CHANGED', function(room) {
+  if (room == 'WAITING')
+    page('/waiting')
 });

@@ -10,8 +10,7 @@ module.exports = {
     HOME: 'HOME',
     WAITING: 'WAITING',
     READY: 'READY',
-    MY_TURN: 'MY_TURN',
-    NOT_MY_TURN: 'NOT_MY_TURN',
+    GAMING: 'GAMING',
     EXIT_DIALOG: 'EXIT_DIALOG'
   },
   room: {
