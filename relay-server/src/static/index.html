@@ -1,23 +1,23 @@
 <html>
-<head>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="https://unpkg.com/page/page.js"></script>
 
-  <style>
-    html {
-    width: 100%;
-    height: 100%;
-    background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
-}
-  </style>
+<head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://unpkg.com/page/page.js"></script>
+    <script src="jquery-3.5.1.min.js"></script>
+    <script src="handlebars-v4.7.6.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" type="text/css" href="index.css" />
+
 </head>
+
 <body>
 
-  <main style="width: 88vmin; margin: 0 auto;  position: absolute;  top: 50%;   left: 50%;  transform: translate(-50%, -50%);">
-    <img src="static/image/title.svg" style="display: block; width: 66vmin; margin: 0 auto"/>
-      <h1 style="text-align: center; margin:3em 0;"> <a style="text-decoration: none; color:#000;"> Press Any key to start </a> </h1>
-    <h1 style="text-align: center" id="message"></h1>
-  </main>
+    <main style="width: 88vmin; margin: 0 auto;  position: absolute;  top: 50%;   left: 50%;  transform: translate(-50%, -50%);">
+        <img src="static/image/title.svg" style="display: block; width: 66vmin; margin: 0 auto" />
+        <h1 style="text-align: center; margin:3em 0;"> <a style="text-decoration: none; color:#000;"> Press Any key to start </a> </h1>
+        <h1 style="text-align: center" id="message"></h1>
+    </main>
 
 </body>
+
 </html>
