@@ -1,4 +1,7 @@
 const socket = io();
+var data = {
+  items: []
+  };
 
 function main() {
   page('/home', (ctx, next) => {
@@ -11,9 +14,19 @@ function main() {
     $('main').empty();
     $.get('/static/waiting.html', (res) => {
       $('main').html(res);
+      var source = $("#wait_user").html();
+      var template = Handlebars.compile(source);
+      
       socket.on('WAITING_ROOM_USERS', function(users) {
         console.log(`user ${users} waiting`);
+        if (items.length() <= users.length()) {
+          items = [];
+          items.push(users);
+        }
       });
+
+      var itemList = template(data);
+      $('.wait_user').append(itemList);
     });
   });
   page('/play', (ctx, next) => {
@@ -34,6 +47,7 @@ function main() {
   page.stop();
 }
 main();
+
 
 ///// Socket
 socket.on('test', (data) => {
