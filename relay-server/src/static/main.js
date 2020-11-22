@@ -2,21 +2,21 @@ const socket = io();
 var userNum = 0;
 
 function main() {
-  page('/home', (ctx, next) => {
+  page('/index', (ctx, next) => {
     $('body').empty();
-    $.get('/static/index.html', (res) => {
+    $.get('/static/home.html', (res) => {
       $('body').html(res);
     });
   });
   page('/waiting', (ctx, next) => {
     $('body').empty();
-    $.get('/static/waiting.html', (res) => {
+    $.get('/static/wait.html', (res) => {
       $('body').html(res);
     });
   });
-  page('/gaming', (ctx, next) => {
+  page('/play', (ctx, next) => {
     $('body').empty();
-    $.get('/static/play.html', (res) => {
+    $.get('/static/gaming.html', (res) => {
       $('body').html(res);
     });
   });
