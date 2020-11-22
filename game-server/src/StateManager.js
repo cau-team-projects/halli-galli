@@ -63,9 +63,15 @@ module.exports = class StateManager {
   }
 
   emit(event, ...args) {
-    const state = this.states[this.states.length - 1];
+    const state = this.peek();
     if (state && state.handlers[event]) {
       state.handlers[event](...args);
     }
+  }
+
+  execute() {
+    const state = this.peek();
+    if (state && state.onExecute)
+      state.onExecute();
   }
 }

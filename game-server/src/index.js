@@ -39,6 +39,15 @@ io.on('connection', (socket) => {
   });
 });
 
+function gameLoop() {
+  for (room of Object.values(rooms)) {
+    room.stateManager.execute();
+  }
+}
+
+const interval = setInterval(gameLoop, 50);
+// clearInterval(interval);
+
 server.listen(config.WS_GAME_PORT, () => {
   console.log('listening');
 });

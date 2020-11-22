@@ -20,6 +20,10 @@ module.exports = class State {
     this.handlers[event] = handler;
   }
 
+  onExecute(handler) {
+    this.onExecute = handler;
+  }
+
   onEnabled(handler) {
     this.onEnabled = handler;
   }
