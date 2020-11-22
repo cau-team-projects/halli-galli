@@ -16,8 +16,12 @@ app.get('/', (req, res) => {
 
 function registerEvents(user) {
 
-  user.socket.on(constant.event.ROOM_CHANGED, (room) => {
-    user.socket.emit(constant.event.ROOM_CHANGED, room);
+  user.socket.on(constant.event.ROOM_JOINED, (room) => {
+    user.socket.emit(constant.event.ROOM_JOINED, room);
+  });
+
+  user.socket.on(constant.event.ROOM_LEFT, (room) => {
+    user.socket.emit(constant.event.ROOM_LEFT, room);
   });
 
   user.socket.on(constant.event.USER_GAME_CONNECTED, (id) => {
