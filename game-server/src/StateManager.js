@@ -28,6 +28,10 @@ module.exports = class StateManager {
       state.onEnabled();
   }
 
+  peek() {
+    return this.states[this.states.length - 1];
+  }
+
   push(newState) {
     const state = this.prepareState(newState);
     const oldState = this.states[this.states.length - 1];
@@ -49,6 +53,10 @@ module.exports = class StateManager {
       if (state.onDisabled)
         state.onDisabled();
     }
+  }
+
+  popAll() {
+    this.pop(this.states.length);
   }
 
   emit(event, ...args) {

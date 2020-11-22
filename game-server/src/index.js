@@ -34,7 +34,7 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log(`user ${socket.id} disconnected`);
-    // destroy all states
+    user.stateManager.popAll();
     delete users[socket.id];
   });
 });
