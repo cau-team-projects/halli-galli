@@ -10,10 +10,6 @@ items: []
 var itemList = template(data);
 $('.wait_user,.play_user').append(itemList);
 
-
-    ,
-    
-
 const socket = io();
 var normalStart = false;
 var userNum = 0;
