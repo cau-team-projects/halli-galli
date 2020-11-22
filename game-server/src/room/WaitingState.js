@@ -8,10 +8,8 @@ module.exports = class WaitingState extends State {
       //console.log(this.room.users);
       this.room.emit(
         constant.event.WAITING_ROOM_USERS,
-        JSON.stringify(
-          Object.values(this.room.users).map((user) =>
-            ({id: user.id, ready: user.stateManager.peek().ready})
-          )
+        Object.values(this.room.users).map((user) =>
+          ({id: user.id, ready: user.stateManager.peek().ready})
         )
       );
     });
