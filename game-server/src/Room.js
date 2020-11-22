@@ -38,7 +38,7 @@ module.exports = class Room {
     user.room = this;
     user.socket.join(this.name);
     user.socket.emit(constant.event.ROOM_JOINED, this.name);
-    user.socket.to(this.name).emit(constant.event.USER_ROOM_JOINED, user.socket.id, this.name);
-    console.log(`user ${user.socket.id} joins room ${this.name}`);
+    user.socket.to(this.name).emit(constant.event.USER_ROOM_JOINED, user.id, this.name);
+    console.log(`user ${user.id} joins room ${this.name}`);
   }
 }

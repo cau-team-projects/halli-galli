@@ -15,33 +15,18 @@ app.get('/', (req, res) => {
 });
 
 function registerEvents(game, user) {
-  game.on(constant.event.PAGE_CHANGED, (page) => {
-    console.log(constant.event.PAGE_CHANGED, page);
-    user.socket.emit(constant.event.PAGE_CHANGED, page);
-  });
-
-  game.on(constant.event.ROOM_JOINED, (room) => {
-    console.log(constant.event.ROOM_JOINED, room);
-    user.socket.emit(constant.event.ROOM_JOINED, room);
-  });
-
-  game.on(constant.event.ROOM_LEFT, (room) => {
-    console.log(constant.event.ROOM_LEFT, room);
-    user.socket.emit(constant.event.ROOM_LEFT, room);
-  });
-
-  game.on(constant.event.USER_ROOM_JOINED, (userId, room) => {
-    console.log(constant.event.USER_ROOM_JOINED, userId, room);
-    user.socket.emit(constant.event.USER_ROOM_JOINED, userId, room);
-  });
-
-  game.on(constant.event.USER_ROOM_LEFT, (userId, room) => {
-    console.log(constant.event.USER_ROOM_LEFT, userId, room);
-    user.socket.emit(constant.event.USER_ROOM_LEFT, userId, room);
-  });
-
-  game.on(constant.event.WAITING_ROOM_USERS, (users) => {
-    user.socket.emit(constant.event.WAITING_ROOM_USERS, users);
+  [
+    constant.event.PAGE_CHANGED,
+    constant.event.ROOM_JOINED,
+    constant.event.ROOM_LEFT,
+    constant.event.USER_ROOM_JOINED,
+    constant.event.USER_ROOM_LEFT,
+    constant.event.WAITING_ROOM_USERS,
+  ].forEach((event) => {
+    game.on(event, (...args) => {
+      console.log(event, args);
+      user.socket.emit(event, ...args);
+    });
   });
 
   user.socket.on("disconnect", () => {
