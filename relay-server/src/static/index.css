@@ -1,5 +1,4 @@
-///////////////* 공통 */////////////
-
+/*      공통      */
 * {
     margin: 0;
     padding: 0;
@@ -16,9 +15,8 @@ body {
 }
 
 
-///////////////* waiting *///////////////
 
-
+/*    waiting    */
 #waiting_wrap {
     position: absolute;
     top: 50%;
@@ -95,9 +93,9 @@ body {
     }
 }
 
-///////////////* play *///////////////
 
 
+/*      play      */
 .user_card img {
     
    position: absolute;
