@@ -9,8 +9,8 @@ const constant = require('./constant');
 const config = require('./config');
 const joinRoom = require('./joinRoom');
 const leaveRoom = require('./leaveRoom');
-const HomeState = require('./HomeState');
 const User = require('./User');
+const UserHomeState = require('./user/HomeState');
 
 const users = {}
 const rooms = {
@@ -21,7 +21,7 @@ const rooms = {
 io.on('connection', (socket) => { 
 
   console.log(`user ${socket.id} connected`);
-  const user = new User({socket, io, rooms, state: new HomeState()});
+  const user = new User({socket, io, rooms, state: new UserHomeState()});
   users[socket.id] = user;
 
   console.log(users)
