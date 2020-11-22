@@ -1,6 +1,4 @@
 const constant = require('../constant');
-const joinRoom = require('../joinRoom');
-const leaveRoom = require('../leaveRoom');
 const State = require('../State');
 const WaitingState = require('./WaitingState');
 
@@ -16,12 +14,12 @@ module.exports = class HomeState extends State {
     });
 
     this.onEnabled(() => {
-      joinRoom(this.user, constant.room.HOME);
+      this.user.rooms[constant.room.HOME].join(this.user);
       this.user.socket.emit(constant.event.PAGE_CHANGED, constant.page.HOME);
     });
 
     this.onDisabled(() => {
-      leaveRoom(this.user, constant.room.HOME);
+      this.user.rooms[constant.room.HOME].leave(this.user);
     });
   }
 }

@@ -5,6 +5,8 @@ module.exports = class WaitingState extends State {
   constructor() {
     super(constant.state.WAITING);
     this.onExecute(() => {
+      //console.log(this.room.users);
+      console.log('this.room.users', this.room.users);
       this.room.emit(
         constant.event.WAITING_ROOM_USERS,
         JSON.stringify(

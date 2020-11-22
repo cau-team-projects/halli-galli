@@ -35,8 +35,8 @@ function registerEvents(game, user) {
     user.socket.emit(constant.event.USER_ROOM_LEFT, id);
   });
 
-  game.on(constant.event.USER_READY_CHANGED, (isReady) => {
-    user.socket.emit(constant.event.USER_READY_CHANGED, isReady);
+  game.on(constant.event.WAITING_ROOM_USERS, (users) => {
+    user.socket.emit(constant.event.WAITING_ROOM_USERS, users);
   });
 
   user.socket.on("disconnect", () => {

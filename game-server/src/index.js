@@ -7,8 +7,6 @@ const io = require('socket.io')(server);
 
 const constant = require('./constant');
 const config = require('./config');
-const joinRoom = require('./joinRoom');
-const leaveRoom = require('./leaveRoom');
 const Room = require('./Room');
 const RoomWaitingState = require('./room/WaitingState');
 const User = require('./User');
