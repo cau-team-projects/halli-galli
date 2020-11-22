@@ -51,7 +51,7 @@ let user = null;
 io.on('connection', (socket) => {
   console.log(io.engine.clientsCount);
   if (io.engine.clientsCount > 1) {
-    socket.emit('err', { message: 'only one user can connect' })
+    socket.emit(constant.event.RELAY_ERROR, 'only one user can connect')
     socket.disconnect()
   }
 
