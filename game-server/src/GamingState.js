@@ -14,5 +14,9 @@ module.exports = class GamingState extends State {
         this.push(new ExitDialogState());
       }
     });
+
+    this.onDestroyed(() => {
+      leaveRoom(this.user);
+    });
   }
 }
