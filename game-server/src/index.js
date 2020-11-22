@@ -14,10 +14,8 @@ const User = require('./User');
 
 const users = {}
 const rooms = {
-  [constant.room.HOME]: {
-  },
-  'GAME': {
-  }
+  [constant.room.HOME]: new Room({name: constant.room.HOME, io, stateManager: null});
+  'GAME': new Room({name: 'GAME', io, stateManager: null});
 }
 
 io.on('connection', (socket) => { 
