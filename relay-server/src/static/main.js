@@ -3,9 +3,6 @@ import page from 'page';
 
 const socket = io();
 var normalStart = false;
-var state_waiting = false;
-var state_ready = false;
-var state_play = false;
 
 function main() {
     function init() {
@@ -14,9 +11,6 @@ function main() {
             $('body').empty();
             $.get('./index.html', (res) => {
                 $('body').html(res);
-                if (state_waiting) {
-                    page('/waiting');
-                }
             });
             normalStart = true;
         });
@@ -26,13 +20,6 @@ function main() {
             $('body').empty();
             $.get('./waiting.html', (res) => {
                 $('body').html(res);
-                if (state_ready) {
-                    // 나 레디함
-                    // socket.emit(??)
-                }
-                if (state_play) {
-                    page('/play');
-                }
             });
         });
 
@@ -45,14 +32,10 @@ function main() {
         });
 
         page.exit('/play', (ctx, next) => {
-            state_play = false;
-            state_ready = false;
             next();
         });
 
         page.exit('/waiting', (ctx, next) => {
-            state_waiting = false;
-            state_ready = false;
             next();
         });
 
@@ -64,20 +47,64 @@ function main() {
     
 main();
 
+///// Socket
 socket.on('test', (data) => {
     console.log(data);
     document.getElementById('message').innerText = data; 
 });
 
 socket.on('ROOM_JOIN', function() {
-     
+     // other user join
 });
 
 socket.on('ROOM_LEFT', function() {
-
+    // other user left
 });
 
 socket.on('ROOM_CHANGED', function(room) {
-  if (room == 'WAITING')
-    page('/waiting')
+    // my room changed
+    if (room == 'WAITING') {
+        page('/waiting');
+    }
+    else if (room == 'GAMING') {
+        page('/play');
+    }
+    else if (room == 'HOME') {
+        page('/index');
+    }
 });
+
+///// User info
+var source = $("#wait_user,#play_user").html();
+var template = Handlebars.compile(source);
+var data = {
+items: [
+{
+name: "STRAWBERRY",
+number: "1",
+score: 100,
+card: "static/image/strawberry_1.svg"
+},
+{
+name: "LEMON",
+number: "2",
+score: 200,
+card: "static/image/strawberry_2.svg"
+},
+{
+name: "PEAR",
+number: "3",
+score: 300,
+card: "static/image/strawberry_3.svg"
+},
+{
+name: "PINEAPPLE",
+number: "4",
+score: 400,
+card: "static/image/strawberry_4.svg"
+}
+]
+};
+var itemList = template(data);
+$('.wait_user,.play_user').append(itemList);
+
