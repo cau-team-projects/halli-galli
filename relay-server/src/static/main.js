@@ -6,12 +6,6 @@ var socket = io();
 function main() {
     let normalStart = false;
 
-    socket.on('join', function(data) {
-        var userInfo = '';
-        userInfo += '<li>';
-        userInfo += ''
-    });
-
     socket.on('waiting', function() {
         page('/index', (ctx, next) => {
             $('body').empty();
