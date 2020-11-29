@@ -8,7 +8,7 @@ module.exports = class WaitingState extends State {
       const users = Object.values(this.room.users);
       this.start = this.start ?? Date.now();
       const now = Date.now();
-      const turn = Math.floor((now - this.start) / 5000) % this.users.length;
+      const turn = Math.floor((now - this.start) / 5000) % users.length;
       const countdown = (now - this.start) % 5000;
       console.log(`gaming state turn ${turn} ${countdown}`);
     });
