@@ -1,4 +1,4 @@
-const constant = require('./constant');
+const constant = require('../../common/constant');
 const express = require('express');
 const app = express();
 const http = require('http').createServer(app);

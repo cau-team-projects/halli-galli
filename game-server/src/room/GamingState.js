@@ -1,4 +1,4 @@
-const constant = require('../constant');
+const constant = require('../../../common/constant');
 const State = require('../State');
 
 module.exports = class WaitingState extends State {
@@ -7,6 +7,8 @@ module.exports = class WaitingState extends State {
 
     let players = []; // index is order, user is user
     let currentOrder = 0; // current user
+    let ringged = false;
+    let ringgedTimestamp = null;
     let alert = null; // alert message - victory, next turn, ringed etc
 
     // creating card suit
@@ -56,9 +58,33 @@ module.exports = class WaitingState extends State {
           // ring
           for (const [index, player] of players.entries()) {
             if (player.state.ring) {
+              ringged = true;
+              ringgedTimestamp = Date.now();
+              player.state.ringgedTimestamp = ringgedTimestamp;
               player.state.ring = false;
-              console.log(`${player.id} ringed the bell!`);
+              console.log(`${player.id} ringed the bell at ${player.state.ringgedTimestamp}!! `);
             }
+          }
+          if (ringged) {
+            let firstRinggedOrder = null;
+            for (const [index, player] of players.entries()) {
+              if (!firstRinggedOrder)
+                firstRinggedOrder = index;
+              else {
+                if (player.state.ringgedTimestamp < ringgedTimestamp)
+                  firstRinggedOrder = index;
+              }
+            }
+            console.log(`${players[firstRinggedOrder].id} is the fastest!!`);
+            for (const player of players) {
+              const frontCards = player.state.frontCards;
+              players[firstRinggedOrder].state.cards.concat(frontCards);
+              player.state.frontCards = [];
+              player.state.ring = false;
+              player.state.ringgedTimestamp = null;
+            }
+            ringged = false;
+            ringgedTimestamp = null;
           }
 
           // flip
@@ -74,7 +100,7 @@ module.exports = class WaitingState extends State {
                 player.state.playedCards.push(flippedCard);
                 player.state.cards.shift();
                 currentOrder = (currentOrder + 1) % users.length;
-
+                /*
                 console.log(`${player.id} cards:`);
                 for (const card of player.state.cards) {
                   console.log(`${card.fruit}, ${card.count}`);
@@ -84,6 +110,7 @@ module.exports = class WaitingState extends State {
                   console.log(`${card.fruit}, ${card.count}`);
                 }
                 console.log(`Next turn: ${player.id}`);
+                */
                 this.start = now;
               }
             }

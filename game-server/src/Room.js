@@ -1,4 +1,4 @@
-const constant = require('./constant');
+const constant = require('../../common/constant');
 const StateManager = require('./StateManager');
 
 module.exports = class Room {

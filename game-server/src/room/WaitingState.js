@@ -1,4 +1,4 @@
-const constant = require('../constant');
+const constant = require('../../../common/constant');
 const State = require('../State');
 const RoomGamingState = require('./GamingState');
 const UserGamingState = require('../user/GamingState');
