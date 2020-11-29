@@ -21,7 +21,7 @@ module.exports = class WaitingState extends State {
           );
         } else {
           this.room.emit(
-            constant.event.WAITING_COUNTDOWN,
+            constant.event.WAITING_ROOM_COUNTDOWN,
             countdown
           );
         }
