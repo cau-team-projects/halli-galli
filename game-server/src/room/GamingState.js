@@ -11,16 +11,20 @@ module.exports = class WaitingState extends State {
 
     // creating card suit
     const fruits = ["LEMON", "PEAR", "PINEAPPLE", "STRAWBERRY"];
-    const cardSuit = []; // card han beul - 4*14==56 cards
+    const cardSet = []; // card han beul - 4*14==56 cards
+    let bellCards = []; // cards under the bell
     for (const i in fruits) {
       for (let j = 0; j < 5; ++j) {
         for (let k = 0; k < constant.CARD_COUNT[j]; ++k) {
-          cardSuit.push([fruits[i], j + 1]);
+          const newCard = {fruit: fruits[i], count: j + 1}
+          cardSet.push(newCard);
         }
       }
     }
-    console.log(`Card suit: ${cardSuit}`);
-    let bellCards = [];
+    console.log(`Card suit:`);
+    for (const [index, card] of cardSet.entries()) {
+      console.log(`${card.fruit}, ${card.count}`);
+    }
 
     this.onExecute(() => {
       const users = Object.values(this.room.users);
@@ -39,25 +43,50 @@ module.exports = class WaitingState extends State {
         this.start = this.start ?? Date.now();
         const now = Date.now();
         const countdown = 9 - (Math.floor((now - this.start) / 1000) % 10);
-        if (countdown === 0) { // time over
+        
+        // time over
+        if (countdown === 0) {
           currentOrder = (currentOrder + 1) % users.length;
           console.log(`In-game countdown reached`);
           console.log(`Next turn: ${players[currentOrder].id}`);
           this.start = now;
         } else {
           console.log(`In-game countdown: ${countdown}`);
-          if (players[currentOrder].state.ring) {
-            players[currentOrder].state.ring = false;
-            console.log(`${players[currentOrder].id} ringed the bell!`);
-            currentOrder = (currentOrder + 1) % users.length;
-            console.log(`Next turn: ${players[currentOrder].id}`);
-            this.start = now;
-          } else if (players[currentOrder].state.flip) {
-            players[currentOrder].state.flip = false;
-            console.log(`${players[currentOrder].id} flipped the card`);
-            currentOrder = (currentOrder + 1) % users.length;
-            console.log(`Next turn: ${players[currentOrder].id}`);
-            this.start = now;
+
+          // ring
+          for (const [index, player] of players.entries()) {
+            if (player.state.ring) {
+              player.state.ring = false;
+              console.log(`${player.id} ringed the bell!`);
+            }
+          }
+
+          // flip
+          for (const [index, player] of players.entries()) {
+            if (player.state.flip) {
+              player.state.ring = false;
+              if (player.state.order === currentOrder) {
+                const player = players[currentOrder];
+                const flippedCard = player.state.cards[0];
+
+                player.state.flip = false;
+                console.log(`${player.id} flipped the card ${flippedCard.fruit}, ${flippedCard.count}`);
+                player.state.playedCards.push(flippedCard);
+                player.state.cards.shift();
+                currentOrder = (currentOrder + 1) % users.length;
+
+                console.log(`${player.id} cards:`);
+                for (const card of player.state.cards) {
+                  console.log(`${card.fruit}, ${card.count}`);
+                }
+                console.log(`${player.id} played cards:`);
+                for (const card of player.state.playedCards) {
+                  console.log(`${card.fruit}, ${card.count}`);
+                }
+                console.log(`Next turn: ${player.id}`);
+                this.start = now;
+              }
+            }
           }
         }
       }
@@ -74,27 +103,33 @@ module.exports = class WaitingState extends State {
 
       for (const [index, user] of users.entries()) {
         players[index] = user;
+        players[index].order = index;
         console.log(`${players[index].id} index: ${index}`);
       }
 
       // shuffling cards of card suit
-      cardSuit.map((el, i, arr) => {
+      cardSet.map((el, i, arr) => {
         let r = ~~(Math.random() * arr.length);
         arr[i] = arr[r];
         arr[r] = el;
         return arr;
       })[0];
-      // console.log(`Shuffled card suit: ${cardSuit}`);
 
       // slicing card suit and share them to users
       const quotient = (constant.FRUIT_COUNT * constant.CARD_COUNT.reduce((a, b) => a + b, 0)) / users.length;
       const remainder = (constant.FRUIT_COUNT * constant.CARD_COUNT.reduce((a, b) => a + b, 0)) % users.length;
       for (const [index, user] of users.entries()) {
-        user.cards = cardSuit.slice(quotient * index, quotient * (index + 1));
-        console.log(`${user.id} Cards: ${user.cards}`);
+        user.state.cards = cardSet.slice(quotient * index, quotient * (index + 1));
+        console.log(`${user.id} Cards:`);
+        for (const card of user.state.cards) {
+          console.log(`${card.fruit}, ${card.count}`);
+        }
       }
-      bellCards = cardSuit.slice(quotient * users.length, cardSuit.length);
-      console.log(`bellCards: ${bellCards}`);
+      bellCards = cardSet.slice(quotient * users.length, cardSet.length);
+      console.log(`Bell cards:`);
+      for (const card of bellCards) {
+        console.log(`${card.fruit}, ${card.count}`);
+      }
     });
   }
 }
