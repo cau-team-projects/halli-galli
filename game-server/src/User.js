@@ -13,4 +13,7 @@ module.exports = class User {
   get id() {
     return this.socket.id;
   }
+  get state() {
+    return this.stateManager.peek();
+  }
 }

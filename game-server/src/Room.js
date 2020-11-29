@@ -22,6 +22,10 @@ module.exports = class Room {
     return users;
   }
 
+  get state() {
+    return this.stateManager.peek();
+  }
+
   emit(event, ...args) {
     this.io.to(this.name).emit(event, ...args);
   }
