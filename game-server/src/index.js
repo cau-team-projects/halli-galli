@@ -5,7 +5,7 @@ const app = express();
 const server = http.createServer(app);
 const io = require('socket.io')(server);
 
-const constant = require('./constant');
+const constant = require('../../common/constant');
 const config = require('./config');
 const Room = require('./Room');
 const RoomWaitingState = require('./room/WaitingState');

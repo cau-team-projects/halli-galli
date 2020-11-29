@@ -1,4 +1,4 @@
-const constant = require('../constant');
+const constant = require('../../../common/constant');
 const State = require('../State');
 
 module.exports = class WaitingState extends State {
