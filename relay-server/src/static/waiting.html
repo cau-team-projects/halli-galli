@@ -3,15 +3,16 @@
     <img src="static/image/title.svg" alt="title_logo">
   </div>
   <div class="refresh">
-    <img src="static/image/loading.svg" alt="refresh_img">
+    <img class="refresh_img" src="static/image/loading.svg" alt="refresh_img">
+    <span class="count_down">5</span>
   </div>
   <div class="wait_user">
     <script id="wait_user" type="text/x-handlebars-template">
       <ul>
       {{#items}}
         <li>
-          <span>{{id}}</span>
-          {{ready}}
+          <div class="id">{{id}}</div>
+          <div class="ready">{{ready}}</div>
         </li>
       {{/items}}
       </ul>

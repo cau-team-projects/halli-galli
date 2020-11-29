@@ -18,13 +18,23 @@ function main() {
         console.log(`user ${users} waiting`);
         $('.wait_user').html(template({items: Object.values(users)}));
       });
-
+      socket.on('WAITING_ROOM_COUNTDOWN', function(data) {
+        console.log('countdown ${data} ...');
+        $('.refresh_ing').css("visibility", "hidden");
+        $('.count_down').css("visibility", "visible");
+      });
     });
   });
   page('/gaming', (ctx, next) => {
     $('main').empty();
     $.get('/static/play.html', (res) => {
       $('main').html(res);
+      var source = $("#play_user").html();
+      var template = Handlebars.compile(source);
+
+      socket.on('GAMING_ROOM_USERS', function(users) {
+        $('.play_user').html(template({items: Object.values(users)}));
+      });
     });
   });
   page.exit('/gaming', (ctx, next) => {
