@@ -64,7 +64,9 @@ io.on('connection', (socket) => {
       console.log(`button ${button} clicked`);
       game.emit('button', button);
     });
-    sp.on('error', () => {})
+    sp.on('error', () => {
+      console.log('error opening serial port');
+    })
     sp.pipe(serialParser);
 
     game.on('disconnect', () => {
