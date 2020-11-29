@@ -31,4 +31,8 @@ module.exports = class State {
   onDisabled(handler) {
     this.onDisabled = handler;
   }
+
+  onDestroyed(handler) {
+    this.onDestroyed = handler;
+  }
 }

@@ -1,6 +1,5 @@
 const constant = require('../constant');
 const State = require('../State');
-const ExitDialogState = require('./ExitDialogState');
 
 module.exports = class GamingState extends State {
   constructor() {
@@ -11,7 +10,6 @@ module.exports = class GamingState extends State {
       } else if (button === 'B') {
         // ring();
       } else if (button === 'X') {
-        this.push(new ExitDialogState());
       }
     });
 

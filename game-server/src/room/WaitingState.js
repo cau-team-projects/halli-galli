@@ -1,6 +1,7 @@
 const constant = require('../constant');
 const State = require('../State');
-const GamingState = require('./GamingState');
+const RoomGamingState = require('./GamingState');
+const UserGamingState = require('../user/GamingState');
 
 module.exports = class WaitingState extends State {
   constructor() {
@@ -8,13 +9,17 @@ module.exports = class WaitingState extends State {
     this.ready = false;
     this.onExecute(() => {
       const users = Object.values(this.room.users);
+      if (users.length === 0)
+        return;
       if (this.ready) {
         this.start = this.start ?? Date.now();
         const now = Date.now();
         const countdown = 9 - (Math.floor((now - this.start) / 1000) % 10);
         if (countdown === 0) {
           this.ready = false;
-          this.push(new GamingState());
+          for (const user of users)
+            user.stateManager.push(new UserGamingState());
+          this.push(new RoomGamingState());
           this.room.emit(
             constant.event.PAGE_CHANGED,
             constant.page.GAMING
@@ -26,7 +31,7 @@ module.exports = class WaitingState extends State {
           );
         }
       } else {
-        if (users.every((user) => user.stateManager.peek().ready))
+        if (users.length > 0 && users.every((user) => user.stateManager.peek().ready))
           this.ready = true;
         this.room.emit(
           constant.event.WAITING_ROOM_USERS,
