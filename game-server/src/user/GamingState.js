@@ -4,17 +4,22 @@ const State = require('../State');
 module.exports = class GamingState extends State {
   constructor() {
     super(constant.state.GAMING);
+    this.cards = [];
+    this.flip = false;
+    this.ring = false;
+
     this.on(constant.event.BUTTON_CLICKED, (button) => {
       if (button === 'A') {
-        // flip();
+        this.flip = true;
       } else if (button === 'B') {
-        // ring();
+        this.ring = true;
       } else if (button === 'X') {
       }
     });
 
     this.onEnabled(() => {
       this.user.socket.emit(constant.event.PAGE_CHANGED, constant.page.GAMING);
+
     });
 
     this.onDestroyed(() => {
