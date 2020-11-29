@@ -6,6 +6,10 @@ module.exports = class WaitingState extends State {
     super(constant.state.WAITING);
     this.onExecute(() => {
       const users = Object.values(this.room.users);
+      if (users.length === 0) {
+        this.pop();
+        return;
+      }
       this.start = this.start ?? Date.now();
       const now = Date.now();
       const turn = Math.floor((now - this.start) / 5000) % users.length;
