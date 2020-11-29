@@ -22,6 +22,7 @@ function registerEvents(game, user) {
     constant.event.USER_ROOM_JOINED,
     constant.event.USER_ROOM_LEFT,
     constant.event.WAITING_ROOM_USERS,
+    constant.event.WAITING_ROOM_COUNTDOWN,
   ].forEach((event) => {
     game.on(event, (...args) => {
       console.log(event, args);
