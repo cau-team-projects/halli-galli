@@ -22,6 +22,7 @@ function main() {
         console.log('countdown ${data} ...');
         $('.refresh_ing').css("visibility", "hidden");
         $('.count_down').css("visibility", "visible");
+        $('.count_down').text(data);
       });
     });
   });
