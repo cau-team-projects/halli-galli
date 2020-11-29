@@ -10,6 +10,7 @@ module.exports = class GamingState extends State {
     this.score = 0;
     this.flip = false;
     this.ring = false;
+    this.ringgedTimestamp = null;
 
     this.on(constant.event.BUTTON_CLICKED, (button) => {
       if (button === 'A') {
