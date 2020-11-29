@@ -32,16 +32,26 @@ body {
 }
 
 #waiting_wrap > .refresh {
-    margin:5% 0;
+    margin:5% auto 15%;
     text-align:center;
-    
+    position:relative;
+    margin-left:-2.5%;
 }
 
-#waiting_wrap > .refresh > .refresh_img {
-    width: 7%;
+#waiting_wrap > .refresh span {
+    text-align:center;
+    position:absolute;
+}
+
+
+
+#waiting_wrap > .refresh > .refresh_img img {
+    width: 100%;
     animation: rotate_image 1.5s linear infinite;
     transform-origin: 50% 50%;
     visibility:visible;
+    margin-left:-57px;
+
 }
 
 #waiting_wrap > .refresh > .count_down { 
@@ -79,6 +89,7 @@ body {
     font-weight: bold;
     text-align:center;
     padding:5% 0;
+    text-transform: uppercase;
 }
 
 .ready {
