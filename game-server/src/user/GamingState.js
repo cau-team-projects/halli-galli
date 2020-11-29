@@ -18,7 +18,7 @@ module.exports = class GamingState extends State {
     });
 
     this.onDestroyed(() => {
-      leaveRoom(this.user);
+      this.user.room.leave(this.user);
     });
   }
 }
