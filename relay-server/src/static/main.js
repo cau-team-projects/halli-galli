@@ -21,13 +21,13 @@ function main() {
 
     });
   });
-  page('/play', (ctx, next) => {
+  page('/gaming', (ctx, next) => {
     $('main').empty();
     $.get('/static/play.html', (res) => {
       $('main').html(res);
     });
   });
-  page.exit('/play', (ctx, next) => {
+  page.exit('/gaming', (ctx, next) => {
     next();
   });
   page.exit('/waiting', (ctx, next) => {
