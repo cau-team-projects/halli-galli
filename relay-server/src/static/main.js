@@ -20,7 +20,7 @@ function main() {
       });
       socket.on('WAITING_ROOM_COUNTDOWN', function(data) {
         console.log('countdown ${data} ...');
-        $('.refresh_img').css("visibility", "hidden");
+        $('.refresh_img img').css("visibility", "hidden");
         $('.count_down').css("visibility", "visible");
         $('.count_down').text(data);
       });
