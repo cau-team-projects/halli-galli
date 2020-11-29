@@ -32,7 +32,7 @@ body {
 }
 
 #waiting_wrap > .refresh {
-    margin:5% auto 15%;
+    margin:7% auto 22%;
     text-align:center;
     position:relative;
     margin-left:-2.5%;
@@ -78,9 +78,8 @@ body {
 }
 
 #waiting_wrap > .wait_user .id {
-    font-size: 1.5em;
+    font-size: 1.2em;
     border-radius: 500px;
-    padding: 0;
     width: 100%;
     color: #fff;
     white-space: nowrap;
@@ -88,7 +87,7 @@ body {
     text-overflow: ellipsis;
     font-weight: bold;
     text-align:center;
-    padding:5% 0;
+    padding:5% 7%;
     text-transform: uppercase;
 }
 
@@ -98,13 +97,13 @@ body {
     margin: 10% auto;
     border-radius: 500px;
     width: 30%;
-    padding:3% 0;
+    padding:3% 5%;
     color: #fff;
     background: #bbb;
     text-align:center;
     text-transform: uppercase;
     position:relative;
-    left:-0px;
+    left:5%;
     
 }
 
