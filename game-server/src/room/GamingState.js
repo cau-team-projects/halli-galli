@@ -9,7 +9,7 @@ module.exports = class WaitingState extends State {
       this.start = this.start ?? Date.now();
       const now = Date.now();
       const turn = Math.floor((now - this.start) / 5000) % this.users.length;
-      console.log('gaming state');
+      console.log(`gaming state turn ${turn}`);
     });
   }
 }
