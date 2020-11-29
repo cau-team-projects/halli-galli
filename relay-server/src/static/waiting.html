@@ -12,7 +12,15 @@
       {{#items}}
         <li>
           <div class="id">{{id}}</div>
-          <div class="ready">ready</div>
+          {{#if ready}}
+          <div class="Ready" style="background:green">
+            ready
+          </div>
+          {{else}}
+          <div class="Ready">
+            ready
+          </div>
+          {{/if}}
         </li>
       {{/items}}
       </ul>
