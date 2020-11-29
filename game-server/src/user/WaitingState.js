@@ -31,7 +31,7 @@ module.exports = class WaitingState extends State {
       this.user.socket.emit(constant.event.PAGE_CHANGED, constant.page.WAITING);
     });
 
-    this.onDisabled(() => {
+    this.onDestroyed(() => {
       this.user.rooms['GAME'].leave(this.user);
     });
   }
