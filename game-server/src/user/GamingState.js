@@ -4,7 +4,10 @@ const State = require('../State');
 module.exports = class GamingState extends State {
   constructor() {
     super(constant.state.GAMING);
+    this.order = 0;
+    this.frontCard = null;
     this.cards = [];
+    this.score = 0;
     this.flip = false;
     this.ring = false;
 

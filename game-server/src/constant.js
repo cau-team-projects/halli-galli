@@ -1,6 +1,6 @@
 module.exports = {
   FRUIT_COUNT: 4,
-  CARD_COUNT: 14,
+  CARD_COUNT: [5, 3, 3, 2, 1],
   event: {
     BUTTON_CLICKED: 'BUTTON_CLICKED',
     //
