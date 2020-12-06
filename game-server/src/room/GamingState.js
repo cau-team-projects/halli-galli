@@ -31,16 +31,24 @@ module.exports = class WaitingState extends State {
       const lostUsers = users.filter((user) => user.state.backCards.length < 1);
       const survivedUsers = users.filter((user) => user.state.backCards.length > 0);
 
+/*
+      if (users.length == 1) {
+        this.room.emit(constant.event.GAMING_WIN, users[0].id);
+        console.log(`user ${users[0].id} won!`);
+      }
+*/
+
+      // Ring
       users.sort((a, b) => a.state.rung - b.state.rung);
       const rungUsers = users.filter((user) => user.state.rung != Infinity);
       if (rungUsers.length > 0) {
         const firstRungUser = rungUsers[0];
         const otherUsers = users.filter((user) => user.id != firstRungUser.id);
         this.room.emit(constant.event.GAMING_BELL_RUNG, firstRungUser.id);
-        this.elapsed += countdown * 1000;
         console.log(`user ${firstRungUser.id} has rung the bell at ${firstRungUser.state.rung}`);
+        this.elapsed += countdown * 1000;
 
-        // Figure out if more than one sort of fruits have FIVE amounts
+        // Figure out if more than one sort of fruits have exactly FIVE amounts
         this.cardsAssembled = false;
         this.fruitCount = {};
         for (const fruit of constant.fruits) {
@@ -85,8 +93,8 @@ module.exports = class WaitingState extends State {
           rungUser.state.rung = Infinity;
       }
 
+      // Flip
       const currentUser = users[turn];
-
       if (currentUser.state.flipped) {
         const frontCard = currentUser.state.backCards.shift();
         currentUser.state.frontCards.push(frontCard);
@@ -102,6 +110,7 @@ module.exports = class WaitingState extends State {
 
       this.start = Date.now();
     });
+
 
     this.onEnabled(() => {
       // adding users to seperated array, and set order for each users
