@@ -11,8 +11,8 @@ function main() {
     $('main').empty();
     $.get('/static/waiting.html', (res) => {
       $('main').html(res);
-      var source = $("#wait_user").html();
-      var template = Handlebars.compile(source);
+      const source = $("#wait_user").html();
+      const template = Handlebars.compile(source);
       
       socket.on('WAITING_USERS', function(users) {
         console.log(`user ${users} waiting`);
@@ -30,8 +30,8 @@ function main() {
     $('main').empty();
     $.get('/static/play.html', (res) => {
       $('main').html(res);
-      var source = $("#play_user").html();
-      var template = Handlebars.compile(source);
+      const source = $("#play_user").html();
+      const template = Handlebars.compile(source);
 
       socket.on('GAMING_USERS', function(users) {
         $('.play_user').html(template({items: Object.values(users)}));
