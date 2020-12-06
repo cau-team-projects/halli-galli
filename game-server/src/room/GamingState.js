@@ -72,8 +72,10 @@ module.exports = class WaitingState extends State {
         if (cardsFive) {
           // player rung correctly!
           const wonCards = [];
-          for (otherUser of otherUsers)
+          for (otherUser of otherUsers) {
+            this.room.emit(constant.event.GAMING_CARD_LOST, otherUser.id, 1);
             wonCards.push(otherUser.state.backCards.shift());
+          }
           firstRungUser.state.backCards.push(...wonCards);
           this.room.emit(constant.event.GAMING_CARD_GAINED, firstRungUser.id, wonCards.length);
           console.log(`user ${firstRungUser.id} gained ${wonCards.length} cards`);
@@ -83,9 +85,11 @@ module.exports = class WaitingState extends State {
             firstRungUser.state.backCards.splice(0, firstRungUser.state.backCards.length);
           else {
             const lostCards = firstRungUser.state.backCards.splice(0, users.length - 1);
-            for (const [lostCardIdx, lostCard] in lostCards.entries())
-              otherUsers[lostCardIdx].state.backCards.push(lostCard);
             this.room.emit(constant.event.GAMING_CARD_LOST, firstRungUser.id, lostCards.length);
+            for (const [lostCardIdx, lostCard] in lostCards.entries()) {
+              otherUsers[lostCardIdx].state.backCards.push(lostCard);
+              this.room.emit(constant.event.GAMING_CARD_GAINED, otherUsers[lostCardIdx].idx, 1);
+            }
             console.log(`user ${firstRungUser.id} lost ${lostCards.length} cards`);
           }
         }
