@@ -108,7 +108,7 @@ module.exports = class WaitingState extends State {
         this.elapsedMillis += countdown * 1000;
       } else if (countdown === 0) {
         const frontCard = currentUser.state.backCards.shift();
-        currentUser.frontCards.push(frontCard);
+        currentUser.state.frontCards.push(frontCard);
       }
 
       for (const user of users) {
