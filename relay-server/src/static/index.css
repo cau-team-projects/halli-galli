@@ -60,7 +60,7 @@ body {
 
 #waiting_wrap > .wait_user {
     width: 100%;
-    margin: 0 auto;
+    margin: 0 auto 0 -1.3%;
 }
 
 #waiting_wrap > .wait_user li {
@@ -185,7 +185,6 @@ body {
     padding-right: 15%;
     margin-right: 10%;
 }
-
 
 .bell {
     position: absolute;
