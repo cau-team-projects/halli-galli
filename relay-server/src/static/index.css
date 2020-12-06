@@ -147,22 +147,30 @@ body {
 .user_card img:nth-child(3) { margin-left:-13%;}
 .user_card img:nth-child(4) { margin-left:13%;}
 
+.user_card_back {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8%;
+    box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+}
 
-
-.user_score {
+.user_list {
     width: 10%;
     position: fixed;
     top: 4%;
     left: 2%;
 }
 
-.user_score h2 {
+.user_list h2 {
     text-transform: uppercase;
     font-size: 1.5em;
     text-align: center;
 }
 
-.user_score li {
+.user_list li {
     margin: 10% 0;
     box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 0.1);
     background: #fff;
@@ -173,7 +181,7 @@ body {
     padding: 5% 15%;
 }
 
-.user_score span.number {
+.user_list span.number {
     border-right: 1px solid #dedede;
     padding-right: 15%;
     margin-right: 10%;

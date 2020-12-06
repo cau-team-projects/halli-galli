@@ -19,7 +19,6 @@ function main() {
         $('.wait_user').html(template({items: Object.values(users)}));
       });
       socket.on('WAITING_COUNTDOWN', function(data) {
-        console.log('countdown ${data} ...');
         $('.refresh_img img').css("visibility", "hidden");
         $('.count_down').css("visibility", "visible");
         $('.count_down').text(data);
@@ -30,12 +29,44 @@ function main() {
     $('main').empty();
     $.get('/static/play.html', (res) => {
       $('main').html(res);
+
+      var data = {
+        items: [
+          {card: "lemon_1", id: "Lemon", deck: 10 }
+        ]
+      };
+
+      Handlebars.registerHelper('path', function(items) {
+        var card_path = "<img src=\"static/image/" + items.card + ".svg\"/>";
+        return new Handlebars.SafeString(card_path);
+      });
       const source = $("#play_user").html();
       const template = Handlebars.compile(source);
-
+      
+      $('.play_user').html(template({items: Object.values(data)}));
       socket.on('GAMING_USERS', function(users) {
-        $('.play_user').html(template({items: Object.values(users)}));
+        // 게임 들어온 유저들 리스트 박스 및 카드 생성
       });
+      socket.on('GAMING_BELL_RUNG', function(user) {
+        // 벨 울림 이미지 
+      });
+      socket.on('GAMING_CARD_FLIPPED', function(user) {
+        // 유저1 카드 플립
+        $("#card_flip").flip();
+      });
+      socket.on('GAMING_TURN', function(user, countDown) {
+        // 유저1 본인 턴 지시자 생성
+      });
+      socket.on('GAMING_CARD_GAINED', function(user, count) {
+        // 유저1 카드 덱 개수 증가
+      });
+      socket.on('GAMING_CARD_LOST', function(user, count) {
+        // 유저1 카드 덱 개수 감소
+      })
+      socket.on('GAMING_WIN', function(user) {
+        // 유저1 화면에 WIN 메세지 출력 및 페이지 초기화
+      });
+      
     });
   });
   page.exit('/gaming', (ctx, next) => {

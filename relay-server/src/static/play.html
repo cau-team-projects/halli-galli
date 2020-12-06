@@ -1,20 +1,24 @@
 <div class="play_user">
     <script id="play_user" type="text/x-handlebars-template">
-           
+            
+        <div id="card_flip">
             <div class="user_card">
                 {{#items}}
-                <img src="{{card}}"/>
+                    {{path card}}}
                 {{/items}}
             </div>
-                     
-            <div class="user_score">
+            <div class="user_card_back">
+                <img src="static/image/random_card.svg" alt="random_card">
+            </div>
+        </div>
+       
+            <div class="user_list">
                 <ul>
-                    <h2>score</h2>
+                    <h2>Users</h2>
                     {{#items}}
                     <li>
-                        <span class="number">{{number}}P</span>
-                        <span class="id">{{id}}</span>
-                        <span class="score">{{score}}</span>
+                        <span class="id">ID {{id}}</span>
+                        <span class="deck">DECK {{deck}}</span>
                     </li>
                     {{/items}}
                 </ul>
@@ -25,5 +29,3 @@
 <div class="bell">
   <img src="static/image/bell.svg" alt="bell">
 </div>
-    
-<img src="static/image/random_card.png" alt="random_card" class="random_card" style="display:none;">
