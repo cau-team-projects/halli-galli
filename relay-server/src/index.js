@@ -21,8 +21,16 @@ function registerEvents(game, user) {
     constant.event.ROOM_LEFT,
     constant.event.USER_ROOM_JOINED,
     constant.event.USER_ROOM_LEFT,
-    constant.event.WAITING_ROOM_USERS,
-    constant.event.WAITING_ROOM_COUNTDOWN,
+    constant.event.WAITING_USERS,
+    constant.event.WAITING_COUNTDOWN,
+    constant.event.GAMING_USERS,
+    constant.event.GAMING_BELL_RUNG,
+    constant.event.GAMING_CARD_FLIPPED,
+    constant.event.GAMING_CARD_LOST,
+    constant.event.GAMING_CARD_GAINED,
+    constant.event.GAMING_TURN,
+    constant.event.GAMING_LOST,
+    constant.event.GAMING_WIN
   ].forEach((event) => {
     game.on(event, (...args) => {
       console.log(event, args);
