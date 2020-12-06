@@ -18,7 +18,7 @@ module.exports = class WaitingState extends State {
         return
       }
 
-      const users = Object.values(this.room.users);
+      const users = Object.values(this.room.users).filter((user) => user.state.name === constant.state.GAMING);
 
       this.elapsedMillis += Date.now() - this.start;
       const elapsedSeconds = Math.floor(this.elapsedMillis / 1000);
@@ -26,12 +26,22 @@ module.exports = class WaitingState extends State {
       const turn = Math.floor(elapsedSeconds / constant.GAMING_TURN_SECONDS) % users.length;
       const countdown = constant.GAMING_TURN_SECONDS - (elapsedSeconds % constant.GAMING_TURN_SECONDS);
       this.room.emit(constant.event.GAMING_TURN, users[turn].id, countdown);
-      console.log(`user ${users[turn].id}'s turn ${countdown} seconds`);
+      // console.log(`user ${users[turn].id}'s turn ${countdown} seconds`);
 
       if (users.length == 1) {
         this.room.emit(constant.event.GAMING_WIN, users[0].id);
         console.log(`user ${users[0].id} won!`);
       }
+      const gamingUsers = [];
+      for (const user of users) {
+        const gamingUser = {};
+        gamingUser[id] = user.id;
+        gamingUser[topCard] = user.state.backCards[0];
+        gamingUser[frontCount] = user.state.frontCards.length;
+        gamingUser[backCount] = user.state.backCards.length;
+        gamingUsers.push(gamingUser);
+      }
+      this.room.emit(constant.event.GAMING_USERS, gamingUsers);
 
       // Ring
       users.sort((a, b) => a.state.rung - b.state.rung);
