@@ -7,7 +7,9 @@ function main() {
       $('main').html(res);
     });
   });
+
   page('/waiting', (ctx, next) => {
+    console.log('waiting page!');
     $('main').empty();
     $.get('/static/waiting.html', (res) => {
       $('main').html(res);
@@ -25,26 +27,31 @@ function main() {
       });
     });
   });
+
   page('/gaming', (ctx, next) => {
     $('main').empty();
     $.get('/static/play.html', (res) => {
       $('main').html(res);
 
-      var data = {
-        items: [
-          {card: "lemon_1", id: "Lemon", deck: 10 }
-        ]
-      };
-
+      /*
       Handlebars.registerHelper('path', function(items) {
         var card_path = "<img src=\"static/image/" + items.card + ".svg\"/>";
         return new Handlebars.SafeString(card_path);
       });
-      const source = $("#play_user").html();
-      const template = Handlebars.compile(source);
+      */
+      const userListTemplate = Handlebars.compile($('#user_list_template').html());
+      const currentUserTemplate = Handlebars.compile($('#current_user_template').html());
       
-      $('.play_user').html(template({items: Object.values(data)}));
-      socket.on('GAMING_USERS', function(users) {
+      /*
+      $('play_user').html(template({
+        items: [
+          {card: "lemon_1", id: "Lemon", deck: 10 }
+        ]
+      }));
+      */
+      socket.on('GAMING_USERS', (users) => {
+        console.log(users);
+        $('#user_list').html(userListTemplate({users}));
         // 게임 들어온 유저들 리스트 박스 및 카드 생성
       });
       socket.on('GAMING_BELL_RUNG', function(user) {
@@ -54,7 +61,8 @@ function main() {
         // 유저1 카드 플립
         $("#card_flip").flip();
       });
-      socket.on('GAMING_TURN', function(user, countDown) {
+      socket.on('GAMING_TURN', function(user, countdown) {
+        $('#current_user').html(currentUserTemplate({currentUser: {id: user, countdown}}));
         // 유저1 본인 턴 지시자 생성
       });
       socket.on('GAMING_CARD_GAINED', function(user, count) {
