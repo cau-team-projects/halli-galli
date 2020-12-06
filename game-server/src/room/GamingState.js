@@ -7,16 +7,8 @@ module.exports = class WaitingState extends State {
 
     this.start = Date.now();
     this.elapsedMillis = 0;
-    let alert = null; // alert message - victory, next turn, ringed etc
 
     this.onExecute(() => {
-
-      if (this.alert) { // there is an alert, timer is paused
-        this.room.emit(
-          // alert
-        );
-        return
-      }
 
       const users = Object.values(this.room.users).filter((user) => user.state.name === constant.state.GAMING);
 
