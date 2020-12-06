@@ -1,34 +1,32 @@
-<div id="user_list"> 
-  <script id="user_list_template" type="text/x-handlebars-template">
-    
-    <div class="user_card">
-      {{#users}}
-        <img src={{topCard}}/>
-      {{/users}}
-    </div>
+<script id="user_list_template" type="text/x-handlebars-template">
+  <h2>Users</h2>
+  <ul>
+    {{#users}}
+      <li>
+        <span class="id">ID {{id}}</span>
+        <span class="deck">front count {{frontCount}}</span>
+        <span class="deck">back count {{backCount}}</span>
+      </li>
+    {{/users}}
+  </ul>
+</script>
 
-    <div class="user_list">
-    <h2>Users</h2>
-    <ul>
-      {{#users}}
-        <li>
-          <span class="id">ID {{id}}</span>
-          <span class="deck">front count {{frontCount}}</span>
-          <span class="deck">back count {{backCount}}</span>
-        </li>
-      {{/users}}
-    </ul>
-    </div>
-
-  </script>
-</div>
-
-<!--
 <script id="current_user_template" type="text/x-handlebars-template">
   <span>{{currentUser.id}}</span> | <span>{{currentUser.countdown}}</span>
 </script>
+
+<div class="play_user">
+  <div id="card_flip">
+    <div class="user_card"></div>
+  </div>
+  <div class="user_card_back">
+    <img src="static/image/random_card.svg" alt="random_card">
+  </div>
+</div>
+
+<div id="user_list" class="user_list"></div>
+
 <div id="current_user"></div>
--->
 
 <div class="bell">
   <img src="static/image/bell.svg" alt="bell">

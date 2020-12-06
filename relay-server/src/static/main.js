@@ -42,18 +42,27 @@ function main() {
       const userListTemplate = Handlebars.compile($('#user_list_template').html());
       const currentUserTemplate = Handlebars.compile($('#current_user_template').html());
       
+      /*
+      $('play_user').html(template({
+        items: [
+          {card: "lemon_1", id: "Lemon", deck: 10 }
+        ]
+      }));
+      */
       socket.on('GAMING_USERS', (users) => {
         console.log(users);
-        $('.user_list').html(userListTemplate({users}));
+        $('#user_list').html(userListTemplate({users}));
+        // 게임 들어온 유저들 리스트 박스 및 카드 생성
       });
       socket.on('GAMING_BELL_RUNG', function(user) {
         // 벨 울림 이미지 
       });
       socket.on('GAMING_CARD_FLIPPED', function(user) {
+        // 유저1 카드 플립
         $("#card_flip").flip();
       });
       socket.on('GAMING_TURN', function(user, countdown) {
-        $('.current_user').html(currentUserTemplate({currentUser: {id: user, countdown}}));
+        $('#current_user').html(currentUserTemplate({currentUser: {id: user, countdown}}));
         // 유저1 본인 턴 지시자 생성
       });
       socket.on('GAMING_CARD_GAINED', function(user, count) {
