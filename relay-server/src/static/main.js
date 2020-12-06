@@ -45,7 +45,6 @@ function main() {
           const topCardImage = `static/image/${user.topCard.fruit}_${user.topCard.count}.svg`;
           user.topCardImage = topCardImage;
         };
-
         $('#user_list').html(
           userListTemplate({users})
         );
@@ -57,13 +56,12 @@ function main() {
       socket.on('GAMING_TURN', function(user, countdown) {
         $('#current_user').html(currentUserTemplate({currentUser: {id: user, countdown}}));
         if (user.id == socket.id) {
-          $(".user_card img").css("border", "5px solid #000000");
+          $(".user_card img").css("border", "5px solid #F3F54F");
         }
       });
       socket.on('GAMING_WIN', function(user) {
         // 유저1 화면에 WIN 메세지 출력 및 페이지 초기화
       });
-      
     });
   });
   page.exit('/gaming', (ctx, next) => {
