@@ -23,6 +23,7 @@ function registerEvents(game, user) {
     constant.event.USER_ROOM_LEFT,
     constant.event.WAITING_USERS,
     constant.event.WAITING_COUNTDOWN,
+    constant.event.WAITING_COUNTDOWN_CANCELED,
     constant.event.GAMING_USERS,
     constant.event.GAMING_BELL_RUNG,
     constant.event.GAMING_CARD_FLIPPED,

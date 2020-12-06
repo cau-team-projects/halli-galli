@@ -28,17 +28,20 @@ module.exports = class WaitingState extends State {
       this.room.emit(constant.event.GAMING_TURN, users[turn].id, countdown);
       // console.log(`user ${users[turn].id}'s turn ${countdown} seconds`);
 
+      /*
       if (users.length == 1) {
         this.room.emit(constant.event.GAMING_WIN, users[0].id);
         console.log(`user ${users[0].id} won!`);
       }
+      */
+
       const gamingUsers = [];
       for (const user of users) {
         const gamingUser = {};
-        gamingUser[id] = user.id;
-        gamingUser[topCard] = user.state.backCards[0];
-        gamingUser[frontCount] = user.state.frontCards.length;
-        gamingUser[backCount] = user.state.backCards.length;
+        gamingUser.id = user.id;
+        gamingUser.topCard = user.state.backCards[0];
+        gamingUser.frontCount = user.state.frontCards.length;
+        gamingUser.backCount = user.state.backCards.length;
         gamingUsers.push(gamingUser);
       }
       this.room.emit(constant.event.GAMING_USERS, gamingUsers);
@@ -121,10 +124,12 @@ module.exports = class WaitingState extends State {
       // adding users to seperated array, and set order for each users
 
       const users = Object.values(this.room.users);
+      /*
       if (users.length === 1) {
         this.pop();
         return;
       }
+      */
       console.log(`this room name: ${this.room.name}`);
       console.log(`Current users length: ${users.length}`);
 
