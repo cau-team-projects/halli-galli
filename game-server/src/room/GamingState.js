@@ -5,7 +5,8 @@ module.exports = class WaitingState extends State {
   constructor() {
     super(constant.state.WAITING);
 
-    this.start = this.start ?? Date.now();
+    this.start = Date.now();
+    this.elapsed = 0;
     let alert = null; // alert message - victory, next turn, ringed etc
 
     this.onExecute(() => {
@@ -17,8 +18,9 @@ module.exports = class WaitingState extends State {
         );
         return
       }
-      const now = Date.now();
-      const elapsed = Math.floor((now - this.start) / 1000);
+
+      this.elapsed += Math.floor((Date.now() - this.start) / 1000);
+
       const turn = Math.floor(elapsed / constant.GAMING_TURN_SECONDS) % users.length;
       const countdown = constant.GAMING_TURN_SECONDS - (elapsed % constant.GAMING_TURN_SECONDS);
       this.room.emit(constant.event.GAMING_TURN, users[turn].id, countdown);
@@ -28,34 +30,30 @@ module.exports = class WaitingState extends State {
       const rungUsers = users.filter((user) => user.state.rung != Infinity);
       if (rungUsers.length > 0) {
         const firstRungUser = rungUsers[0];
+        const otherUsers = users.filter((user) => user.id != firstRungUser.id);
         this.room.emit(constant.event.GAMING_BELL_RUNG, firstRungUser.id);
         console.log(`user ${firstRungUser.id} has rung the bell at ${firstRungUser.state.rung}`);
         if (this.cardsAssembled) {
           console.log(`${firstRungUser.id} gains card`);
+          const wonCards = [];
+          for (otherUser of otherUsers)
+            wonCards.push(otherUser.state.backCards.shift());
+          firstRungUser.state.backCards.push(...wonCards);
         } else {
-          console.log(`${firstRungUser} lost cards`);
+          console.log(`${firstRungUser.id} lost cards`);
+          if (firstRungUser.state.backCards.length < users.length - 1) {
+            this.room.emit(constant.event.GAMING_LOST, firstRungUser.id);
+          } else {
+            const lostCards = firstRungUser.state.backCards.splice(0, users.length - 1);
+            for (const [lostCardIdx, lostCard] in lostCards.entries())
+              otherUsers[lostCardIdx].state.backCards.push(lostCard);
+          }
         }
         for (const rungUser of rungUsers)
           rungUser.state.rung = Infinity;
       }
-      /*
-        // count fruits
-        if (tr) { // Right ringing
-          for (const player of players) {
-            const frontCards = player.state.frontCards;
-            players[firstRinggedOrder].state.cards.concat(frontCards);
-            player.state.frontCards = [];
-          }
-        } else { // wrong ringing
-          if (player.state.cards.length > 0) { // wrong ringing and penalty needed
-            const penaltyCard = player.state.cards[0];
-            player.state.cards.shift();
-          } else { // wrong ringing but no more cards on the hand
-            console.log(`${player.id} has no more cards!!`);
-          }
-        }
-      }
 
+      /*
       // flip
       for (const [index, player] of players.entries()) {
         if (player.state.front) {
@@ -84,7 +82,8 @@ module.exports = class WaitingState extends State {
           }
         }
       }
-    */
+      */
+      this.start = Date.now();
     });
 
     this.onEnabled(() => {
