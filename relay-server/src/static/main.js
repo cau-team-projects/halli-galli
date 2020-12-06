@@ -36,15 +36,14 @@ function main() {
       const currentUserTemplate = Handlebars.compile($('#current_user_template').html());
       
       socket.on('GAMING_USERS', (users) => {
-        console.log(users);
-        /*
+        users.forEach((user) => {
+          const topCardImage = `static/image/${user.topCard.fruit}_${user.topCard.count}.svg`;
+          user.topCardImage = topCardImage;
+        });
+
         $('#user_list').html(
-          userListTemplate({
-            users:users.map((user) => {
-              user.topCard = `${user.topCard.fruit}_${user.topCard.count}`;
-              return user;
-          })}));
-        */
+          userListTemplate({users})
+        );
       });
       socket.on('GAMING_BELL_RUNG', function(user) {
         // 벨 울림 이미지 
