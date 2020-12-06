@@ -36,23 +36,50 @@ module.exports = class WaitingState extends State {
         const firstRungUser = rungUsers[0];
         const otherUsers = users.filter((user) => user.id != firstRungUser.id);
         this.room.emit(constant.event.GAMING_BELL_RUNG, firstRungUser.id);
+        this.elapsed += countdown * 1000;
         console.log(`user ${firstRungUser.id} has rung the bell at ${firstRungUser.state.rung}`);
+
+        // Figure out if more than one sort of fruits have FIVE amounts
+        this.cardsAssembled = false;
+        this.fruitCount = {};
+        for (const fruit of constant.fruits) {
+          this.fruitCount[fruit] = 0;
+        }
+        for (const user of users) {
+          if (user.state.frontCards.length > 0) {
+            this.fruitCount[user.state.frontCards[0].fruit] += user.state.frontCards[0].count;
+          }
+        }
+        for (const fruit of constant.fruits) {
+          if (this.fruitCount[fruit] == 5) {
+            this.cardsAssembled = true;
+          }
+        }
+        console.log(this.cardsAssembled);
+
         if (this.cardsAssembled) {
-          console.log(`${firstRungUser.id} gains card`);
+          // player rung correctly!
           const wonCards = [];
           for (otherUser of otherUsers)
             wonCards.push(otherUser.state.backCards.shift());
           firstRungUser.state.backCards.push(...wonCards);
+          this.room.emit(constant.event.GAMING_CARD_GAINED, firstRungUser.id, wonCards.length);
+          console.log(`user ${firstRungUser.id} gained ${wonCards.length} cards`);
         } else {
-          console.log(`${firstRungUser.id} lost cards`);
+          // player rung wrongly!
           if (firstRungUser.state.backCards.length < users.length - 1) {
             this.room.emit(constant.event.GAMING_LOST, firstRungUser.id);
+            console.log(`${firstRungUser.id} have no card to lost`);
+            console.log(`${firstRungUser.id} lost the game!`);
           } else {
             const lostCards = firstRungUser.state.backCards.splice(0, users.length - 1);
             for (const [lostCardIdx, lostCard] in lostCards.entries())
               otherUsers[lostCardIdx].state.backCards.push(lostCard);
+            this.room.emit(constant.event.GAMING_CARD_LOST, firstRungUser.id, lostCards.length);
+            console.log(`user ${firstRungUser.id} lost ${lostCards.length} cards`);
           }
         }
+        // restore all user's rung value to infinity
         for (const rungUser of rungUsers)
           rungUser.state.rung = Infinity;
       }
@@ -86,12 +113,11 @@ module.exports = class WaitingState extends State {
       console.log(`this room name: ${this.room.name}`);
       console.log(`Current users length: ${users.length}`);
 
-      const fruits = ["LEMON", "PEAR", "PINEAPPLE", "STRAWBERRY"];
-      const cardSet = []; // card han beul - 4*14==56 cards
-      for (const i in fruits) {
+      const cardSet = [];
+      for (const i in constant.fruits) {
         for (let j = 0; j < 5; ++j) {
           for (let k = 0; k < constant.CARD_COUNTS[j]; ++k) {
-            const newCard = {fruit: fruits[i], count: j + 1};
+            const newCard = {fruit: constant.fruits[i], count: j + 1};
             cardSet.push(newCard);
           }
         }
