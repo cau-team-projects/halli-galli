@@ -38,8 +38,10 @@ function main() {
       socket.on('GAMING_USERS', (users) => {
         console.log(users);
         for (const user of users) {
-          if (user.topCard === null)
+          if (user.topCard === null) {
+            user.topCardImage = 'static/image/random_card.svg';
             continue;
+          }
           const topCardImage = `static/image/${user.topCard.fruit}_${user.topCard.count}.svg`;
           user.topCardImage = topCardImage;
         };
@@ -48,23 +50,16 @@ function main() {
           userListTemplate({users})
         );
       });
-      socket.on('GAMING_BELL_RUNG', function(user) {
-        // 벨 울림 이미지 
-      });
       socket.on('GAMING_CARD_FLIPPED', function(user) {
-        // 유저1 카드 플립
-        // $("#card_flip").flip();
+        console.log("card fliped!!!!!");
+        $(".user_card img").toggleClass('flip');
       });
       socket.on('GAMING_TURN', function(user, countdown) {
         $('#current_user').html(currentUserTemplate({currentUser: {id: user, countdown}}));
-        // 유저1 본인 턴 지시자 생성
+        if (user.id == socket.id) {
+          $(".user_card img").css("border", "5px solid #000000");
+        }
       });
-      socket.on('GAMING_CARD_GAINED', function(user, count) {
-        // 유저1 카드 덱 개수 증가
-      });
-      socket.on('GAMING_CARD_LOST', function(user, count) {
-        // 유저1 카드 덱 개수 감소
-      })
       socket.on('GAMING_WIN', function(user) {
         // 유저1 화면에 WIN 메세지 출력 및 페이지 초기화
       });

@@ -1,28 +1,30 @@
 <script id="user_list_template" type="text/x-handlebars-template">
 
   <div class="user_card">
-    {{#users}}
-      <img src="{{topCardImage}}" style="width:100px"/>
-    {{/users}}
-  </div>
-
-  <h2>Users</h2>
-  <ul>
-    {{#users}}
-      <li>
-        <span class="id">ID {{id}}</span>
-        <span class="deck">front count {{frontCount}}</span>
-        <span class="deck">back count {{backCount}}</span>
-      </li>
-    {{/users}}
-  </ul>
-</script>
-
-<div style="display: none;">
-<script id="current_user_template" type="text/x-handlebars-template">
-  <span>{{currentUser.id}}</span> | <span>{{currentUser.countdown}}</span>
-</script>
+{{#users}}
+  <img src="{{topCardImage}}"/>
+{{/users}}
 </div>
+
+<div class="user_list_wrap">
+<h2>Users</h2>
+<ul>
+{{#users}}
+  <li>
+    <div class="id"><strong>ID</strong> {{id}}</div>
+    <div class="deck"><strong>Front</strong> {{frontCount}}</div>
+    <div class="deck"><strong>Back</strong> {{backCount}}</div>
+  </li>
+{{/users}}
+</ul>
+</div>
+</script>
+
+<script id="current_user_template" type="text/x-handlebars-template">
+  <div style="display: none;">
+<span>{{currentUser.id}}</span> | <span>{{currentUser.countdown}}</span>
+</div>
+</script>
 
 <div id="user_list" class="user_list"></div>
 <div id="current_user"></div>
