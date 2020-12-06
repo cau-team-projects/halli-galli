@@ -24,7 +24,8 @@ module.exports = class WaitingState extends State {
       const elapsedSeconds = Math.floor(this.elapsedMillis / 1000);
 
       const turn = Math.floor(elapsedSeconds / constant.GAMING_TURN_SECONDS) % users.length;
-      const countdown = constant.GAMING_TURN_SECONDS - (elapsedSeconds % constant.GAMING_TURN_SECONDS);
+      const countdown = constant.GAMING_TURN_SECONDS
+        - (elapsedSeconds % constant.GAMING_TURN_SECONDS + 1);
       /*
       if (users.length == 1) {
         this.room.emit(constant.event.GAMING_WIN, users[0].id);
@@ -105,7 +106,7 @@ module.exports = class WaitingState extends State {
         const frontCard = currentUser.state.backCards.shift();
         currentUser.state.frontCards.push(frontCard);
         this.elapsedMillis += countdown * 1000;
-      } else if(countdown === 0) {
+      } else if (countdown === 0) {
         const frontCard = currentUser.state.backCards.shift();
         currentUser.frontCards.push(frontCard);
       }
