@@ -25,15 +25,15 @@ module.exports = class WaitingState extends State {
 
       const turn = Math.floor(elapsedSeconds / constant.GAMING_TURN_SECONDS) % users.length;
       const countdown = constant.GAMING_TURN_SECONDS - (elapsedSeconds % constant.GAMING_TURN_SECONDS);
-      this.room.emit(constant.event.GAMING_TURN, users[turn].id, countdown);
-      // console.log(`user ${users[turn].id}'s turn ${countdown} seconds`);
-
       /*
       if (users.length == 1) {
         this.room.emit(constant.event.GAMING_WIN, users[0].id);
         console.log(`user ${users[0].id} won!`);
       }
       */
+
+      // console.log(`user ${users[turn].id}'s turn ${countdown} seconds`);
+      this.room.emit(constant.event.GAMING_TURN, users[turn].id, countdown);
 
       const gamingUsers = [];
       for (const user of users) {
@@ -58,7 +58,7 @@ module.exports = class WaitingState extends State {
 
         // Figure out if more than one sort of fruits have exactly FIVE amounts
         const fruitCounts = {};
-        for (const fruit of constant.fruits) {
+        for (const fruit of constant.FRUITS) {
           fruitCounts[fruit] = 0;
         }
         for (const user of users) {
@@ -134,10 +134,10 @@ module.exports = class WaitingState extends State {
       console.log(`Current users length: ${users.length}`);
 
       const cardSet = [];
-      for (const i in constant.fruits) {
+      for (const i in constant.FRUITS) {
         for (let j = 0; j < 5; ++j) {
           for (let k = 0; k < constant.CARD_COUNTS[j]; ++k) {
-            const newCard = {fruit: constant.fruits[i], count: j + 1};
+            const newCard = {fruit: constant.FRUITS[i], count: j + 1};
             cardSet.push(newCard);
           }
         }
