@@ -1,6 +1,6 @@
 module.exports = {
   FRUIT_COUNT: 4,
-  CARD_COUNT: [5, 3, 3, 2, 1],
+  CARD_COUNTS: [5, 3, 3, 2, 1],
   event: {
     BUTTON_CLICKED: 'BUTTON_CLICKED',
     //
@@ -45,5 +45,7 @@ module.exports = {
     HOME: '/home',
     WAITING: '/waiting',
     GAMING: '/gaming',
-  }
+  },
+  fruits: ['LEMON', 'PEAR', 'PINEAPPLE', 'STRAWBERRY'],
+  GAMING_TURN_SECONDS: 5
 };

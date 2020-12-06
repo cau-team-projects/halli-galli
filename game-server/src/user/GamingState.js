@@ -5,18 +5,16 @@ module.exports = class GamingState extends State {
   constructor() {
     super(constant.state.GAMING);
     this.order = 0;
-    this.playedCards = [];
-    this.cards = [];
-    this.score = 0;
+    this.frontCards = [];
+    this.backCards = null;
     this.flipped = false;
-    this.rung = false;
-    this.rungTimestamp = null;
+    this.rung = Infinity;
 
     this.on(constant.event.BUTTON_CLICKED, (button) => {
       if (button === 'A') {
         this.flipped = true;
       } else if (button === 'B') {
-        this.rung = true;
+        this.rung = Date.now();
       } else if (button === 'X') {
       }
     });
