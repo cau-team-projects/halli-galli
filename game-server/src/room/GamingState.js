@@ -101,6 +101,7 @@ module.exports = class WaitingState extends State {
       // Flip
       const currentUser = users[turn];
       if (currentUser.state.flipped) {
+        console.log(`${currentUser.id} flipped the card`);
         const frontCard = currentUser.state.backCards.shift();
         currentUser.state.frontCards.push(frontCard);
         this.elapsedMillis += countdown * 1000;
