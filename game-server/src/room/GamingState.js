@@ -6,7 +6,7 @@ module.exports = class WaitingState extends State {
     super(constant.state.WAITING);
 
     this.start = Date.now();
-    this.elapsed = 0;
+    this.elapsedMillis = 0;
     let alert = null; // alert message - victory, next turn, ringed etc
 
     this.onExecute(() => {
@@ -20,23 +20,18 @@ module.exports = class WaitingState extends State {
 
       const users = Object.values(this.room.users);
 
-      this.elapsed += Date.now() - this.start;
-      const elapsedSeconds = Math.floor(this.elapsed / 1000);
+      this.elapsedMillis += Date.now() - this.start;
+      const elapsedSeconds = Math.floor(this.elapsedMillis / 1000);
 
       const turn = Math.floor(elapsedSeconds / constant.GAMING_TURN_SECONDS) % users.length;
       const countdown = constant.GAMING_TURN_SECONDS - (elapsedSeconds % constant.GAMING_TURN_SECONDS);
       this.room.emit(constant.event.GAMING_TURN, users[turn].id, countdown);
       console.log(`user ${users[turn].id}'s turn ${countdown} seconds`);
 
-      const lostUsers = users.filter((user) => user.state.backCards.length < 1);
-      const survivedUsers = users.filter((user) => user.state.backCards.length > 0);
-
-/*
       if (users.length == 1) {
         this.room.emit(constant.event.GAMING_WIN, users[0].id);
         console.log(`user ${users[0].id} won!`);
       }
-*/
 
       // Ring
       users.sort((a, b) => a.state.rung - b.state.rung);
@@ -46,27 +41,22 @@ module.exports = class WaitingState extends State {
         const otherUsers = users.filter((user) => user.id != firstRungUser.id);
         this.room.emit(constant.event.GAMING_BELL_RUNG, firstRungUser.id);
         console.log(`user ${firstRungUser.id} has rung the bell at ${firstRungUser.state.rung}`);
-        this.elapsed += countdown * 1000;
+        this.elapsedMillis += countdown * 1000;
 
         // Figure out if more than one sort of fruits have exactly FIVE amounts
-        this.cardsAssembled = false;
-        this.fruitCount = {};
+        const fruitCounts = {};
         for (const fruit of constant.fruits) {
-          this.fruitCount[fruit] = 0;
+          fruitCounts[fruit] = 0;
         }
         for (const user of users) {
           if (user.state.frontCards.length > 0) {
-            this.fruitCount[user.state.frontCards[0].fruit] += user.state.frontCards[0].count;
+            fruitCounts[user.state.frontCards[0].fruit] += user.state.frontCards[0].count;
           }
         }
-        for (const fruit of constant.fruits) {
-          if (this.fruitCount[fruit] == 5) {
-            this.cardsAssembled = true;
-          }
-        }
-        console.log(this.cardsAssembled);
 
-        if (this.cardsAssembled) {
+        const cardsFive = Object.values(fruitCounts).some((fruitCount) => fruitCount === 5);
+
+        if (cardsFive) {
           // player rung correctly!
           const wonCards = [];
           for (otherUser of otherUsers)
@@ -76,11 +66,9 @@ module.exports = class WaitingState extends State {
           console.log(`user ${firstRungUser.id} gained ${wonCards.length} cards`);
         } else {
           // player rung wrongly!
-          if (firstRungUser.state.backCards.length < users.length - 1) {
-            this.room.emit(constant.event.GAMING_LOST, firstRungUser.id);
-            console.log(`${firstRungUser.id} have no card to lost`);
-            console.log(`${firstRungUser.id} lost the game!`);
-          } else {
+          if (firstRungUser.state.backCards.length < users.length - 1)
+            firstRungUser.state.backCards.splice(0, firstRungUser.state.backCards.length);
+          else {
             const lostCards = firstRungUser.state.backCards.splice(0, users.length - 1);
             for (const [lostCardIdx, lostCard] in lostCards.entries())
               otherUsers[lostCardIdx].state.backCards.push(lostCard);
@@ -98,7 +86,7 @@ module.exports = class WaitingState extends State {
       if (currentUser.state.flipped) {
         const frontCard = currentUser.state.backCards.shift();
         currentUser.state.frontCards.push(frontCard);
-        this.elapsed += countdown * 1000;
+        this.elapsedMillis += countdown * 1000;
       } else if(countdown === 0) {
         const frontCard = currentUser.state.backCards.shift();
         currentUser.frontCards.push(frontCard);
@@ -106,6 +94,13 @@ module.exports = class WaitingState extends State {
 
       for (const user of users) {
         user.state.flipped = false;
+      }
+
+      const lostUsers = users.filter((user) => user.state.backCards.length < 1);
+      for (const lostUser of lostUsers) {
+        this.room.emit(constant.event.GAMING_LOST, lostUser.id);
+        console.log(`${lostUser.id} lost the game!`);
+        lostUser.state.pop();
       }
 
       this.start = Date.now();
@@ -116,7 +111,7 @@ module.exports = class WaitingState extends State {
       // adding users to seperated array, and set order for each users
 
       const users = Object.values(this.room.users);
-      if (users.length === 0) {
+      if (users.length === 1) {
         this.pop();
         return;
       }
