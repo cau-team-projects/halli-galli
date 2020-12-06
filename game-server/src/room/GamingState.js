@@ -25,7 +25,7 @@ module.exports = class WaitingState extends State {
 
       const turn = Math.floor(elapsedSeconds / constant.GAMING_TURN_SECONDS) % users.length;
       const countdown = constant.GAMING_TURN_SECONDS
-        - (elapsedSeconds % constant.GAMING_TURN_SECONDS + 1);
+        - (elapsedSeconds % (constant.GAMING_TURN_SECONDS + 1));
       /*
       if (users.length == 1) {
         this.room.emit(constant.event.GAMING_WIN, users[0].id);
