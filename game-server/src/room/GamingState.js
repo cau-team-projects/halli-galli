@@ -25,7 +25,7 @@ module.exports = class WaitingState extends State {
 
       const turn = Math.floor(elapsedSeconds / constant.GAMING_TURN_SECONDS) % users.length;
       const countdown = constant.GAMING_TURN_SECONDS
-        - (elapsedSeconds % (constant.GAMING_TURN_SECONDS + 1));
+        - (elapsedSeconds % constant.GAMING_TURN_SECONDS) - 1;
       /*
       if (users.length == 1) {
         this.room.emit(constant.event.GAMING_WIN, users[0].id);
@@ -55,7 +55,6 @@ module.exports = class WaitingState extends State {
         const otherUsers = users.filter((user) => user.id != firstRungUser.id);
         this.room.emit(constant.event.GAMING_BELL_RUNG, firstRungUser.id);
         console.log(`user ${firstRungUser.id} has rung the bell at ${firstRungUser.state.rung}`);
-        this.elapsedMillis += countdown * 1000;
 
         // Figure out if more than one sort of fruits have exactly FIVE amounts
         const fruitCounts = {};
@@ -105,7 +104,7 @@ module.exports = class WaitingState extends State {
         console.log(`${currentUser.id} flipped the card`);
         const frontCard = currentUser.state.backCards.shift();
         currentUser.state.frontCards.push(frontCard);
-        this.elapsedMillis += countdown * 1000;
+        this.elapsedMillis += (countdown + 1) * 1000;
       } else if (countdown != 0) {
         this.flipped = false;
       } else if (!this.flipped) {
