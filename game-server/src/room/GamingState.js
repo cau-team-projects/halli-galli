@@ -28,17 +28,15 @@ module.exports = class WaitingState extends State {
       // console.log(`user ${users[turn].id}'s turn ${countdown} seconds`);
       this.room.emit(constant.event.GAMING_TURN, users[turn].id, countdown);
 
-      const gamingUsers = [];
-      for (const user of users) {
-        const gamingUser = {};
-        gamingUser.id = user.id;
-        gamingUser.topCard = user.state.backCards[0];
-        gamingUser.frontCount = user.state.frontCards.length;
-        gamingUser.backCount = user.state.backCards.length;
-        gamingUsers.push(gamingUser);
-      }
-      this.room.emit(constant.event.GAMING_USERS, gamingUsers);
-
+      this.room.emit(
+        constant.event.GAMING_USERS,
+        users.map((user) => ({
+          id: user.id,
+          topCard: user.state.topCard,
+          frontCount: user.state.frontCount,
+          backCount: user.state.backCount
+        }))
+      );
       // Ring
       users.sort((a, b) => a.state.rung - b.state.rung);
       const rungUsers = users.filter((user) => user.state.rung != Infinity);
@@ -97,12 +95,20 @@ module.exports = class WaitingState extends State {
         const frontCard = currentUser.state.backCards.shift();
         currentUser.state.frontCards.push(frontCard);
         this.elapsedMillis += (countdown + 1) * 1000;
+        this.room.emit(
+          constant.event.GAMING_CARD_FLIPPED,
+          {id: currentUser.id, topCard: currentUser.state.topCard}
+        );
       } else if (countdown != 0) {
         this.flipped = false;
       } else if (!this.flipped) {
         this.flipped = true;
         const frontCard = currentUser.state.backCards.shift();
         currentUser.state.frontCards.push(frontCard);
+        this.room.emit(
+          constant.event.GAMING_CARD_FLIPPED,
+          {id: currentUser.id, topCard: currentUser.state.topCard}
+        );
       }
 
       for (const user of users) {

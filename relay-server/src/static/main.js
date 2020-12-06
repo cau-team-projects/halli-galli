@@ -36,10 +36,13 @@ function main() {
       const currentUserTemplate = Handlebars.compile($('#current_user_template').html());
       
       socket.on('GAMING_USERS', (users) => {
-        users.forEach((user) => {
+        console.log(users);
+        for (const user of users) {
+          if (user.topCard === null)
+            continue;
           const topCardImage = `static/image/${user.topCard.fruit}_${user.topCard.count}.svg`;
           user.topCardImage = topCardImage;
-        });
+        };
 
         $('#user_list').html(
           userListTemplate({users})

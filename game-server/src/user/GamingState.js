@@ -28,4 +28,15 @@ module.exports = class GamingState extends State {
       // this.user.room.leave(this.user);
     });
   }
+  get topCard() {
+    if (this.frontCards.length === 0)
+      return null;
+    return this.frontCards[this.frontCards.length - 1];
+  }
+  get frontCount() {
+    this.frontCards.length;
+  }
+  get backCount() {
+    this.backCards.length;
+  }
 }
