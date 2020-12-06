@@ -15,7 +15,6 @@ body {
 }
 
 
-
 /*    waiting    */
 #waiting_wrap {
     position: absolute;
@@ -160,8 +159,8 @@ body {
 .user_list {
     width: 10%;
     position: fixed;
-    top: 4%;
-    left: 2%;
+    top: 5%;
+    left: 3%;
 }
 
 .user_list h2 {
@@ -196,11 +195,4 @@ body {
     width: 8%;
 }
 
-main {
-    width: 100%;
-    margin: 0 auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
+

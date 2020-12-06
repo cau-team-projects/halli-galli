@@ -1,4 +1,13 @@
 <script id="user_list_template" type="text/x-handlebars-template">
+
+  <div class="user_card">
+    <ul>
+    {{#users}}
+      <img src="static/image/{{topCard}}.svg"/>
+    {{/users}}
+    </ul>
+  </div>
+
   <h2>Users</h2>
   <ul>
     {{#users}}
@@ -15,17 +24,8 @@
   <span>{{currentUser.id}}</span> | <span>{{currentUser.countdown}}</span>
 </script>
 
-<div class="play_user">
-  <div id="card_flip">
-    <div class="user_card"></div>
-  </div>
-  <div class="user_card_back">
-    <img src="static/image/random_card.svg" alt="random_card">
-  </div>
-</div>
 
 <div id="user_list" class="user_list"></div>
-
 <div id="current_user"></div>
 
 <div class="bell">
