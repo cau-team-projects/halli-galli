@@ -7,8 +7,8 @@ module.exports = class WaitingState extends State {
 
     let players = []; // index is order, user is user
     let currentOrder = 0; // current user
-    let ringged = false;
-    let ringgedTimestamp = null;
+    let rung = false;
+    let rungTimestamp = null;
     let alert = null; // alert message - victory, next turn, ringed etc
 
     // creating card suit
@@ -58,59 +58,77 @@ module.exports = class WaitingState extends State {
           // ring
           for (const [index, player] of players.entries()) {
             if (player.state.ring) {
-              ringged = true;
-              ringgedTimestamp = Date.now();
-              player.state.ringgedTimestamp = ringgedTimestamp;
+              rung = true;
+              rungTimestamp = Date.now();
+              player.state.rungTimestamp = rungTimestamp;
               player.state.ring = false;
-              console.log(`${player.id} ringed the bell at ${player.state.ringgedTimestamp}!! `);
+              console.log(`${player.id} ringed the bell at ${player.state.rungTimestamp}!! `);
             }
           }
-          if (ringged) {
+          if (rung) {
             let firstRinggedOrder = null;
             for (const [index, player] of players.entries()) {
               if (!firstRinggedOrder)
                 firstRinggedOrder = index;
               else {
-                if (player.state.ringgedTimestamp < ringgedTimestamp)
+                if (player.state.rungTimestamp < rungTimestamp)
                   firstRinggedOrder = index;
               }
             }
             console.log(`${players[firstRinggedOrder].id} is the fastest!!`);
-            for (const player of players) {
-              const frontCards = player.state.frontCards;
-              players[firstRinggedOrder].state.cards.concat(frontCards);
-              player.state.frontCards = [];
-              player.state.ring = false;
-              player.state.ringgedTimestamp = null;
+            // count fruits
+            if (tr) { // Right ringing
+              for (const player of players) {
+                const frontCards = player.state.frontCards;
+                players[firstRinggedOrder].state.cards.concat(frontCards);
+                player.state.frontCards = [];
+              }
+            } else { // wrong ringing
+              if (player.state.cards.length > 0) { // wrong ringing and penalty needed
+                const penaltyCard = player.state.cards[0];
+                bellCards.push(penaltyCard);
+                player.state.cards.shift();
+              } else { // wrong ringing but no more cards on the hand
+                console.log(`${player.id} has no more cards!!`);
+              }
             }
-            ringged = false;
-            ringgedTimestamp = null;
+            for (const player of players) {
+              player.state.rung = false;
+              player.state.rungTimestamp = null;
+            }
+            rung = false;
+            rungTimestamp = null;
           }
 
           // flip
           for (const [index, player] of players.entries()) {
-            if (player.state.flip) {
+            if (player.state.flipped) {
               player.state.ring = false;
               if (player.state.order === currentOrder) {
-                const player = players[currentOrder];
-                const flippedCard = player.state.cards[0];
+                if (players[currentOrder].state.cards.length <= 0) {
+                  console.log(`${player.id} has no more cards!!`);
+                }
+                else {
+                  const player = players[currentOrder];
+                  const flippedCard = player.state.cards[0];
 
-                player.state.flip = false;
-                console.log(`${player.id} flipped the card ${flippedCard.fruit}, ${flippedCard.count}`);
-                player.state.playedCards.push(flippedCard);
-                player.state.cards.shift();
-                currentOrder = (currentOrder + 1) % users.length;
-                /*
-                console.log(`${player.id} cards:`);
-                for (const card of player.state.cards) {
-                  console.log(`${card.fruit}, ${card.count}`);
+                  player.state.flipped = false;
+                  console.log(`${player.id} flipped the card ${flippedCard.fruit}, ${flippedCard.count}`);
+                  player.state.playedCards.push(flippedCard);
+                  player.state.cards.shift();
+                  currentOrder = (currentOrder + 1) % users.length;
+                  /*
+                  console.log(`${player.id} cards:`);
+                  for (const card of player.state.cards) {
+                    console.log(`${card.fruit}, ${card.count}`);
+                  }
+                  console.log(`${player.id} played cards:`);
+                  for (const card of player.state.playedCards) {
+                    console.log(`${card.fruit}, ${card.count}`);
+                  }
+                  console.log(`Next turn: ${player.id}`);
+                  */
                 }
-                console.log(`${player.id} played cards:`);
-                for (const card of player.state.playedCards) {
-                  console.log(`${card.fruit}, ${card.count}`);
-                }
-                console.log(`Next turn: ${player.id}`);
-                */
                 this.start = now;
               }
             }

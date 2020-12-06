@@ -8,15 +8,15 @@ module.exports = class GamingState extends State {
     this.playedCards = [];
     this.cards = [];
     this.score = 0;
-    this.flip = false;
-    this.ring = false;
-    this.ringgedTimestamp = null;
+    this.flipped = false;
+    this.rung = false;
+    this.rungTimestamp = null;
 
     this.on(constant.event.BUTTON_CLICKED, (button) => {
       if (button === 'A') {
-        this.flip = true;
+        this.flipped = true;
       } else if (button === 'B') {
-        this.ring = true;
+        this.rung = true;
       } else if (button === 'X') {
       }
     });

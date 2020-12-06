@@ -14,11 +14,11 @@ function main() {
       var source = $("#wait_user").html();
       var template = Handlebars.compile(source);
       
-      socket.on('WAITING_ROOM_USERS', function(users) {
+      socket.on('WAITING_USERS', function(users) {
         console.log(`user ${users} waiting`);
         $('.wait_user').html(template({items: Object.values(users)}));
       });
-      socket.on('WAITING_ROOM_COUNTDOWN', function(data) {
+      socket.on('WAITING_COUNTDOWN', function(data) {
         console.log('countdown ${data} ...');
         $('.refresh_img img').css("visibility", "hidden");
         $('.count_down').css("visibility", "visible");
@@ -33,7 +33,7 @@ function main() {
       var source = $("#play_user").html();
       var template = Handlebars.compile(source);
 
-      socket.on('GAMING_ROOM_USERS', function(users) {
+      socket.on('GAMING_USERS', function(users) {
         $('.play_user').html(template({items: Object.values(users)}));
       });
     });
@@ -42,7 +42,7 @@ function main() {
     next();
   });
   page.exit('/waiting', (ctx, next) => {
-    socket.off('WAITING_ROOM_USERS');
+    socket.off('WAITING_USERS');
     next();
   });
 

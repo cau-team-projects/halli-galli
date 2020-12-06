@@ -26,7 +26,7 @@ module.exports = class WaitingState extends State {
           );
         } else {
           this.room.emit(
-            constant.event.WAITING_ROOM_COUNTDOWN,
+            constant.event.WAITING_COUNTDOWN,
             countdown
           );
         }
@@ -34,7 +34,7 @@ module.exports = class WaitingState extends State {
         if (users.length > 0 && users.every((user) => user.stateManager.peek().ready))
           this.ready = true;
         this.room.emit(
-          constant.event.WAITING_ROOM_USERS,
+          constant.event.WAITING_USERS,
           users.map((user) =>
             ({id: user.id, ready: user.stateManager.peek().ready})
           )
