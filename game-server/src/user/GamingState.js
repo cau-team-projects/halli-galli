@@ -34,9 +34,9 @@ module.exports = class GamingState extends State {
     return this.frontCards[this.frontCards.length - 1];
   }
   get frontCount() {
-    this.frontCards.length;
+    return this.frontCards.length;
   }
   get backCount() {
-    this.backCards.length;
+    return this.backCards.length;
   }
 }
