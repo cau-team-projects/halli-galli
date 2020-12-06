@@ -14,7 +14,8 @@ module.exports = class WaitingState extends State {
       if (this.ready) {
         this.start = this.start ?? Date.now();
         const now = Date.now();
-        const countdown = 9 - (Math.floor((now - this.start) / 1000) % 10);
+        const countdown = constant.WAITING_COUNTDOWN_SECONDS
+          - (Math.floor((now - this.start) / 1000) % (constant.WAITING_COUNTDOWN_SECONDS + 1));
         if (users.length > 0 && users.every((user) => user.stateManager.peek().ready)) {
           if (countdown === 0) {
             this.ready = false;
@@ -34,6 +35,7 @@ module.exports = class WaitingState extends State {
         } else {
           this.ready = false;
           this.start = null;
+          this.room.emit(constant.event.WAITING_COUNTDOWN_CANCELED);
         }
 
       } else {
