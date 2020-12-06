@@ -9,8 +9,6 @@ module.exports = class WaitingState extends State {
     this.exitDialog = false;
 
     this.on(constant.event.BUTTON_CLICKED, (button) => {
-      if (this.user.room.state.ready)
-        return;
       if (button == 'A' || button == 'B') {
         if (this.exitDialog)
           this.pop(1);
