@@ -18,7 +18,7 @@ module.exports = class WaitingState extends State {
         return
       }
       const now = Date.now();
-      const elapsed = Math.floor(now - this.start);
+      const elapsed = Math.floor((now - this.start) / 1000);
       const turn = Math.floor(elapsed / constant.GAMING_TURN_SECONDS) % users.length;
       const countdown = constant.GAMING_TURN_SECONDS - (elapsed % constant.GAMING_TURN_SECONDS);
       this.room.emit(constant.event.GAMING_TURN, users[turn].id, countdown);
