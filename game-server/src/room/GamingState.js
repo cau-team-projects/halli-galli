@@ -60,11 +60,11 @@ module.exports = class WaitingState extends State {
       const currentUser = users[turn];
 
       if (currentUser.state.flipped) {
-        const frontCard = currentUser.backCards.shift();
-        currentUser.frontCards.push(frontCard);
+        const frontCard = currentUser.state.backCards.shift();
+        currentUser.state.frontCards.push(frontCard);
         this.elapsed += countdown * 1000;
       } else if(countdown === 0) {
-        const frontCard = currentUser.backCards.shift();
+        const frontCard = currentUser.state.backCards.shift();
         currentUser.frontCards.push(frontCard);
       }
 
