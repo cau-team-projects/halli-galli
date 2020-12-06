@@ -10,7 +10,6 @@ module.exports = class WaitingState extends State {
     let alert = null; // alert message - victory, next turn, ringed etc
 
     this.onExecute(() => {
-      const users = Object.values(this.room.users);
 
       if (this.alert) { // there is an alert, timer is paused
         this.room.emit(
@@ -19,12 +18,17 @@ module.exports = class WaitingState extends State {
         return
       }
 
+      const users = Object.values(this.room.users);
+
       this.elapsed += Date.now() - this.start;
 
       const turn = Math.floor(Math.floor(this.elapsed / 1000) / constant.GAMING_TURN_SECONDS) % users.length;
       const countdown = constant.GAMING_TURN_SECONDS - (Math.floor(this.elapsed / 1000) % constant.GAMING_TURN_SECONDS);
       this.room.emit(constant.event.GAMING_TURN, users[turn].id, countdown);
       console.log(`user ${users[turn].id}'s turn ${countdown} seconds`);
+
+      const lostUsers = users.filter((user) => user.state.backCards.length < 1);
+      const survivedUsers = users.filter((user) => user.state.backCards.length > 0);
 
       users.sort((a, b) => a.state.rung - b.state.rung);
       const rungUsers = users.filter((user) => user.state.rung != Infinity);
@@ -53,36 +57,21 @@ module.exports = class WaitingState extends State {
           rungUser.state.rung = Infinity;
       }
 
-      /*
-      // flip
-      for (const [index, player] of players.entries()) {
-        if (player.state.front) {
-          player.state.ring = false;
-          if (player.id === users[turn].id) {
-            if (players[turn].state.cards.length <= 0) {
-              console.log(`${player.id} has no more cards!!`);
-              break;
-            }
-            const player = players[turn];
-            const frontCard = player.state.backCards.shift();
+      const currentUser = users[turn];
 
-            player.state.front = false;
-            console.log(`${player.id} front the card ${frontCard.fruit}, ${frontCard.count}`);
-            player.state.playedCards.push();
-            turn = (turn + 1) % users.length;
-            console.log(`${player.id} cards:`);
-            for (const card of player.state.cards) {
-              console.log(`${card.fruit}, ${card.count}`);
-            }
-            console.log(`${player.id} played cards:`);
-            for (const card of player.state.playedCards) {
-              console.log(`${card.fruit}, ${card.count}`);
-            }
-            console.log(`Next turn: ${player.id}`);
-          }
-        }
+      if (currentUser.state.flipped) {
+        const frontCard = currentUser.backCards.shift();
+        currentUser.frontCards.push(frontCard);
+        this.elapsed += countdown * 1000;
+      } else if(countdown === 0) {
+        const frontCard = currentUser.backCards.shift();
+        currentUser.frontCards.push(frontCard);
       }
-      */
+
+      for (const user of users) {
+        user.state.flipped = false;
+      }
+
       this.start = Date.now();
     });
 
