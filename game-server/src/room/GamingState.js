@@ -27,8 +27,8 @@ module.exports = class WaitingState extends State {
       users.sort((a, b) => a.state.rung - b.state.rung);
       const rungUsers = users.filter((user) => user.state.rung != Infinity);
       if (rungUsers.length > 0) {
-        this.room.emit(constant.event.GAMING_BELL_RUNG, firstRungUser.id);
         const firstRungUser = rungUsers[0];
+        this.room.emit(constant.event.GAMING_BELL_RUNG, firstRungUser.id);
         console.log(`user ${firstRungUser.id} has rung the bell at ${firstRungUser.state.rung}`);
         if (this.cardsAssembled) {
           console.log(`${firstRungUser.id} gains card`);
