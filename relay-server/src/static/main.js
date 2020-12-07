@@ -25,6 +25,11 @@ function main() {
         $('.count_down').css("visibility", "visible");
         $('.count_down').text(data);
       });
+      socket.on('WAITING_COUNTDOWN_CANCELED', function(data) {
+        $('.refresh_img img').css("visibility", "visible");
+        $('.count_down').css("visibility", "hidden");
+        $('.count_down').text(data);
+      });
     });
   });
 
