@@ -1,15 +1,14 @@
 <script id="user_list_template" type="text/x-handlebars-template">
-  
-  <div class="user_card">
-    {{#users}}
-      <img src="{{topCardImage}}"/>
-    {{/users}}
-  </div>
+<div class="user_card">
+  {{#users}}
+    <img src="{{topCardImage}}" {{#if isSelf}}style="border: 2px solid green"{{/if}} />
+  {{/users}}
+</div>
 
 <div class="user_list_wrap">
   <ul>
     {{#users}}
-    <li>
+    <li {{#if isSelf}}style="border: 2px solid green"{{/if}} >
       <div class="user_">
         <div class="id">
           <img class="user_icon"/>
