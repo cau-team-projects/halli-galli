@@ -16,13 +16,11 @@
                <li>
                    <span class="ready"> 
                    {{#if ready}}
-                   {{#each items}}
-                      {{if @index == 0}}
-                      <img src="static/image/me0.svg">
-                      {{/if}}
-                   {{/each}}
+                     {{#each items}}
+                       {{@index}}
+                     {[/each]}
                    {{else}} 
-                      <img src="static/image/me.svg">
+                     <img src="static/image/me.svg"/>
                    {{/if}}
                    </span>
                <div class="id">{{id}}</div>
