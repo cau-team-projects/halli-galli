@@ -38,6 +38,7 @@ module.exports = class WaitingState extends State {
           backCount: user.state.backCount
         }))
       );
+
       // Ring
       users.sort((a, b) => a.state.rung - b.state.rung);
       const rungUsers = users.filter((user) => user.state.rung != Infinity);
@@ -70,6 +71,7 @@ module.exports = class WaitingState extends State {
           }
           firstRungUser.state.backCards.push(...wonCards);
           this.room.emit(constant.event.GAMING_CARD_GAINED, firstRungUser.id, wonCards.length);
+          this.elapsedMillis += (countdown + 1) * 1000;
           console.log(`user ${firstRungUser.id} gained ${wonCards.length} cards`);
         } else {
           // player rung wrongly!

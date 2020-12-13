@@ -9,15 +9,26 @@ module.exports = class GamingState extends State {
     this.backCards = null;
     this.flipped = false;
     this.rung = Infinity;
+    this.exitDialog = false;
 
     this.on(constant.event.BUTTON_CLICKED, (button) => {
 
       console.log(this.user.id, this.user.flipped, button);
       if (button === 'A') {
-        this.flipped = true;
+        if(this.exitDialog)
+          this.pop(1);
+        else
+          this.flipped = true;
       } else if (button === 'B') {
-        this.rung = Date.now();
+        if(this.exitDialog)
+          this.pop(1);
+        else
+          this.rung = Date.now();
       } else if (button === 'X') {
+        if(this.exitDialog)
+          this.exitDialog = false;
+        else
+          this.exitDialog = true;
       }
     });
 
