@@ -62,7 +62,7 @@ module.exports = class WaitingState extends State {
         if (cardsFive) {
           // player rung correctly!
           const wonCards = [];
-          for (otherUser of otherUsers) {
+          for (const otherUser of otherUsers) {
             this.room.emit(constant.event.GAMING_CARD_LOST, otherUser.id, 1);
             wonCards.push(otherUser.state.backCards.shift());
           }
