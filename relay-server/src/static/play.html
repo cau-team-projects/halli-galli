@@ -22,9 +22,9 @@
           <span class="deck_num">{{backCount}}</span>
         </div>
       </div>
-     
-      <img class="user_list_arrow" src="static/image/arrow.svg"/>
-   
+      {{#if isTurn}}
+        <img class="user_list_arrow" src="static/image/arrow.svg"/>
+      {{/if}}
     </li>
     {{/users}}
   </ul>
