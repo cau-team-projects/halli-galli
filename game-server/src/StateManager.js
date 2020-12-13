@@ -50,12 +50,14 @@ module.exports = class StateManager {
   pop(size = 1) {
     for (let i = 0; i < size; ++i) {
       const state = this.states.pop();
-
       if (state.onDestroyed)
         state.onDestroyed();
       if (state.onDisabled)
         state.onDisabled();
     }
+    const state = this.states[this.states.length - 1];
+    if (state && state.onEnabled)
+      state.onEnabled();
   }
 
   popAll() {

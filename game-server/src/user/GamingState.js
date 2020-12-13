@@ -34,7 +34,6 @@ module.exports = class GamingState extends State {
 
     this.onEnabled(() => {
       this.user.socket.emit(constant.event.PAGE_CHANGED, constant.page.GAMING);
-
     });
 
     this.onDestroyed(() => {
