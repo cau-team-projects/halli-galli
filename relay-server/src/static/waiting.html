@@ -1,29 +1,32 @@
 <div id="waiting_wrap">
+
   <div class="title_logo">
     <img src="static/image/title.svg" alt="title_logo">
   </div>
+
   <div class="refresh">
     <span class="refresh_img"><img src="static/image/loading.svg" alt="refresh_img"></span>
     <span class="count_down"></span>
   </div>
+
   <div class="wait_user">
     <script id="wait_user" type="text/x-handlebars-template">
       <ul>
-      {{#items}}
+        {{#items}}
         <li>
+          <span class="ready"> 
+            {{#if ready}}
+              <img class="ready_icon">
+            {{else}} 
+              <img src="static/image/me.svg">
+            {{/if}}
+          </span>
           <div class="id">{{id}}</div>
-          {{#if ready}}
-          <div class="Ready" style="background:green">
-            ready
-          </div>
-          {{else}}
-          <div class="Ready">
-            waiting
-          </div>
-          {{/if}}
+          <div class="user_me">ME</div>
         </li>
-      {{/items}}
+        {{/items}}
       </ul>
     </script>
   </div>
+
 </div>

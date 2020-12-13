@@ -14,6 +14,24 @@ body {
     overflow: hidden;
 }
 
+@font-face {
+    font-family: 'BMJUA';
+    src: url('BMJUA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+#box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    height: 200px;
+    color: white;
+    font-family: 'Raleway';
+    font-size: 2.5rem;
+}
+
 
 /*    waiting    */
 #waiting_wrap {
@@ -30,7 +48,7 @@ body {
 }
 
 #waiting_wrap > .refresh {
-    margin: 7vmin auto 24vmin;
+    margin: 7vmin auto 22.5vmin;
     text-align: center;
     position: relative;
     width: 10vmin;
@@ -48,14 +66,22 @@ body {
     visibility: visible;
 }
 
+@keyframes rotate_image {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 #waiting_wrap > .refresh > .count_down { 
     font-weight: bold;
-    font-size: 5vmin;
+    font-size: 4vmin;
     color: #000;
     visibility: hidden;
     position: absolute;
-    left: 3.7vmin;
-    top: 1.4vmin;
+    left: 3.9vmin;
+    top: 3vmin;
+    font-family: 'BMJUA';
+    color: #444
 }
 
 #waiting_wrap > .wait_user {
@@ -72,7 +98,7 @@ body {
 }
 
 #waiting_wrap > .wait_user .id {
-    font-size: 1.2em;
+    font-size: 1.3em;
     border-radius: 500px;
     width: 100%;
     color: #fff;
@@ -81,23 +107,10 @@ body {
     text-overflow: ellipsis;
     font-weight: bold;
     text-align: center;
-    padding: 5% 7%;
+    padding: 6% 7% 5%;
     text-transform: uppercase;
-}
-
-.ready {
-    font-size: 0.8em;
-    font-weight: bold;
-    margin: 10% auto;
-    border-radius: 500px;
-    width: 30%;
-    padding: 3% 5%;
-    color: #fff;
-    background: #bbb;
-    text-align: center;
-    text-transform: uppercase;
-    position: relative;
-    left: 5%;
+    font-family: 'BMJUA';
+    letter-spacing: 4px;
 }
 
 #waiting_wrap > .wait_user li:nth-child(1) .id {
@@ -120,27 +133,40 @@ body {
     box-shadow: 0px 6px 0px 0px rgba(117, 61, 29, 1);
 }
 
-@keyframes rotate_image {
-    100% {
-        transform: rotate(360deg);
-    }
+.ready img {
+    position: relative;
+    top: -1.5vmin;
+    left: 1vmin;
+    width: 3vmin;
+}
+
+.user_me {
+    font-size: 1.3vmin;
+    margin: 10% auto;
+    border-radius: 500px;
+    width: 4vmin;
+    padding: 3% 2% 3% 3%;
+    color: #fff;
+    background: #bbb;
+    text-align: center;
+    text-transform: uppercase;
+    position: relative;
+    left: 6%;
+    letter-spacing: 3px;
+    font-weight: bold;
+    font-family: 'BMJUA';
 }
 
 
-/*      play      */
+/*      play user card     */
 .user_card img {
-    box-shadow: 0px 4px 0px 0px rgb(0, 0, 0);
-    border-radius: 15px;  
+    box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    width: 18vmin;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 18vmin;
-    transition: transform 1s;
-}
-
-.flip {
-    transform: rotateY(-180deg);
 }
 
 .user_card img:nth-child(1) { margin-top: -27vmin; }
@@ -148,38 +174,139 @@ body {
 .user_card img:nth-child(3) { margin-left: -27vmin; }
 .user_card img:nth-child(4) { margin-left: 27vmin; }
 
-.user_list_wrap {
-    width: 25vmin;
-    position: fixed;
-    top: 3%;
-    left: 3%;
-    z-index: 999;
+.flip {
+    transform: rotateY(-180deg);
 }
 
-.user_list_wrap h2 {
-    text-transform: uppercase;
-    font-size: 3vmin;
-    text-align: center;
+.user_card_highlight {
+    background: linear-gradient(60deg, #6affda, #e7b3ff, #ffec82);
+    animation: highlight_card 3s ease alternate infinite;
+    padding: 6px;
+    background-size: 400% 400%;
+}
+
+@keyframes highlight_card {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+/*      play user list      */
+.user_list_wrap {
+    position: absolute;
+    top: 50%;
+    left: 2%;
+    transform: translate(-2%, -50%);
+    z-index: 1;
+    width: 25vmin;
 }
 
 .user_list_wrap li {
-    margin: 10% 0;
     box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 0.1);
     text-transform: uppercase;
-    background: #fff;
-    border-radius: 50px;
-    border: 1px solid #dedede;
     list-style: none;
     font-size: 2vmin;
-    padding: 5% 15%;
+    padding: 6px;
+    margin: 10% 0;
+    border-radius: 500px;
+    position: relative;
+    font-family: 'BMJUA';
+    color: #555;
 }
 
-.user_list_wrap li div{
+.user_list_wrap li div {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align: center;
+    padding: 0.8vmin 0 0.3vmin 0;
 }
 
+.user_list_wrap .user_ {
+    background: #fff;
+    border-radius: 500px;
+}
+
+.user_list_wrap .id strong {
+    letter-spacing: 2px;
+    position: relative;
+    top: -0.75vmin;
+    margin-left: 5px;
+}
+
+.user_list_wrap .user_icon {
+    width:2vmin;
+}
+
+.user_list_wrap .deck {
+    margin-left: -15px;
+    margin-top: -10px;
+}
+
+.user_list_wrap .deck img {
+    margin: 0 10px;
+    width: 3vmin;
+    border: 2px solid #eaeaea;
+    border-radius: 5px;
+    margin-right: 0.5vmin;
+}
+
+.user_list_wrap .deck_num {
+    position: relative;
+    top: -1.5vmin;
+}
+
+/*   play user list effect   */
+.user_list_highlight {
+    background: linear-gradient(60deg, #6affda, #e7b3ff, #ffec82);
+    animation: list_highlight 3s ease alternate infinite;
+    background-size: 400% 400%;
+
+}
+
+@keyframes list_highlight {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.user_list_arrow {
+    position: absolute;
+    top: 4.5vmin;
+    left: 26vmin;
+    width: 4.5vmin;
+    animation: arrow_move 0.7s infinite linear;
+}
+
+@keyframes arrow_move {
+    0% {
+        left: 26vmin;
+    }
+    50% {
+        left: 26.3vmin;
+    }
+    70% {
+        left: 26.6vmin;
+    }
+    100% {
+        left: 26vmin;
+    }
+}
+
+/*   play bell   */
 .bell {
     position: absolute;
     top: 50%;
@@ -188,11 +315,41 @@ body {
     width: 20vmin;
 }
 
+/*   play winner  */
+.winner {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    /* Black w/ opacity */
+    z-index: 998;
+    position: relative;
+    visibility: hidden;
+}
+
+.winner img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50vmin;
+}
+
+.winner_user_name {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5vmin;
+    margin-top: 2.2vmin;
+    z-index: 999;
+    font-family: 'BMJUA';
+    visibility: hidden;=
+}
+
+/*   home html  */
 .home {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
-
-

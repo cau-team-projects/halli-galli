@@ -1,29 +1,41 @@
 <script id="user_list_template" type="text/x-handlebars-template">
-
+  
   <div class="user_card">
-{{#users}}
-  <img src="{{topCardImage}}"/>
-{{/users}}
-</div>
+    {{#users}}
+      <img src="{{topCardImage}}"/>
+    {{/users}}
+  </div>
 
 <div class="user_list_wrap">
-<h2>Users</h2>
-<ul>
-{{#users}}
-  <li>
-    <div class="id"><strong>ID</strong> {{id}}</div>
-    <div class="deck"><strong>Front</strong> {{frontCount}}</div>
-    <div class="deck"><strong>Back</strong> {{backCount}}</div>
-  </li>
-{{/users}}
-</ul>
+  <ul>
+    {{#users}}
+    <li>
+      <div class="user_">
+        <div class="id">
+          <img class="user_icon"/>
+          <strong>{{id}}</strong>
+        </div>
+        <div class="deck">
+          <img src="static/image/front_card.svg"/>
+          <span class="deck_num">{{frontCount}}</span>
+          <img src="static/image/back_card.svg" />
+          <span class="deck_num">{{backCount}}</span>
+        </div>
+      </div>
+     
+      <img class="user_list_arrow" src="static/image/arrow.svg"/>
+   
+    </li>
+    {{/users}}
+  </ul>
 </div>
+
 </script>
 
 <script id="current_user_template" type="text/x-handlebars-template">
   <div style="display: none;">
-<span>{{currentUser.id}}</span> | <span>{{currentUser.countdown}}</span>
-</div>
+    <span>{{currentUser.id}}</span> | <span>{{currentUser.countdown}}</span>
+  </div>  
 </script>
 
 <div id="user_list" class="user_list"></div>
@@ -31,4 +43,12 @@
 
 <div class="bell">
   <img src="static/image/bell.svg" alt="bell">
+</div>
+
+<div class="winner">
+  <img src="static/image/winner.svg" alt="winner">
+</div>
+
+<div class="winner_user_name">
+  {{id}}
 </div>
