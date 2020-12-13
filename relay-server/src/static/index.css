@@ -223,7 +223,7 @@ body {
     left: 2%;
     transform: translate(-2%, -50%);
     z-index: 1;
-    width: 50vmin;
+    width: 25vmin;
 }
 
 .user_list_wrap li {
@@ -308,13 +308,22 @@ body {
 
 .user_list_arrow {
     position: absolute;
-    top: 4.5vmin;
-    left: 26vmin;
-    width: 30vmin;
+    top: 3.5vmin;
+    left: 27vmin;
+    width: 20vmin;
     animation: arrow_move 0.7s infinite linear;
-    border:1px solid #000;
 }
 
+.user_list_arrow img {
+    width: 5vmin;
+}
+
+.user_list_arrow .turn_num {
+    font-size:3vmin;
+    position:relative;
+    top:-1vmin;
+    left:0.5vmin;
+}
 
 @keyframes arrow_move {
     0% {
