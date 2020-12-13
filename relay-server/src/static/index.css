@@ -268,7 +268,6 @@ body {
     background: linear-gradient(60deg, #6affda, #e7b3ff, #ffec82);
     animation: list_highlight 3s ease alternate infinite;
     background-size: 400% 400%;
-
 }
 
 @keyframes list_highlight {
@@ -343,7 +342,7 @@ body {
     margin-top: 2.2vmin;
     z-index: 999;
     font-family: 'BMJUA';
-    visibility: hidden;=
+    visibility: hidden;
 }
 
 /*   home html  */
