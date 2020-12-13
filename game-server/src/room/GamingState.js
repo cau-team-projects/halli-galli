@@ -60,15 +60,13 @@ module.exports = class WaitingState extends State {
 
         const cardsFive = Object.values(fruitCounts).some((fruitCount) => fruitCount === 5);
 
-        console.log("CardsFive:");
-        console.log(cardsFive);
         if (cardsFive) {
           // player rung correctly!
           const wonCards = [];
           for (const user of users) {
             const frontCardsLength = user.state.frontCards.length;
             this.room.emit(constant.event.GAMING_CARD_LOST, user.id, frontCardsLength);
-            wonCards.push(user.state.frontCards.splice(0, frontCardsLength));
+            wonCards.push(...user.state.frontCards.splice(0, frontCardsLength));
           }
           firstRungUser.state.backCards.push(...wonCards);
           this.room.emit(constant.event.GAMING_CARD_GAINED, firstRungUser.id, wonCards.length);
