@@ -1,14 +1,19 @@
 <script id="user_list_template" type="text/x-handlebars-template">
 <div class="user_card">
   {{#users}}
-    <img src="{{topCardImage}}" {{#if isSelf}}style="border: 2px solid green"{{/if}} />
+    <img src="{{topCardImage}}" {{#if isSelf}}style="background: linear-gradient(60deg, #6affda, #e7b3ff, #ffec82);
+    animation: highlight_card 3s ease alternate infinite;
+    padding: 6px;
+    background-size: 400% 400%;"{{/if}} />
   {{/users}}
 </div>
 
 <div class="user_list_wrap">
   <ul>
     {{#users}}
-    <li {{#if isSelf}}style="border: 2px solid green"{{/if}} >
+    <li {{#if isSelf}}style="background: linear-gradient(60deg, #6affda, #e7b3ff, #ffec82);
+    animation: list_highlight 3s ease alternate infinite;
+    background-size: 400% 400%;"{{/if}} >
       <div class="user_">
         <div class="id">
           <img class="user_icon"/>
@@ -22,8 +27,9 @@
         </div>
       </div>
       {{#if isTurn}}
-        <div>{{@root.turnCountDown}}</div>
-        <img class="user_list_arrow" src="static/image/arrow.svg"/>
+      <div class="user_list_arrow">
+        <img src="static/image/arrow.svg"/> {{@root.turnCountDown}}
+      </div>
       {{/if}}
     </li>
     {{/users}}
