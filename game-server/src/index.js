@@ -23,7 +23,7 @@ io.on('connection', (socket) => {
   console.log(`user ${socket.id} connected`);
   const user = new User({socket, io, rooms, state: new UserHomeState()});
   users[socket.id] = user;
-
+  socket.emit(constant.event.GAME_CONNECTED, socket.id);
   console.log(users)
 
   socket.on('button', (button) => {

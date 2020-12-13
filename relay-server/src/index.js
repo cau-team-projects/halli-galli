@@ -16,6 +16,7 @@ app.get('/', (req, res) => {
 
 function registerEvents(game, user) {
   [
+    constant.event.GAME_CONNECTED,
     constant.event.PAGE_CHANGED,
     constant.event.ROOM_JOINED,
     constant.event.ROOM_LEFT,
@@ -64,7 +65,6 @@ io.on('connection', (socket) => {
 
   game.on('connect', () => {
     console.log('connected to game server')
-    user.socket.emit(constant.event.GAME_CONNECTED);
     const sp = new serialport(config.SERIAL_PORT_PATH, {
       baudRate: config.SERIAL_PORT_BAUD_RATE,
     });

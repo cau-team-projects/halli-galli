@@ -1,4 +1,5 @@
 const socket = io();
+let selfId = null;
 
 function main() {
   page('/home', (ctx, next) => {
@@ -24,12 +25,16 @@ function main() {
       });
 
       socket.on('WAITING_USERS', function(users) {
-        console.log(`user ${users} waiting`);
         $('.wait_user').html(template({items: Object.values(users)}));
       });
       socket.on('WAITING_COUNTDOWN', function(data) {
         $('.refresh_img img').css("visibility", "hidden");
         $('.count_down').css("visibility", "visible");
+        $('.count_down').text(data);
+      });
+      socket.on('WAITING_COUNTDOWN_CANCELED', function(data) {
+        $('.refresh_img img').css("visibility", "visible");
+        $('.count_down').css("visibility", "hidden");
         $('.count_down').text(data);
       });
     });
@@ -50,15 +55,12 @@ function main() {
       });
       
       socket.on('GAMING_USERS', (users) => {
-        console.log(users);
         for (const user of users) {
-          if (user.topCard === null) {
-            user.topCardImage = 'static/image/random_card.svg';
-            continue;
-          }
-          const topCardImage = `static/image/${user.topCard.fruit}_${user.topCard.count}.svg`;
-          user.topCardImage = topCardImage;
-        };
+          user.topCardImage = user.topCard === null
+            ? 'static/image/random_card.svg'
+            : `static/image/${user.topCard.fruit}_${user.topCard.count}.svg`;
+          user.isSelf = user.id === selfId;
+        }
         $('#user_list').html(
           userListTemplate({users})
         );
@@ -96,8 +98,9 @@ socket.on('test', (data) => {
   $('#message').text(data); 
 });
 
-socket.on('GAME_CONNECTED', () => {
+socket.on('GAME_CONNECTED', (id) => {
   console.log('game connected');
+  selfId = id;
 });
 
 socket.on('GAME_DISCONNECTED', () => {
