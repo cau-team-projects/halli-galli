@@ -27,9 +27,9 @@
         </div>
       </div>
       {{#if isTurn}}
-      <div class="user_list_arrow">
-        <img src="static/image/arrow.svg"/> {{@root.turnCountDown}}
-      </div>
+      <span class="user_list_arrow">
+        <img src="static/image/arrow.svg"/> <span class="turn_num">{{@root.turnCountDown}}</span>
+      </span>
       {{/if}}
     </li>
     {{/users}}
