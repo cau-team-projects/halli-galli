@@ -2,6 +2,7 @@ const socket = io();
 let selfId = null;
 let turnId = null;
 let turnCountDown = null;
+const bell = new Audio('static/bell.ogg');
 
 function main() {
   page('/home', (ctx, next) => {
@@ -78,6 +79,13 @@ function main() {
       socket.on('GAMING_WIN', (userId) => {
         if (userId === selfId)
           alert('YOU WIN');
+      });
+      socket.on('GAMING_BELL_RUNG', (user) => {
+        bell.play();
+        setTimeout(() => {
+          bell.pause();
+          bell.currentTime = 0;
+        }, 500);
       });
     });
   });
