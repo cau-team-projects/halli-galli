@@ -1,6 +1,7 @@
 const socket = io();
 let selfId = null;
 let turnId = null;
+let turnCountDown = null;
 
 function main() {
   page('/home', (ctx, next) => {
@@ -44,7 +45,6 @@ function main() {
     $.get('/static/play.html', (res) => {
       $('main').html(res)
       const userListTemplate = Handlebars.compile($('#user_list_template').html());
-      const currentUserTemplate = Handlebars.compile($('#current_user_template').html());
       
       $('.user_list_wrap li:nth-child(1) .user_ .id .user_icon').attr("src","static/image/me1.svg");
       $('.user_list_wrap li:nth-child(2) .user_ .id .user_icon').attr("src","static/image/me2.svg");
@@ -62,16 +62,15 @@ function main() {
           user.isTurn = user.id === turnId;
         }
         $('#user_list').html(
-          userListTemplate({users})
+          userListTemplate({users, turnCountDown})
         );
       });
       socket.on('GAMING_CARD_FLIPPED', (user) => {
-        console.log("card fliped!!!!!");
         $(".user_card img").addClass('flip');
       });
       socket.on('GAMING_TURN', (userId, countdown) => {
         turnId = userId;
-        $('#current_user').html(currentUserTemplate({currentUser: {id: userId, countdown}}));
+        turnCountDown = countdown;
       });
       socket.on('GAMING_WIN', (userId) => {
         if (userId === selfId)

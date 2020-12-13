@@ -22,19 +22,13 @@
         </div>
       </div>
       {{#if isTurn}}
+        <div>{{@root.turnCountDown}}</div>
         <img class="user_list_arrow" src="static/image/arrow.svg"/>
       {{/if}}
     </li>
     {{/users}}
   </ul>
 </div>
-
-</script>
-
-<script id="current_user_template" type="text/x-handlebars-template">
-  <div style="display: none;">
-    <span>{{currentUser.id}}</span> | <span>{{currentUser.countdown}}</span>
-  </div>  
 </script>
 
 <div id="user_list" class="user_list"></div>
