@@ -88,7 +88,7 @@ body {
 
 #waiting_wrap > .wait_user {
     width: 100%;
-    margin: 0 auto 0 -1.3vmin;
+    margin: 0 auto 0 -1.25vmin;
 }
 
 #waiting_wrap > .wait_user li {
