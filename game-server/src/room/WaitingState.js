@@ -11,6 +11,10 @@ module.exports = class WaitingState extends State {
       const users = Object.values(this.room.users);
       if (users.length === 0)
         return;
+      // Exit dialog
+      for (const user of users) {
+        user.socket.emit(constant.event.EXIT_DIALOG, user.state.exitDialog);
+      }
       if (this.ready) {
         this.start = this.start ?? Date.now();
         const now = Date.now();

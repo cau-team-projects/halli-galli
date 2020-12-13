@@ -2,6 +2,7 @@ const socket = io();
 let selfId = null;
 let turnId = null;
 let turnCountDown = null;
+let exitDialog = false;
 const bell = new Audio('static/bell.ogg');
 
 function main() {
@@ -19,14 +20,14 @@ function main() {
       $('main').html(res);
       const source = $("#wait_user").html();
       const template = Handlebars.compile(source);
-      Handlebars.registHelper("each", function(items) {
-        return "<img src='static/image/me" + 0 + ".svg'"
-      });
       socket.on('WAITING_USERS', (users) => {
         for (const user of users) {
           user.isSelf = user.id === selfId;
         }
         $('.wait_user').html(template({items: Object.values(users)}));
+      });
+      socket.on('EXIT_DIALOG', (open) => {
+        exitDialog = open;
       });
       socket.on('WAITING_COUNTDOWN', (data) => {
         $('.refresh_img img').css("visibility", "hidden");
@@ -67,6 +68,9 @@ function main() {
         $('#user_list').html(
           userListTemplate({users, turnCountDown})
         );
+      });
+      socket.on('EXIT_DIALOG', (open) => {
+        exitDialog = open;
       });
       socket.on('GAMING_CARD_FLIPPED', (user) => {
         $(".user_card img").addClass('flip');

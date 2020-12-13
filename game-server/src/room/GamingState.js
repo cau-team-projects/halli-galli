@@ -39,6 +39,11 @@ module.exports = class WaitingState extends State {
         }))
       );
 
+      // Exit dialog
+      for (const user of users) {
+        user.socket.emit(constant.event.EXIT_DIALOG, user.state.exitDialog);
+      }
+
       // Ring
       users.sort((a, b) => a.state.rung - b.state.rung);
       const rungUsers = users.filter((user) => user.state.rung != Infinity);
