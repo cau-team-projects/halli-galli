@@ -32,7 +32,8 @@ function registerEvents(game, user) {
     constant.event.GAMING_CARD_GAINED,
     constant.event.GAMING_TURN,
     constant.event.GAMING_LOST,
-    constant.event.GAMING_WIN
+    constant.event.GAMING_WIN,
+    constant.event.EXIT_DIALOG
   ].forEach((event) => {
     game.on(event, (...args) => {
       console.log(event, args);
