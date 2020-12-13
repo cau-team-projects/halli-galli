@@ -48,7 +48,10 @@ function main() {
       $('.user_list_wrap li:nth-child(1) .user_ .id .user_icon').attr("src","static/image/me1.svg");
       $('.user_list_wrap li:nth-child(2) .user_ .id .user_icon').attr("src","static/image/me2.svg");
       $('.user_list_wrap li:nth-child(3) .user_ .id .user_icon').attr("src","static/image/me3.svg");
-      $('.user_list_wrap li:nth-child(4) .user_ .id .user_icon').attr("src","static/image/me4.svg");      
+      $('.user_list_wrap li:nth-child(4) .user_ .id .user_icon').attr("src","static/image/me4.svg");
+      $('.user_card img:nth-child(1)').addClass('user_card_highlight');
+      $('.user_list_wrap li:nth-child(1)').addClass('user_list_color');
+      
       socket.on('GAMING_USERS', (users) => {
         for (const user of users) {
           user.topCardImage = user.topCard === null
@@ -62,7 +65,7 @@ function main() {
       });
       socket.on('GAMING_CARD_FLIPPED', function(user) {
         console.log("card fliped!!!!!");
-        $(".user_card img").toggleClass('flip');
+        $(".user_card img").addClass('flip');
       });
       socket.on('GAMING_TURN', function(user, countdown) {
         $('#current_user').html(currentUserTemplate({currentUser: {id: user, countdown}}));

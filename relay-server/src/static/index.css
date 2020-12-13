@@ -166,7 +166,8 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transition: transform 1s;
+    backface-visibility: hidden;
 }
 
 .user_card img:nth-child(1) { margin-top: -27vmin; }
