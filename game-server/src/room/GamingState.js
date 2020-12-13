@@ -18,6 +18,7 @@ module.exports = class WaitingState extends State {
       const turn = Math.floor(elapsedSeconds / constant.GAMING_TURN_SECONDS) % users.length;
       const countdown = constant.GAMING_TURN_SECONDS
         - (elapsedSeconds % constant.GAMING_TURN_SECONDS) - 1;
+      
       /*
       if (users.length == 1) {
         this.room.emit(constant.event.GAMING_WIN, users[0].id);
@@ -91,6 +92,7 @@ module.exports = class WaitingState extends State {
       // Flip
       const currentUser = users[turn];
       if (currentUser.state.flipped) {
+        this.flipped = true;
         console.log(`${currentUser.id} flipped the card`);
         const frontCard = currentUser.state.backCards.shift();
         currentUser.state.frontCards.push(frontCard);
@@ -99,20 +101,12 @@ module.exports = class WaitingState extends State {
           constant.event.GAMING_CARD_FLIPPED,
           {id: currentUser.id, topCard: currentUser.state.topCard}
         );
-      } else if (countdown != 0) {
         this.flipped = false;
-      } else if (!this.flipped) {
-        this.flipped = true;
-        const frontCard = currentUser.state.backCards.shift();
-        currentUser.state.frontCards.push(frontCard);
-        this.room.emit(
-          constant.event.GAMING_CARD_FLIPPED,
-          {id: currentUser.id, topCard: currentUser.state.topCard}
-        );
-      }
-
-      for (const user of users) {
-        user.state.flipped = false;
+        for (const user of users) {
+          user.state.flipped = false;
+        }
+      } else if (countdown == 0) {
+        currentUser.state.flipped = true;
       }
 
       const lostUsers = users.filter((user) => user.state.backCards.length < 1);

@@ -11,6 +11,8 @@ module.exports = class GamingState extends State {
     this.rung = Infinity;
 
     this.on(constant.event.BUTTON_CLICKED, (button) => {
+
+      console.log(this.user.id, this.user.flipped, button);
       if (button === 'A') {
         this.flipped = true;
       } else if (button === 'B') {
