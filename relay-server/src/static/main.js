@@ -20,6 +20,7 @@ function main() {
       $('main').html(res);
       const source = $("#wait_user").html();
       const template = Handlebars.compile(source);
+
       socket.on('WAITING_USERS', (users) => {
         for (const user of users) {
           user.isSelf = user.id === selfId;
@@ -47,15 +48,6 @@ function main() {
     $.get('/static/play.html', (res) => {
       $('main').html(res)
       const userListTemplate = Handlebars.compile($('#user_list_template').html());
-      
-      /* 
-      $('.user_list_wrap li:nth-child(1) .user_ .id .user_icon').attr("src","static/image/me1.svg");
-      $('.user_list_wrap li:nth-child(2) .user_ .id .user_icon').attr("src","static/image/me2.svg");
-      $('.user_list_wrap li:nth-child(3) .user_ .id .user_icon').attr("src","static/image/me3.svg");
-      $('.user_list_wrap li:nth-child(4) .user_ .id .user_icon').attr("src","static/image/me4.svg");
-      $('.user_card img:nth-child(1)').addClass('user_card_highlight');
-      $('.user_list_wrap li:nth-child(1)').addClass('user_list_color');
-      */
 
       socket.on('GAMING_USERS', (users) => {
         for (const user of users) {

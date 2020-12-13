@@ -88,7 +88,7 @@ body {
 
 #waiting_wrap > .wait_user {
     width: 100%;
-    margin: 0 auto 0 -1vim;
+    margin: 0 auto 0 -1.3vmin;
 }
 
 #waiting_wrap > .wait_user li {
@@ -97,6 +97,7 @@ body {
     text-align: center;
     margin: 0 3vmin;
     display: inline-block;
+    vertical-align: top !important;
 }
 
 #waiting_wrap > .wait_user .id {
@@ -132,6 +133,7 @@ body {
     font-family: 'BMJUA';
 
 }
+
 
 #waiting_wrap > .wait_user li:nth-child(1) .id {
     background: #ff4e4f;
@@ -252,11 +254,19 @@ body {
     padding: 0.8vmin 0 0.3vmin 0;
 }
 
+.user_list_wrap .id {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width:18vmin;
+    margin:0 auto;
+}
 .user_list_wrap .id strong {
     letter-spacing: 2px;
     position: relative;
     top: -0.75vmin;
     margin-left: 5px;
+    text-align: center;
 }
 
 .user_list_wrap .user_icon {
@@ -308,7 +318,7 @@ body {
 
 .user_list_arrow {
     position: absolute;
-    top: 3.5vmin;
+    top: 3.8vmin;
     left: 27vmin;
     width: 20vmin;
     animation: arrow_move 0.7s infinite linear;
