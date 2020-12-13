@@ -9,5 +9,5 @@ module.exports = {
   SERIAL_PORT_BAUD_RATE,
   WS_RELAY_PORT,
   WS_GAME_PORT,
-  WS_GAME_ADDR
+  WS_GAME_ADDR,
 };

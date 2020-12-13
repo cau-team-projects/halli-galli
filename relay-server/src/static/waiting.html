@@ -13,19 +13,18 @@
     <script id="wait_user" type="text/x-handlebars-template">
       <ul>
         {{#items}}
-        <li>
-          <span class="ready"> 
+          <li>
+            <div class="id">{{id}}</div>
             {{#if ready}}
-              <img class="ready_icon">
+            <div class="ready" style="background:green">
+              ready
+            </div>
             {{else}}
-              <img src="static/image/me.svg">
+            <div class="ready">
+              waiting
+            </div>
             {{/if}}
-          </span>
-          {{#if isSelf}}
-          <div class="id">{{id}}</div>
-          <div class="user_me">ME</div>
-          {{/if}}
-        </li>
+          </li>
         {{/items}}
       </ul>
     </script>
