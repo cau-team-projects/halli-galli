@@ -25,6 +25,9 @@ function main() {
       $('.wait_user li:nth-child(4) .ready .ready_icon').attr("src","static/image/me4.svg");
       
       socket.on('WAITING_USERS', (users) => {
+        for (const user of users) {
+          user.isSelf = user.id === selfId;
+        }
         $('.wait_user').html(template({items: Object.values(users)}));
       });
       socket.on('WAITING_COUNTDOWN', (data) => {
