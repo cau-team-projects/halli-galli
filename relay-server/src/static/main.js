@@ -1,5 +1,6 @@
 const socket = io();
 let selfId = null;
+let turnId = null;
 
 function main() {
   page('/home', (ctx, next) => {
@@ -22,15 +23,15 @@ function main() {
       $('.wait_user li:nth-child(3) .ready .ready_icon').attr("src","static/image/me3.svg");
       $('.wait_user li:nth-child(4) .ready .ready_icon').attr("src","static/image/me4.svg");
       
-      socket.on('WAITING_USERS', function(users) {
+      socket.on('WAITING_USERS', (users) => {
         $('.wait_user').html(template({items: Object.values(users)}));
       });
-      socket.on('WAITING_COUNTDOWN', function(data) {
+      socket.on('WAITING_COUNTDOWN', (data) => {
         $('.refresh_img img').css("visibility", "hidden");
         $('.count_down').css("visibility", "visible");
         $('.count_down').text(data);
       });
-      socket.on('WAITING_COUNTDOWN_CANCELED', function(data) {
+      socket.on('WAITING_COUNTDOWN_CANCELED', (data) => {
         $('.refresh_img img').css("visibility", "visible");
         $('.count_down').css("visibility", "hidden");
         $('.count_down').text(data);
@@ -58,22 +59,23 @@ function main() {
             ? 'static/image/random_card.svg'
             : `static/image/${user.topCard.fruit}_${user.topCard.count}.svg`;
           user.isSelf = user.id === selfId;
+          user.isTurn = user.id === turnId;
         }
         $('#user_list').html(
           userListTemplate({users})
         );
       });
-      socket.on('GAMING_CARD_FLIPPED', function(user) {
+      socket.on('GAMING_CARD_FLIPPED', (user) => {
         console.log("card fliped!!!!!");
         $(".user_card img").addClass('flip');
       });
-      socket.on('GAMING_TURN', function(user, countdown) {
-        $('#current_user').html(currentUserTemplate({currentUser: {id: user, countdown}}));
-        if (user.id == socket.id) {
-          $(".user_card img").css();
-        }
+      socket.on('GAMING_TURN', (userId, countdown) => {
+        turnId = userId;
+        $('#current_user').html(currentUserTemplate({currentUser: {id: userId, countdown}}));
       });
-      socket.on('GAMING_WIN', function(user) {
+      socket.on('GAMING_WIN', (userId) => {
+        if (userId === selfId)
+          alert('YOU WIN');
       });
     });
   });
@@ -90,15 +92,14 @@ function main() {
 }
 main();
 
-
 ///// Socket
 socket.on('test', (data) => {
   $('#message').text(data); 
 });
 
-socket.on('GAME_CONNECTED', (id) => {
+socket.on('GAME_CONNECTED', (userId) => {
   console.log('game connected');
-  selfId = id;
+  selfId = userId;
 });
 
 socket.on('GAME_DISCONNECTED', () => {
@@ -110,18 +111,18 @@ socket.on('PAGE_CHANGED', (pageName) => {
   page(pageName);
 });
 
-socket.on('ROOM_JOINED', function(room) {
-  console.log(`joined room ${room}`);
+socket.on('ROOM_JOINED', (roomId) => {
+  console.log(`joined room ${roomId}`);
 });
 
-socket.on('ROOM_LEFT', function(room) {
-  console.log(`left room ${room}`);
+socket.on('ROOM_LEFT', (roomId) => {
+  console.log(`left room ${roomId}`);
 });
 
-socket.on('USER_ROOM_JOINED', function(user, room) {
-  console.log(`user joined room ${room}`);
+socket.on('USER_ROOM_JOINED', (userId, roomId) => {
+  console.log(`user joined room ${roomId}`);
 });
 
-socket.on('USER_ROOM_LEFT', function(user, room) {
-  console.log(`user left room ${room}`);
+socket.on('USER_ROOM_LEFT', (userId, roomId) => {
+  console.log(`user left room ${roomId}`);
 });
