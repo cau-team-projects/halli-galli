@@ -19,14 +19,16 @@ module.exports = class StateManager {
 
   replace(newState) {
     const state = this.prepareState(newState);
-    const oldState = this.states[this.states.length - 1];
+    if (this.states.length > 0) {
+      const oldState = this.states[this.states.length - 1];
+      if (oldState.onDestroyed)
+        oldState.onDestroyed();
+      if (oldState.onDisabled)
+        oldState.onDisabled();
+      this.states[this.states.length - 1] = state;
+    } else
+      this.states.push(state);
 
-    this.states[this.states.length - 1] = state;
-
-    if (oldState.onDestroyed)
-      oldState.onDestroyed();
-    if (oldState.onDisabled)
-      oldState.onDisabled();
     if (state.onEnabled)
       state.onEnabled();
   }

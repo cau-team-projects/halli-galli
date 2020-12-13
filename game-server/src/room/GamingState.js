@@ -10,6 +10,7 @@ module.exports = class WaitingState extends State {
 
     this.onExecute(() => {
 
+      console.log(this.room.users);
       const users = Object.values(this.room.users).filter((user) => user.state.name === constant.state.GAMING);
 
       this.elapsedMillis += Date.now() - this.start;
@@ -18,16 +19,16 @@ module.exports = class WaitingState extends State {
       const turn = Math.floor(elapsedSeconds / constant.GAMING_TURN_SECONDS) % users.length;
       const countdown = constant.GAMING_TURN_SECONDS
         - (elapsedSeconds % constant.GAMING_TURN_SECONDS) - 1;
-      
+
       if (users.length === 1) {
         const lastUser = users[0];
         this.room.emit(constant.event.GAMING_WIN, lastUser.id);
         console.log(`user ${lastUser.id} won!`);
-        lastUser.state.pop();
-        this.pop();
+        lastUser.state.pop(2);
+        this.pop(2);
         return;
       } else if (users.length === 0) {
-        this.pop();
+        this.pop(2);
         return;
       }
 
@@ -138,12 +139,7 @@ module.exports = class WaitingState extends State {
       // adding users to seperated array, and set order for each users
 
       const users = Object.values(this.room.users);
-      /*
-      if (users.length === 1) {
-        this.pop();
-        return;
-      }
-      */
+
       console.log(`this room name: ${this.room.name}`);
       console.log(`Current users length: ${users.length}`);
 
