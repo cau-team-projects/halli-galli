@@ -11,22 +11,24 @@
 
   <div class="wait_user">
     <script id="wait_user" type="text/x-handlebars-template">
-      <ul>
-        {{#items}}
-          <li>
-            {{#if isSelf}}
-            <div class="user_me">ME</div>
-            {{/if}}
-            <div class="id">{{id}}</div>
-            {{#if ready}}
-            <img src="static/image/me1.svg"/>
-            {{else}}
-            <img src="static/image/me.svg"/>
-            {{/if}}
-          </li>
-        {{/items}}
+        <ul>
+           {{#items}}
+               <li>
+                   <span class="ready"> 
+                   {{#if ready}}
+                       <img src="static/image/me.svg"> 
+                   {{else}} 
+                       <img src="static/image/me.svg">
+                   {{/if}}
+                   </span>
+               <div class="id">{{id}}</div>
+               {{#if isSelf}}  
+               <div class="user_me">ME</div>
+               {{/if}}
+               </li>
+           {{/items}}
       </ul>
-    </script>
-  </div>
+   </script>
+</div>
 
 </div>
