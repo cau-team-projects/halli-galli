@@ -17,13 +17,11 @@ function main() {
       const source = $("#wait_user").html();
       const template = Handlebars.compile(source);
       
-      $(document).ready(function() {
-        $('.wait_user li:nth-child(1) .ready .ready_icon').attr("src","image/me1.svg");
-        $('.wait_user li:nth-child(2) .ready .ready_icon').attr("src","image/me2.svg");
-        $('.wait_user li:nth-child(3) .ready .ready_icon').attr("src","image/me3.svg");
-        $('.wait_user li:nth-child(4) .ready .ready_icon').attr("src","image/me4.svg");
-      });
-
+      $('.wait_user li:nth-child(1) .ready .ready_icon').attr("src","static/image/me1.svg");
+      $('.wait_user li:nth-child(2) .ready .ready_icon').attr("src","static/image/me2.svg");
+      $('.wait_user li:nth-child(3) .ready .ready_icon').attr("src","static/image/me3.svg");
+      $('.wait_user li:nth-child(4) .ready .ready_icon').attr("src","static/image/me4.svg");
+      
       socket.on('WAITING_USERS', function(users) {
         $('.wait_user').html(template({items: Object.values(users)}));
       });
@@ -47,13 +45,10 @@ function main() {
       const userListTemplate = Handlebars.compile($('#user_list_template').html());
       const currentUserTemplate = Handlebars.compile($('#current_user_template').html());
       
-      $(document).ready(function() {
-        $('.user_list_wrap li:nth-child(1) .user_ .id .user_icon').attr("src","image/me1.svg");
-        $('.user_list_wrap li:nth-child(2) .user_ .id .user_icon').attr("src","image/me2.svg");
-        $('.user_list_wrap li:nth-child(3) .user_ .id .user_icon').attr("src","image/me3.svg");
-        $('.user_list_wrap li:nth-child(4) .user_ .id .user_icon').attr("src","image/me4.svg");
-      });
-      
+      $('.user_list_wrap li:nth-child(1) .user_ .id .user_icon').attr("src","static/image/me1.svg");
+      $('.user_list_wrap li:nth-child(2) .user_ .id .user_icon').attr("src","static/image/me2.svg");
+      $('.user_list_wrap li:nth-child(3) .user_ .id .user_icon').attr("src","static/image/me3.svg");
+      $('.user_list_wrap li:nth-child(4) .user_ .id .user_icon').attr("src","static/image/me4.svg");      
       socket.on('GAMING_USERS', (users) => {
         for (const user of users) {
           user.topCardImage = user.topCard === null
