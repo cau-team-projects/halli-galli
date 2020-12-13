@@ -80,6 +80,10 @@ function main() {
         if (userId === selfId)
           alert('YOU WIN');
       });
+      socket.on('GAMING_LOST', (userId) => {
+        if (userId === selfId)
+          alert('YOU LOST');
+      });
       socket.on('GAMING_BELL_RUNG', (user) => {
         bell.play();
         setTimeout(() => {
