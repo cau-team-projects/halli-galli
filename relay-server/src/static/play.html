@@ -1,16 +1,16 @@
 <script id="user_list_template" type="text/x-handlebars-template">
 
-  <div class="user_card">
-{{#users}}
-  <img src="{{topCardImage}}"/>
-{{/users}}
+<div class="user_card">
+  {{#users}}
+    <img src="{{topCardImage}}" {{#if isSelf}} style="border: 2px solid red" {{/if}}/>
+  {{/users}}
 </div>
 
 <div class="user_list_wrap">
 <h2>Users</h2>
 <ul>
 {{#users}}
-  <li>
+  <li {{#if isSelf}} style="border: 2px solid red" {{/if}}>
     <div class="id"><strong>ID</strong> {{id}}</div>
     <div class="deck"><strong>Front</strong> {{frontCount}}</div>
     <div class="deck"><strong>Back</strong> {{backCount}}</div>
