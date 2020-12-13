@@ -22,18 +22,8 @@ body {
 }
 
 
-#box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 400px;
-    height: 200px;
-    color: white;
-    font-family: 'Raleway';
-    font-size: 2.5rem;
-}
+/*    waiting.html    */
 
-/*    waiting    */
 #waiting_wrap {
     position: absolute;
     top: 50%;
@@ -131,7 +121,6 @@ body {
     letter-spacing: 3px;
     font-weight: bold;
     font-family: 'BMJUA';
-
 }
 
 
@@ -193,13 +182,7 @@ body {
     margin-left: 27vmin;
 }
 
-.user_card_highlight {
-    background: linear-gradient(60deg, #6affda, #e7b3ff, #ffec82);
-    animation: highlight_card 3s ease alternate infinite;
-    padding: 6px;
-    background-size: 400% 400%;
-
-}
+*/
 
 @keyframes highlight_card {
     0% {
@@ -217,7 +200,6 @@ body {
 
 
 /*   play_user_list   */
-
 
 .user_list_wrap {
     position: absolute;
@@ -291,16 +273,6 @@ body {
     top: -1.5vmin;
 }
 
-
-/*   play_user_list_effect   */
-
-
-.user_list_highlight {
-    background: linear-gradient(60deg, #6affda, #e7b3ff, #ffec82);
-    animation: list_highlight 3s ease alternate infinite;
-    background-size: 400% 400%;
-
-}
 
 @keyframes list_highlight {
     0% {
