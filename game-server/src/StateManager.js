@@ -26,7 +26,7 @@ module.exports = class StateManager {
     if (oldState.onDestroyed)
       oldState.onDestroyed();
     if (oldState.onDisabled)
-      oldState.onDisable();
+      oldState.onDisabled();
     if (state.onEnabled)
       state.onEnabled();
   }
