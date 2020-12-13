@@ -19,12 +19,17 @@ module.exports = class WaitingState extends State {
       const countdown = constant.GAMING_TURN_SECONDS
         - (elapsedSeconds % constant.GAMING_TURN_SECONDS) - 1;
       
-      /*
-      if (users.length == 1) {
-        this.room.emit(constant.event.GAMING_WIN, users[0].id);
-        console.log(`user ${users[0].id} won!`);
+      if (users.length === 1) {
+        const lastUser = users[0];
+        this.room.emit(constant.event.GAMING_WIN, lastUser.id);
+        console.log(`user ${lastUser.id} won!`);
+        lastUser.state.pop();
+        this.pop();
+        return;
+      } else if (users.length === 0) {
+        this.pop();
+        return;
       }
-      */
 
       // console.log(`user ${users[turn].id}'s turn ${countdown} seconds`);
       this.room.emit(constant.event.GAMING_TURN, users[turn].id, countdown);
